@@ -14,7 +14,7 @@ Welcome to Coinfolio, your ultimate web application for managing and tracking yo
 
 Coinfolio is built using a robust stack of modern web technologies:
 
-- **Frontend:** [Tailwind CSS](https://tailwindcss.com/) for styling and [React](https://react.dev/) for dynamic user interface interactions.
+- **Frontend:** [Tailwind CSS](https://tailwindcss.com/) for styling and [React](https://react.dev/) for dynamic user interface interactions. We use vite framework to build the project and followed [This] (https://tailwindcss.com/docs/guides/vite) instruction to integrate the Tailwind CSS.
 - **Backend:** Although primarily a frontend-focused application, React's versatility allows us to manage application state and network requests efficiently.
 - **API Integration:** CoinMarketCap API for fetching real-time cryptocurrency data. For more information on the API, visit [CoinMarketCap API Documentation](https://coinmarketcap.com/api/documentation/v1/).
 
@@ -34,7 +34,7 @@ To get a local copy up and running, follow these simple steps:
 1. Navigate to the project directory
 
     ```sh
-    cd Coinfolio
+    cd coinfolio/coinfolio-project
     ```
 
 2. Install NPM packages
@@ -49,7 +49,7 @@ To get a local copy up and running, follow these simple steps:
 
 4. Start the development server
     ```sh
-    npm start
+    npm run dev
     ```
 
 ### Usage
