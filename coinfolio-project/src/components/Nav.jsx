@@ -1,6 +1,6 @@
 import React from 'react';
 import { useMediaQuery } from 'react-responsive';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Nav() {
     const isSmallIcon = useMediaQuery({ query: '(max-width: 700px)' });
@@ -11,13 +11,13 @@ function Nav() {
     }
     return (
         <nav className="flex items-center justify-between w-full border-b border-gray-700" >
-            <div className="logo items-center justify-start pl-3">
-                {isSmallIcon ? (
-                    <img className="h-10 w-auto" src="src/assets/logo/png/Small-logo-color.png" alt="Small Logo" />
-                ) : (
-                    <img className="h-10 w-auto" src="src/assets/logo/png/Large-logo-color.png" alt="Large Logo" />
+            <div className="flex items-center justify-start pl-3">
+                <img className="h-10 w-auto" src="src/assets/logo/png/Small-logo-color.png" alt="Small Logo" />
+                {!isSmallIcon && (
+                    <h1 className="text-2xl font-bold pl-3">Coinfolio</h1>
                 )}
             </div>
+            
             <div className="flex items-center gap-2">
                 {!isSmallSearch && (
                     <div className="search-bar">
