@@ -13,15 +13,17 @@ function Nav() {
                     <img className="h-10 w-auto" src="src/assets/logo/png/Large-logo-color.png" alt="Large Logo" />
                 )}
             </div>
-            {!isSmallSearch && (
-                <div className = "search-bar flex items-center gap-2">
-            <input className = "px-3 py-2 border border-gray-300 rounded-md" type = "text" placeholder = "Search" />
-        </div>)
-}
-<div className="buttons flex gap-2">
-    <button className="px-3 py-2 bg-blue-700 text-white rounded-md">Portfolio</button>
-    <button className="px-3 py-2 bg-blue-700 text-white rounded-md">Sign In</button>
-</div>
+            <div className="flex items-center gap-2">
+                {!isSmallSearch && (
+                    <div className="search-bar">
+                        <input className="px-3 py-2 border border-gray-300 rounded-md" type="text" placeholder="Search" />
+                    </div>
+                )}
+                <div className="buttons">
+                    <button className="px-3 py-2 m-1 bg-blue-700 text-white rounded-md">Portfolio</button>
+                    <button className="px-3 py-2 m-1 bg-blue-700 text-white rounded-md">Sign In</button>
+                </div>
+            </div>
         </nav >
     );
 };
