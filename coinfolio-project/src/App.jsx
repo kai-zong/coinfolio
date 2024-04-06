@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import './App.css';
 import fakeData from './fakeData';
-import Ticker from './components/Ticker';
 import Nav from './components/Nav';
 import PriceTable from './components/PriceTable';
 
