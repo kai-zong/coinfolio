@@ -1,14 +1,15 @@
 
 
-function Ticker({ coin, index}) {
+function Ticker({ coin, index }) {
   return (
-    <div className='flex justify-evenly m-5 border-2 p-5'>
-      <img src={coin.image} alt={coin.name} />
-      <h2>{coin.name}</h2>
-      <h3>{coin.symbol}</h3>
-      <h3>${coin.quote.USD.price.toFixed(2)}</h3>
-      <h3>{coin.quote.USD.percent_change_24h.toFixed(2)}%</h3>
-    </div>
+    <tr className="divide-solid">
+      <td className="border-t border-b border-gray-600 px-4 py-2">{coin.name}</td>
+      <td className="border-t border-b border-gray-600 px-4 py-2">{coin.symbol}</td>
+      <td className="border-t border-b border-gray-600 px-4 py-2">${coin.quote.USD.price.toFixed(2)}</td>
+      <td className="border-t border-b border-gray-600 px-4 py-2">{coin.change1h}</td>
+      <td className="border-t border-b border-gray-600 px-4 py-2">{coin.quote.USD.percent_change_24h.toFixed(2)}%</td>
+      <td className="border-t border-b border-gray-600 px-4 py-2">{coin.change7d}</td>
+    </tr>
   );
 }
 
