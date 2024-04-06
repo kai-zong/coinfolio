@@ -10,10 +10,10 @@ function Portfolio() {
                         <Link to="asset">Asset</Link>
                     </li>
                     <li className="px-2 py-1 hover:bg-gray-100"> {/* Narrower padding, add hover effect */}
-                        <Link to="asset">Asset</Link>
+                        <Link to="asset">Transactions</Link>
                     </li>
                     <li className="px-2 py-1 hover:bg-gray-100"> {/* Narrower padding, add hover effect */}
-                        <Link to="asset">Asset</Link>
+                        <Link to="asset">Settings</Link>
                     </li>
                     {/* Add more links as needed, following the same pattern */}
                 </ul>
