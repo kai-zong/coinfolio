@@ -1,9 +1,14 @@
 import React from 'react';
 import { useMediaQuery } from 'react-responsive';
+import {useNavigate} from 'react-router-dom';
 
 function Nav() {
     const isSmallIcon = useMediaQuery({ query: '(max-width: 700px)' });
     const isSmallSearch = useMediaQuery({ query: '(max-width: 600px)' });
+    let navigate = useNavigate();
+    function navigateToPortfolio() {
+        navigate('/portfolio');
+    }
     return (
         <nav className="flex items-center justify-between p-5 w-full" >
             <div className="logo">
@@ -20,7 +25,7 @@ function Nav() {
                     </div>
                 )}
                 <div className="buttons">
-                    <button className="px-3 py-2 m-1 bg-blue-700 text-white rounded-md">Portfolio</button>
+                    <button className="px-3 py-2 m-1 bg-blue-700 text-white rounded-md" onClick={navigateToPortfolio}>Portfolio</button>
                     <button className="px-3 py-2 m-1 bg-blue-700 text-white rounded-md">Sign In</button>
                 </div>
             </div>
