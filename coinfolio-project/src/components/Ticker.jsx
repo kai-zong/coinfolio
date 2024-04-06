@@ -3,7 +3,7 @@
 function Ticker({ coin, index }) {
   return (
     <tr className="divide-solid">
-      <td className="border-t border-b border-gray-600 px-4 py-2">{coin.id}</td>
+      <td className="border-t border-b border-gray-600 px-4 py-2">{index}</td>
       <td className="border-t border-b border-gray-600 px-4 py-2">{coin.name}</td>
       <td className="border-t border-b border-gray-600 px-4 py-2">{coin.symbol}</td>
       <td className="border-t border-b border-gray-600 px-4 py-2">${coin.quote.USD.price.toFixed(2)}</td>
