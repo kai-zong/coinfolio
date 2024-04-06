@@ -11,7 +11,7 @@ function Nav() {
     }
     return (
         <nav className="flex items-center justify-between w-full border-b border-gray-700" >
-            <div className="logo">
+            <div className="logo items-center justify-start pl-3">
                 {isSmallIcon ? (
                     <img className="h-10 w-auto" src="src/assets/logo/png/Small-logo-color.png" alt="Small Logo" />
                 ) : (
@@ -24,7 +24,7 @@ function Nav() {
                         <input className="px-3 py-2 border border-gray-300 rounded-md" type="text" placeholder="Search" />
                     </div>
                 )}
-                <div className="buttons">
+                <div className="buttons pr-1">
                     <button className="px-3 py-2 m-1 bg-blue-700 text-white rounded-md" onClick={navigateToPortfolio}>Portfolio</button>
                     <button className="px-3 py-2 m-1 bg-blue-700 text-white rounded-md">Sign In</button>
                 </div>
