@@ -3,7 +3,7 @@ import Ticker from './Ticker';
 
 function PriceTable({ coins }) {
     return (
-        <div className='w-full'>
+        <div className='w-full p-3'>
             <table className="table-auto w-full text-left">
                 <thead>
                     <tr>
