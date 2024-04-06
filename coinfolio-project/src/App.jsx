@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import fakeData from './fakeData';
 import Ticker from './components/Ticker';
-import {Link} from 'react-router-dom';
+import Nav from './components/Nav';
 
 console.log(fakeData[0])
 
@@ -11,24 +11,28 @@ function App() {
 
   return (
     <>
-      <nav className="flex justify-evenly">
-        <h1 className='text-center text-3xl font-bold m-5'>Coinfolio</h1>
-
-        <ul className='flex items-center justify-evenly'>
-          <li className='m-5'>Home</li>
-          <li className='m-5'>
-            <Link to="/portfolio">Portfolio</Link>
-          </li>
-          <li className='m-5'>Transactions</li>
-        </ul>
-      </nav>
+      <Nav />
 
       {/* here shows the content all visitor can see, price tickers */}
-      <div className='flex flex-col justify-evenly'>
-        {coins.map((coin, index) => (
-          <Ticker key={index} coin={coin} />
-        ))}
-      </div>
+      <div className='w-full'>
+      <table className="table-auto w-full text-left">
+        <thead>
+          <tr>
+            <th className="px-4 py-2">Name</th>
+            <th className="px-4 py-2">Symbol</th>
+            <th className="px-4 py-2">Price</th>
+            <th className="px-4 py-2">1h %</th>
+            <th className="px-4 py-2">1d %</th>
+            <th className="px-4 py-2">7d %</th>
+          </tr>
+        </thead>
+        <tbody>
+          {coins.map((coin, index) => (
+            <Ticker key={index} coin={coin} />
+          ))}
+        </tbody>
+      </table>
+    </div>
     </>
   )
 }
