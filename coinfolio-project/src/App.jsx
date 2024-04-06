@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css';
 import fakeData from './fakeData';
 import Ticker from './components/Ticker';
+import {Link} from 'react-router-dom';
 
 console.log(fakeData[0])
 
@@ -15,7 +16,9 @@ function App() {
 
         <ul className='flex items-center justify-evenly'>
           <li className='m-5'>Home</li>
-          <li className='m-5'>Portfolio</li>
+          <li className='m-5'>
+            <Link to="/portfolio">Portfolio</Link>
+          </li>
           <li className='m-5'>Transactions</li>
         </ul>
       </nav>
