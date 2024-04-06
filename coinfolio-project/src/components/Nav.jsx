@@ -10,7 +10,7 @@ function Nav() {
         navigate('/portfolio');
     }
     return (
-        <nav className="flex items-center justify-between p-5 w-full border-b border-gray-700" >
+        <nav className="flex items-center justify-between w-full border-b border-gray-700" >
             <div className="logo">
                 {isSmallIcon ? (
                     <img className="h-10 w-auto" src="src/assets/logo/png/Small-logo-color.png" alt="Small Logo" />
