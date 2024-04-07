@@ -7,9 +7,10 @@ const UserAndPriceTableContext = React.createContext();
 function UserAndPriceTableProvider({children}) {
     const [userData, setUserData] = useState(fakeUserData);
     const [coins, setCoins] = useState(fakeData);
+    const [displayedCoins, setDisplayedCoins] = useState(coins);
 
     return (
-        <UserAndPriceTableContext.Provider value={{userData, setUserData, coins, setCoins}}>
+        <UserAndPriceTableContext.Provider value={{userData, setUserData, coins, setCoins, displayedCoins, setDisplayedCoins}}>
             {children}
         </UserAndPriceTableContext.Provider>
     );

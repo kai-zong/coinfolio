@@ -1,11 +1,11 @@
 import React from 'react';
 import Ticker from './Ticker';
-import fakeData from '../fakeData';
 import { useState } from 'react';
+import { useUserAndPriceTable } from '../UserAndPriceTableContext';
 
 
 function PriceTable() {
-    const [coins, setCoins] = useState(fakeData);
+    const {displayedCoins} = useUserAndPriceTable();
     return (
         <div className='w-full p-3'>
             <table className="table-auto w-full text-left">
@@ -22,7 +22,7 @@ function PriceTable() {
                     </tr>
                 </thead>
                 <tbody>
-                    {coins.map((coin, index) => (
+                    {displayedCoins.map((coin, index) => (
                         <Ticker index={index+1} coin={coin} />
                     ))}
                 </tbody>
