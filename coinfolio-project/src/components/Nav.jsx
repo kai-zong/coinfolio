@@ -12,7 +12,7 @@ function Nav() {
     return (
         <nav className="flex items-center justify-between w-full border-b border-gray-700" >
             <div className="flex items-center justify-start pl-3">
-                <img className="h-10 w-auto" src="src/assets/logo/png/Small-logo-color.png" alt="Small Logo" />
+                <img className="h-10 w-auto" src="/src/assets/logo/png/Small-logo-color.png" alt="Small Logo" />
                 {!isSmallIcon && (
                     <h1 className="text-2xl font-bold pl-3">Coinfolio</h1>
                 )}
