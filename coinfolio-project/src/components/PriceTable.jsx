@@ -1,7 +1,10 @@
 import React from 'react';
 import Ticker from './Ticker';
+import fakeData from '../fakeData';
+import { useState } from 'react';
 
-function PriceTable({ coins }) {
+function PriceTable() {
+    const [coins, setCoins] = useState(fakeData)
     return (
         <div className='w-full p-3'>
             <table className="table-auto w-full text-left">
