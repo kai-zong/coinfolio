@@ -2,6 +2,7 @@ import React from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 
+
 function Nav() {
     const isSmallIcon = useMediaQuery({ query: '(max-width: 700px)' });
     const isSmallSearch = useMediaQuery({ query: '(max-width: 600px)' });
