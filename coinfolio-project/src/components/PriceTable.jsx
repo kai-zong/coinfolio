@@ -3,8 +3,9 @@ import Ticker from './Ticker';
 import fakeData from '../fakeData';
 import { useState } from 'react';
 
+
 function PriceTable() {
-    const [coins, setCoins] = useState(fakeData)
+    const [coins, setCoins] = useState(fakeData);
     return (
         <div className='w-full p-3'>
             <table className="table-auto w-full text-left">
@@ -29,5 +30,4 @@ function PriceTable() {
         </div>
     );
 }
-
 export default PriceTable;
