@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,9 +6,25 @@ import { useNavigate } from 'react-router-dom';
 function Nav() {
     const isSmallIcon = useMediaQuery({ query: '(max-width: 700px)' });
     const isSmallSearch = useMediaQuery({ query: '(max-width: 600px)' });
+    const [signingButtonText, setSigningButtonText] = useState("Sign In");
+    let isLoggedIn = true;
+
+    useEffect (() => {
+        if (isLoggedIn){
+            setSigningButtonText("Sign Out");
+        }
+        else{
+            setSigningButtonText("Sign In");
+        }
+    }, [isLoggedIn]);
+
     let navigate = useNavigate();
-    function navigateToPortfolio() {
-        navigate('/portfolio');
+    function navigateBasedOnLogging(isLoggedIn) {
+        if (isLoggedIn) {
+            navigate('/portfolio');
+        } else {
+            navigate('/signin');
+        }
     }
     return (
         <nav className="flex items-center justify-between w-full border-b border-gray-700" >
@@ -26,8 +42,8 @@ function Nav() {
                     </div>
                 )}
                 <div className="buttons pr-1">
-                    <button className="px-3 py-2 m-1 bg-blue-700 text-white rounded-md" onClick={navigateToPortfolio}>Portfolio</button>
-                    <button className="px-3 py-2 m-1 bg-blue-700 text-white rounded-md">Sign In</button>
+                    <button className="px-3 py-2 m-1 bg-blue-700 text-white rounded-md" onClick={()=>navigateBasedOnLogging(isLoggedIn)}>Portfolio</button>
+                    <button className="px-3 py-2 m-1 bg-blue-700 text-white rounded-md">{signingButtonText}</button>
                 </div>
             </div>
         </nav >
