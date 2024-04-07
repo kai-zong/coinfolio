@@ -17,7 +17,7 @@ root.render(
       <Nav />
       <Routes>
         <Route path="/" element={<PriceTable />} />
-        <Route path="portfolio/:user" element={<Portfolio />}>
+        <Route path="portfolio" element={<Portfolio />}>
           <Route index element={<Summary />} />
           <Route path="asset" element={<Asset />} />
           {/* Define other nested routes for Portfolio here */}
