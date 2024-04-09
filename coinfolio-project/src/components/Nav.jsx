@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAndPriceTable } from "../UserAndPriceTableContext";
 
 function Nav() {
@@ -8,7 +8,10 @@ function Nav() {
   const isSmallSearch = useMediaQuery({ query: "(max-width: 600px)" });
   const [signingButtonText, setSigningButtonText] = useState("Sign In");
   const {coins, setDisplayedCoins} = useUserAndPriceTable();
+  const [inputValue, setInputValue] = useState("");
   let isLoggedIn = true;
+  let location = useLocation();
+  let navigate = useNavigate();
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -18,7 +21,11 @@ function Nav() {
     }
   }, [isLoggedIn]);
 
-  let navigate = useNavigate();
+  useEffect(() => {
+    setInputValue(""), setDisplayedCoins(coins); 
+  }, [location]);
+
+  
   function navigateBasedOnLogging(isLoggedIn) {
     if (isLoggedIn) {
       navigate("/portfolio");
@@ -59,9 +66,11 @@ function Nav() {
               className="px-3 py-2 border border-gray-300 rounded-md"
               type="text"
               placeholder="Search"
+              value={inputValue}
               onChange = {(e)=>{
+                setInputValue(e.target.value);
                 let filteredCoins = coins.filter((coin)=>{
-                  return coin.name.toLowerCase().includes(e.target.value.toLowerCase());
+                  return coin.name.toLowerCase().includes(inputValue.toLowerCase());
                 });
                 setDisplayedCoins(filteredCoins);
               }}
