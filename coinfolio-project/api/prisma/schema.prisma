@@ -14,19 +14,20 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  email        String   @unique
-  auth0Id      String   @unique @default("")
-  name         String?
-  transactions        Transaction[]
+  id               Int            @id @default(autoincrement())
+  email            String         @unique
+  auth0Id          String         @unique @default("")
+  name             String?
+  sellerTransactions Transaction[] @relation("SellerTransactions")
+  buyerTransactions  Transaction[] @relation("BuyerTransactions")
 }
 
 model Transaction {
-  id            Int     @id @default(autoincrement())
+  id            Int    @id @default(autoincrement())
   sellerId      Int
   buyerId       Int
-  seller        User    @relation(fields: [sellerId], references: [id])
-  buyer         User    @relation(fields: [buyerId], references: [id])
+  seller        User   @relation("SellerTransactions", fields: [sellerId], references: [id])
+  buyer         User   @relation("BuyerTransactions", fields: [buyerId], references: [id])
   amount        Float 
-  coinType String @default("")
+  coinType      String @default("")
 }
