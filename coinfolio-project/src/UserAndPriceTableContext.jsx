@@ -2,6 +2,7 @@ import React, {useContext, useState} from 'react';
 import fakeData from './fakeData';
 import fakeUserData from './fakeUserData';
 
+
 const UserAndPriceTableContext = React.createContext();
 
 function UserAndPriceTableProvider({children}) {

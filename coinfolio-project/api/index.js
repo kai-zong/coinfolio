@@ -47,3 +47,7 @@ app.get("/me", requireAuth, async (req, res) => {
 
     res.json(user);
 });
+
+app.listen(8000, () => {
+    console.log("Server is running on http://localhost:8000");
+});
