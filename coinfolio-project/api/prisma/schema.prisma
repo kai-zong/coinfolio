@@ -9,6 +9,24 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  auth0Id      String   @unique @default("")
+  name         String?
+  transactions        Transaction[]
+}
+
+model Transaction {
+  id            Int     @id @default(autoincrement())
+  sellerId      Int
+  buyerId       Int
+  seller        User    @relation(fields: [sellerId], references: [id])
+  buyer         User    @relation(fields: [buyerId], references: [id])
+  amount        Float 
+  coinType String @default("")
 }
