@@ -23,7 +23,7 @@ app.use(morgan("dev"));
 const { PrismaClient } = pkg;
 const prisma = new PrismaClient();
 
-app.get("/transactions", requireAuth, async (req, res) => {
+app.get("/me/transactions", requireAuth, async (req, res) => {
     const auto0Id = req.auth.payload.sub;
 
     const user = await prisma.user.findUnique({
@@ -47,6 +47,32 @@ app.get("/me", requireAuth, async (req, res) => {
 
     res.json(user);
 });
+
+app.post("/verify-user", requireAuth, async (req, res) => {
+    const auth0Id = req.auth.payload.sub;
+    const email = req.auth.payload[`${process.env.AUTH0_AUDIENCE}/email`];
+    const name = req.auth.payload[`${process.env.AUTH0_AUDIENCE}/name`];
+  
+    const user = await prisma.user.findUnique({
+      where: {
+        auth0Id,
+      },
+    });
+  
+    if (user) {
+      res.json(user);
+    } else {
+      const newUser = await prisma.user.create({
+        data: {
+          email,
+          auth0Id,
+          name,
+        },
+      });
+  
+      res.json(newUser);
+    }
+  });
 
 app.listen(8000, () => {
     console.log("Server is running on http://localhost:8000");
