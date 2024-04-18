@@ -78,7 +78,22 @@ app.post("/verify-user", requireAuth, async (req, res) => {
   });
 
   // API endpoints
-  // add a new transaction
+  // create a new portfolio
+  app.post("/portfolio", async (req, res) => {
+    const { name, userId } = req.body;
+
+    const portfolio = await prisma.portfolio.create({
+      data: {
+        portfolioName: name,
+        userId,
+      },
+    });
+
+    res.json(portfolio);
+  });
+
+
+  // create a new transaction
   app.post("/transaction", async (req, res) => {
     const { portfolioId,coinSymbol, coinName, coinId, coinImage, coinPriceCost, transferIn, amount } = req.body;
 
