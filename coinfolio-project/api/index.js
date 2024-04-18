@@ -1,7 +1,7 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 import express from "express";
-import pkg from "@prisma/client";
+import { PrismaClient } from '@prisma/client'
 import morgan from "morgan";
 import cors from "cors";
 import { auth } from "express-oauth2-jwt-bearer";
@@ -20,7 +20,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("dev"));
 
-const { PrismaClient } = pkg;
 const prisma = new PrismaClient();
 
 app.get("/me/transactions", requireAuth, async (req, res) => {
