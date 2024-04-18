@@ -78,7 +78,28 @@ app.post("/verify-user", requireAuth, async (req, res) => {
   });
 
   // API endpoints
-  // call third-party API (coinmarketcap) to get the latest price of the top n cryptocurrencies
+  // add a new transaction
+  app.post("/transaction", async (req, res) => {
+    const { portfolioId,coinSymbol, coinName, coinId, coinImage, coinPriceCost, transferIn, amount } = req.body;
+
+    const transaction = await prisma.transaction.create({
+      data: {
+        portfolioId,
+        coinSymbol,
+        coinName,
+        coinId,
+        coinImage,
+        coinPriceCost,
+        transferIn,
+        amount: transferIn ? amount : -amount,
+        amountInUSD: transferIn ? amount * coinPriceCost : -amount * coinPriceCost,
+      },
+    });
+
+    res.json(transaction);
+  });
+
+  // 3rd-party API (coinmarketcap) to get the latest price of the top n cryptocurrencies
   app.get("/cryptos/:limit", async (req, res) => {
     const limit = req.params.limit;
     console.log("Using API Key:", process.env.CMC_API_KEY);
