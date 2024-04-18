@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,20 +8,34 @@ datasource db {
 }
 
 model User {
-  id               Int            @id @default(autoincrement())
-  email            String         @unique
-  auth0Id          String         @unique @default("")
-  name             String?
-  sellerTransactions Transaction[] @relation("SellerTransactions")
-  buyerTransactions  Transaction[] @relation("BuyerTransactions")
+  id         Int         @id @default(autoincrement())
+  email      String      @unique
+  auth0Id    String      @unique @default("")
+  name       String?
+  portfolios Portfolio[]
+}
+
+model Portfolio {
+  id           Int           @id @default(autoincrement())
+  userId       Int
+  user         User          @relation(fields: [userId], references: [id])
+  transactions Transaction[]
+
+  @@index([userId], map: "Portfolio_userId_fkey")
 }
 
 model Transaction {
-  id            Int    @id @default(autoincrement())
-  sellerId      Int
-  buyerId       Int
-  seller        User   @relation("SellerTransactions", fields: [sellerId], references: [id])
-  buyer         User   @relation("BuyerTransactions", fields: [buyerId], references: [id])
-  amount        Float 
-  coinType      String @default("")
+  id            Int       @id @default(autoincrement())
+  portfolioId   Int
+  coinSymbol    String
+  coinName      String
+  coinId        String
+  coinImage     String
+  coinPriceCost Float
+  transferIn    Boolean   @default(true)
+  amount        Float
+  amountInUSD   Float
+  portfolio     Portfolio @relation(fields: [portfolioId], references: [id])
+
+  @@index([portfolioId], map: "Transaction_portfolioId_fkey")
 }
