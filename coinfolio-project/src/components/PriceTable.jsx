@@ -5,9 +5,15 @@ import { useUserAndPriceTable } from '../UserAndPriceTableContext';
 
 
 function PriceTable() {
-    const {displayedCoins} = useUserAndPriceTable();
+    const {displayedCoins, updateTime} = useUserAndPriceTable();
+
+    const formattedUpdateTime = updateTime ? updateTime.toLocaleString() : '';
+
     return (
         <div className='w-full p-3'>
+            <div>
+            <p>As of {formattedUpdateTime} </p>
+            </div>
             <table className="table-auto w-full text-left">
                 <thead>
                     <tr>
