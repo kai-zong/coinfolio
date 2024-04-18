@@ -29,7 +29,7 @@ app.get("/cryptos/:limit", async (req, res) => {
         const response = await axios.get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest', {
             params: {
                 start: 1,
-                limit: limit,
+                limit: 5,
                 convert: 'USD'
             },
             headers: {
