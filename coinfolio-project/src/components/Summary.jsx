@@ -4,8 +4,9 @@ import { useState } from 'react';
 function Summary() {
     return (
         <div className="summary-container p-4">
-            <h1>Summary</h1>
-            <p>Here is a summary of your portfolio</p>
+            <p className="font-sans text-lg font-semibold text-gray-400">Sean's Portfolio</p>
+            <p className="font-sans text-3xl">$140,230.80</p>
+            <p>+ $3268.33 &uarr; 2.68% (24h)</p>
             <div className="summary-detail mt-4">
                 {/* Content of the first div with border and spacing */}
                 <div className="detail-1 p-4 mb-4 border rounded-lg">
