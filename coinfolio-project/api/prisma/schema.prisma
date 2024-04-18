@@ -17,7 +17,7 @@ model User {
 
 model Portfolio {
   id           Int           @id @default(autoincrement())
-  portfolioName String
+  portfolioName String       @default("My Portfolio")
   userId       Int
   user         User          @relation(fields: [userId], references: [id])
   transactions Transaction[]
@@ -30,7 +30,7 @@ model Transaction {
   portfolioId   Int
   coinSymbol    String
   coinName      String
-  coinId        String
+  coinId        Int
   coinImage     String?
   coinPriceCost Float
   transferIn    Boolean   @default(true)
