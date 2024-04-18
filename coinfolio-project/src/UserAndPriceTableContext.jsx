@@ -1,16 +1,16 @@
 import React, {useContext, useState} from 'react';
-import fakeData from './fakeData';
 import fakeUserData from './fakeUserData';
 import {useAuth0} from '@auth0/auth0-react';
 import {useEffect} from 'react';
+import axios from 'axios';
 
 const UserAndPriceTableContext = React.createContext();
 const requestedScopes = ["profile", "email"];
 
 function UserAndPriceTableProvider({children}) {
     const [userData, setUserData] = useState(fakeUserData);
-    const [coins, setCoins] = useState(fakeData);
-    const [displayedCoins, setDisplayedCoins] = useState(coins);
+    const [coins, setCoins] = useState([]);
+    const [displayedCoins, setDisplayedCoins] = useState([]);
     const {getAccessTokenSilently, isAuthenticated} = useAuth0();
     const [accessToken, setAccessToken] = useState();
 
@@ -34,6 +34,22 @@ function UserAndPriceTableProvider({children}) {
           getAccessToken();
         }
       }, [getAccessTokenSilently, isAuthenticated]);
+
+    useEffect(() => {
+        // Fetch user data here if needed or use the accessToken
+        const fetchCoins = async () => {
+            try {
+                const response = await axios.get('http://localhost:3001/cryptos/50');
+                setCoins(response.data.data);
+                setDisplayedCoins(response.data.data); // Or apply some filter logic here
+                console.log('Coins fetched:', response.data.data)
+            } catch (error) {
+                console.error('Error fetching coins:', error);
+            }
+        };
+
+        fetchCoins();
+    }, []);
 
     return (
         <UserAndPriceTableContext.Provider value={{userData, setUserData, coins, setCoins, displayedCoins, setDisplayedCoins, accessToken}}>
