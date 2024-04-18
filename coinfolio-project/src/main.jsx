@@ -1,17 +1,29 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, redirect } from 'react-router-dom';
 import Portfolio from './components/portfolio.jsx';
 import Asset from './components/Asset.jsx';
 import Summary from './components/Summary.jsx';
 import Nav from './components/Nav.jsx';
 import PriceTable from './components/PriceTable.jsx';
 import { UserAndPriceTableProvider } from './UserAndPriceTableContext.jsx';
+import {Auth0Provider} from '@auth0/auth0-react';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const requestedScopes = ["profile", "email"];
+
 root.render(
   <React.StrictMode>
+    <Auth0Provider
+  domain={process.env.REACT_APP_AUTH0_DOMAIN}
+  clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
+  authorizationParams={{
+    redirect_uri: `${window.location.origin}/verify-user`,
+    audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+    scope: requestedScopes.join(" "),
+  }}
+  >
     <UserAndPriceTableProvider>
     <BrowserRouter>
       <Nav />
@@ -27,5 +39,6 @@ root.render(
       </Routes>
     </BrowserRouter>
     </UserAndPriceTableProvider>
+    </Auth0Provider>
   </React.StrictMode>,
 );

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAndPriceTable } from "../UserAndPriceTableContext";
+import {useAuth0} from '@auth0/auth0-react';
 
 function Nav() {
   const isSmallIcon = useMediaQuery({ query: "(max-width: 700px)" });
@@ -9,15 +10,16 @@ function Nav() {
   const [signingButtonText, setSigningButtonText] = useState("Sign In");
   const {coins, setDisplayedCoins} = useUserAndPriceTable();
   const [inputValue, setInputValue] = useState("");
+  const {isAuthenticated, loginWithRedirect, logout} = useAuth0();
   let isLoggedIn = true;
   let location = useLocation();
   let navigate = useNavigate();
 
   useEffect(() => {
     if (isLoggedIn) {
-      setSigningButtonText("Sign Out");
+      setSigningButtonText("Log Out");
     } else {
-      setSigningButtonText("Sign In");
+      setSigningButtonText("Log In");
     }
   }, [isLoggedIn]);
 
@@ -30,7 +32,7 @@ function Nav() {
     if (isLoggedIn) {
       navigate("/portfolio");
     } else {
-      navigate("/signin");
+      navigate("/verify-user");
     }
   }
 
@@ -84,9 +86,13 @@ function Nav() {
           >
             Portfolio
           </button>
-          <button className="px-3 py-2 m-1 bg-blue-700 text-white rounded-md">
-            {signingButtonText}
-          </button>
+          {isAuthenticated? <button className="px-3 py-2 m-1 bg-blue-700 text-white rounded-md" onClick={()=>{logout({returnTo: window.location.origin});}
+          }>
+            Log Out
+          </button> :
+          <button className="px-3 py-2 m-1 bg-blue-700 text-white rounded-md" onClick={loginWithRedirect}>
+          Log In
+        </button>}
         </div>
       </div>
     </nav>
