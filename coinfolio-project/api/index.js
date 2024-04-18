@@ -11,11 +11,11 @@ import { auth } from "express-oauth2-jwt-bearer";
 const PORT = process.env.PORT || 3001;
 
 // this is a middleware that will validate the access token sent by the client
-const requireAuth = auth({
-  audience: process.env.AUTH0_AUDIENCE,
-  issuerBaseURL: process.env.AUTH0_ISSUER,
-  tokenSigningAlg: "RS256",
-});
+// const requireAuth = auth({
+//   audience: process.env.AUTH0_AUDIENCE,
+//   issuerBaseURL: process.env.AUTH0_ISSUER,
+//   tokenSigningAlg: "RS256",
+// });
 
 const app = express();
 
@@ -26,56 +26,56 @@ app.use(morgan("dev"));
 
 const prisma = new PrismaClient();
 
-app.get("/me/transactions", requireAuth, async (req, res) => {
-    const auto0Id = req.auth.payload.sub;
+// app.get("/:id/transactions", async (req, res) => {
+
+//     const user = await prisma.user.findUnique({
+//         where: {
+//             auth0Id: auto0Id,
+//         },
+//     });
+
+//     const transactions = await prisma.transaction.findMany({ where: { userId: user.id } });
+
+// });
+
+app.get("/:id", async (req, res) => {
+    // const auto0Id = req.auth.payload.sub;
+    const id = req.params.id;
 
     const user = await prisma.user.findUnique({
         where: {
-            auth0Id: auto0Id,
-        },
-    });
-
-    const transactions = await prisma.transaction.findMany({ where: { userId: user.id } });
-
-});
-
-app.get("/me", requireAuth, async (req, res) => {
-    const auto0Id = req.auth.payload.sub;
-
-    const user = await prisma.user.findUnique({
-        where: {
-            auth0Id: auto0Id,
+            id: id,
         },
     });
 
     res.json(user);
 });
 
-app.post("/verify-user", requireAuth, async (req, res) => {
-    const auth0Id = req.auth.payload.sub;
-    const email = req.auth.payload[`${process.env.AUTH0_AUDIENCE}/email`];
-    const name = req.auth.payload[`${process.env.AUTH0_AUDIENCE}/name`];
+// app.post("/verify-user", requireAuth, async (req, res) => {
+//     const auth0Id = req.auth.payload.sub;
+//     const email = req.auth.payload[`${process.env.AUTH0_AUDIENCE}/email`];
+//     const name = req.auth.payload[`${process.env.AUTH0_AUDIENCE}/name`];
   
-    const user = await prisma.user.findUnique({
-      where: {
-        auth0Id,
-      },
-    });
+//     const user = await prisma.user.findUnique({
+//       where: {
+//         auth0Id,
+//       },
+//     });
   
-    if (user) {
-      res.json(user);
-    } else {
-      const newUser = await prisma.user.create({
-        data: {
-          email,
-          auth0Id,
-          name,
-        },
-      });
+//     if (user) {
+//       res.json(user);
+//     } else {
+//       const newUser = await prisma.user.create({
+//         data: {
+//           email,
+//           auth0Id,
+//           name,
+//         },
+//       });
   
-      res.json(newUser);
-    }
-  });
+//       res.json(newUser);
+//     }
+//   });
 
   // API endpoints
   // create a new portfolio

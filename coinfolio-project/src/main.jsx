@@ -15,7 +15,7 @@ const requestedScopes = ["profile", "email"];
 
 root.render(
   <React.StrictMode>
-    <Auth0Provider
+    {/* <Auth0Provider
   domain="dev-jr28gap4dny46g4d.us.auth0.com"
   clientId="zRagRcFiopafWPWOQIfEnPxs59i4JTUn"
   authorizationParams={{
@@ -23,7 +23,7 @@ root.render(
     audience: "https://api.coinfolio",
     scope: requestedScopes.join(" "),
   }}
-  >
+  > */}
     <UserAndPriceTableProvider>
     <BrowserRouter>
       <Nav />
@@ -39,6 +39,6 @@ root.render(
       </Routes>
     </BrowserRouter>
     </UserAndPriceTableProvider>
-    </Auth0Provider>
+    {/* </Auth0Provider> */}
   </React.StrictMode>,
 );
