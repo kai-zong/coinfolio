@@ -16,11 +16,11 @@ const requestedScopes = ["profile", "email"];
 root.render(
   <React.StrictMode>
     <Auth0Provider
-  domain={process.env.REACT_APP_AUTH0_DOMAIN}
-  clientId={process.env.REACT_APP_AUTH0_CLIENT_ID}
+  domain="dev-jr28gap4dny46g4d.us.auth0.com"
+  clientId="zRagRcFiopafWPWOQIfEnPxs59i4JTUn"
   authorizationParams={{
     redirect_uri: `${window.location.origin}/verify-user`,
-    audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+    audience: "https://api.coinfolio",
     scope: requestedScopes.join(" "),
   }}
   >
