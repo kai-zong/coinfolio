@@ -13,8 +13,21 @@ CREATE TABLE `User` (
 -- CreateTable
 CREATE TABLE `Portfolio` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `portfolioName` VARCHAR(191) NOT NULL DEFAULT 'My Portfolio',
     `userId` INTEGER NOT NULL,
 
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Coin` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `symbol` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
+    `image` VARCHAR(191) NULL,
+    `cmcId` INTEGER NOT NULL,
+
+    UNIQUE INDEX `Coin_cmcId_key`(`cmcId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -22,10 +35,7 @@ CREATE TABLE `Portfolio` (
 CREATE TABLE `Transaction` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `portfolioId` INTEGER NOT NULL,
-    `coinSymbol` VARCHAR(191) NOT NULL,
-    `coinName` VARCHAR(191) NOT NULL,
-    `coinId` VARCHAR(191) NOT NULL,
-    `coinImage` VARCHAR(191) NOT NULL,
+    `coinId` INTEGER NOT NULL,
     `coinPriceCost` DOUBLE NOT NULL,
     `transferIn` BOOLEAN NOT NULL DEFAULT true,
     `amount` DOUBLE NOT NULL,
@@ -36,6 +46,9 @@ CREATE TABLE `Transaction` (
 
 -- AddForeignKey
 ALTER TABLE `Portfolio` ADD CONSTRAINT `Portfolio_userId_fkey` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Transaction` ADD CONSTRAINT `Transaction_coinId_fkey` FOREIGN KEY (`coinId`) REFERENCES `Coin`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Transaction` ADD CONSTRAINT `Transaction_portfolioId_fkey` FOREIGN KEY (`portfolioId`) REFERENCES `Portfolio`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

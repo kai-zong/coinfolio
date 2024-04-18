@@ -7,36 +7,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model User {
-  id         Int         @id @default(autoincrement())
-  email      String      @unique
-  auth0Id    String      @unique @default("")
-  name       String?
-  portfolios Portfolio[]
+  id             Int         @id @default(autoincrement())
+  email          String      @unique
+  auth0Id        String      @unique @default("")
+  name           String?
+  portfolio      Portfolio[] // One-to-Many relationship with Portfolio
 }
 
 model Portfolio {
-  id           Int           @id @default(autoincrement())
-  portfolioName String       @default("My Portfolio")
-  userId       Int
-  user         User          @relation(fields: [userId], references: [id])
-  transactions Transaction[]
+  id             Int          @id @default(autoincrement())
+  portfolioName  String       @default("My Portfolio")
+  user           User         @relation(fields: [userId], references: [id])
+  userId         Int
+  transactions   Transaction[] // One-to-Many relationship with Transaction
+}
 
-  @@index([userId], map: "Portfolio_userId_fkey")
+model Coin {
+  id             Int          @id
+  symbol         String       
+  name           String 
+  image          String?
+  cmcId          Int          @unique
+  transactions   Transaction[] // This assumes a transaction is associated with a specific coin
 }
 
 model Transaction {
-  id            Int       @id @default(autoincrement())
-  portfolioId   Int
-  coinSymbol    String
-  coinName      String
-  coinId        Int
-  coinImage     String?
-  coinPriceCost Float
-  transferIn    Boolean   @default(true)
-  amount        Float
-  amountInUSD   Float
-  portfolio     Portfolio @relation(fields: [portfolioId], references: [id])
-
-  @@index([portfolioId], map: "Transaction_portfolioId_fkey")
+  id             Int       @id @default(autoincrement())
+  portfolioId    Int
+  coinId         Int
+  coin           Coin      @relation(fields: [coinId], references: [id])
+  coinPriceCost  Float
+  transferIn     Boolean   @default(true)
+  amount         Float
+  amountInUSD    Float
+  portfolio      Portfolio @relation(fields: [portfolioId], references: [id])
 }
