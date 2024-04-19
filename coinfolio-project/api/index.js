@@ -126,6 +126,43 @@ app.get("/:id", async (req, res) => {
     res.json(transaction);
   });
 
+  // delete a transaction
+  app.delete("/transaction/:transId", async (req, res) => {
+    const { transId } = req.params;
+
+    // we should verify the user has the right to delete this transaction
+
+    const transaction = await prisma.transaction.delete({
+      where: {
+        id: parseInt(transId),
+      },
+    });
+
+    res.json(transaction);
+  });
+
+  // modify a transaction
+  app.put("/transaction/:transId", async (req, res) => {
+    const { transId } = req.params;
+    const { userId, coinPriceCost, transferIn, amount } = req.body;
+
+    // we should verify the user has the right to modify this transaction
+
+    const transaction = await prisma.transaction.update({
+      where: {
+        id: parseInt(transId),
+      },
+      data: {
+        coinPriceCost,
+        transferIn,
+        amount,
+        amountInUSD: amount * coinPriceCost,
+      },
+    });
+
+    res.json(transaction);
+  });
+
   // 3rd-party API (coinmarketcap) to get the latest price of the top n cryptocurrencies
   app.get("/cryptos/:limit", async (req, res) => {
     const limit = req.params.limit;
