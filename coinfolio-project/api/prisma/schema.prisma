@@ -13,15 +13,7 @@ model User {
   email          String      @unique
   auth0Id        String      @unique @default("")
   name           String?
-  portfolio      Portfolio[] // One-to-Many relationship with Portfolio
-}
-
-model Portfolio {
-  id             Int          @id @default(autoincrement())
-  portfolioName  String       @default("My Portfolio")
-  user           User         @relation(fields: [userId], references: [id])
-  userId         Int
-  transactions   Transaction[] // One-to-Many relationship with Transaction
+  transactions   Transaction[]
 }
 
 model Coin {
@@ -34,12 +26,12 @@ model Coin {
 
 model Transaction {
   id             Int       @id @default(autoincrement())
-  portfolioId    Int
+  userId    Int
   coinId         Int
   coin           Coin      @relation(fields: [coinId], references: [id])
   coinPriceCost  Float
   transferIn     Boolean   @default(true)
   amount         Float
   amountInUSD    Float
-  portfolio      Portfolio @relation(fields: [portfolioId], references: [id])
+  user      User @relation(fields: [userId], references: [id])
 }
