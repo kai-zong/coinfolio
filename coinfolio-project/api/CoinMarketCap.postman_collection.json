@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "New Request",
+			"name": "3rd get coin details",
 			"request": {
 				"method": "GET",
 				"header": []
@@ -82,14 +82,6 @@
 			"response": []
 		},
 		{
-			"name": "NewPortfolio",
-			"request": {
-				"method": "GET",
-				"header": []
-			},
-			"response": []
-		},
-		{
 			"name": "CreateTransaction",
 			"request": {
 				"method": "GET",
@@ -99,6 +91,22 @@
 		},
 		{
 			"name": "GetTransaction",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteTransaction",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateTransaction",
 			"request": {
 				"method": "GET",
 				"header": []
