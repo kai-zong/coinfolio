@@ -11,28 +11,27 @@ function Nav() {
   const {coins, setDisplayedCoins} = useUserAndPriceTable();
   const [inputValue, setInputValue] = useState("");
   const {isAuthenticated, loginWithRedirect, logout} = useAuth0();
-  let isLoggedIn = true;
   let location = useLocation();
   let navigate = useNavigate();
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isAuthenticated) {
       setSigningButtonText("Log Out");
     } else {
       setSigningButtonText("Log In");
     }
-  }, [isLoggedIn]);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     setInputValue(""), setDisplayedCoins(coins); 
   }, [location]);
 
   
-  function navigateBasedOnLogging(isLoggedIn) {
-    if (isLoggedIn) {
+  function navigateBasedOnLogging(isAuthenticated) {
+    if (isAuthenticated) {
       navigate("/portfolio");
     } else {
-      navigate("/verify-user");
+      loginWithRedirect();
     }
   }
 
@@ -82,7 +81,7 @@ function Nav() {
         <div className="buttons pr-1">
           <button
             className="px-3 py-2 m-1 bg-blue-700 text-white rounded-md"
-            onClick={() => navigateBasedOnLogging(isLoggedIn)}
+            onClick={() => navigateBasedOnLogging(isAuthenticated)}
           >
             Portfolio
           </button>
