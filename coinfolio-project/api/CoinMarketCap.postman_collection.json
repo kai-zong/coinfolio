@@ -7,7 +7,15 @@
 	},
 	"item": [
 		{
-			"name": "Listings Top50",
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "3rd Listings Top50",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -50,6 +58,14 @@
 			"response": []
 		},
 		{
+			"name": "3rd get latest quote",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
 			"name": "GetCryptos",
 			"request": {
 				"method": "GET",
@@ -74,7 +90,15 @@
 			"response": []
 		},
 		{
-			"name": "NewTransaction",
+			"name": "CreateTransaction",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "GetTransaction",
 			"request": {
 				"method": "GET",
 				"header": []
