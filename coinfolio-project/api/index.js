@@ -93,6 +93,34 @@ app.get("/:id", async (req, res) => {
   });
 
 
+  // get the portfolio of a user
+  app.get('/portfolio/:userId', async (req, res) => {
+    const { userId } = req.params;
+  
+    try {
+      const userPortfoliosData = await prisma.user.findUnique({
+        where: {
+          id: parseInt(userId), // id is a string, so we need to convert it to a number
+        },
+            include: {
+              transactions: {
+                include: {
+                  coin: true, // get the coin details of the transaction
+                },
+              }
+            },
+      });
+  
+      if (userPortfoliosData) {
+        res.status(200).json(userPortfoliosData);
+      } else {
+        res.status(404).send('User not found');
+      }
+    } catch (error) {
+      res.status(500).send(`An error occurred: ${error.message}`);
+    }
+    });
+
   // create a new transaction
   app.post("/transaction", async (req, res) => {
     const { portfolioId,coinSymbol, coinName, coinId, coinImage, coinPriceCost, transferIn, amount } = req.body;
