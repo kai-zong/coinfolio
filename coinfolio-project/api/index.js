@@ -78,27 +78,14 @@ app.get("/:id", async (req, res) => {
 //   });
 
   // API endpoints
-  // create a new portfolio
-  app.post("/portfolio", async (req, res) => {
-    const { name, userId } = req.body;
-
-    const portfolio = await prisma.portfolio.create({
-      data: {
-        portfolioName: name,
-        userId,
-      },
-    });
-
-    res.json(portfolio);
-  });
 
 
-  // get the portfolio of a user
-  app.get('/portfolio/:userId', async (req, res) => {
+  // get transaction detials of a user
+  app.get('/transactions/:userId', async (req, res) => {
     const { userId } = req.params;
   
     try {
-      const userPortfoliosData = await prisma.user.findUnique({
+      const userData = await prisma.user.findUnique({
         where: {
           id: parseInt(userId), // id is a string, so we need to convert it to a number
         },
@@ -111,8 +98,8 @@ app.get("/:id", async (req, res) => {
             },
       });
   
-      if (userPortfoliosData) {
-        res.status(200).json(userPortfoliosData);
+      if (userData) {
+        res.status(200).json(userData);
       } else {
         res.status(404).send('User not found');
       }
@@ -121,17 +108,14 @@ app.get("/:id", async (req, res) => {
     }
     });
 
-  // create a new transaction
+  // create a new transaction for a user
   app.post("/transaction", async (req, res) => {
-    const { portfolioId,coinSymbol, coinName, coinId, coinImage, coinPriceCost, transferIn, amount } = req.body;
+    const { userId, coinId, coinPriceCost, transferIn, amount } = req.body;
 
     const transaction = await prisma.transaction.create({
       data: {
-        portfolioId,
-        coinSymbol,
-        coinName,
+        userId,
         coinId,
-        coinImage,
         coinPriceCost,
         transferIn,
         amount: transferIn ? amount : -amount,
