@@ -44,7 +44,7 @@ app.get("/:id", async (req, res) => {
 
     const user = await prisma.user.findUnique({
         where: {
-            id: id,
+            id: parseInt(id),
         },
     });
 
