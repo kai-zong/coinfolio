@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import { BrowserRouter, Routes, Route, redirect } from 'react-router-dom';
 import Portfolio from './components/portfolio.jsx';
-import Asset from './components/Asset.jsx';
+import Transactions from './components/Transactions.jsx';
 import Summary from './components/Summary.jsx';
 import Nav from './components/Nav.jsx';
 import PriceTable from './components/PriceTable.jsx';
@@ -31,7 +31,7 @@ root.render(
         <Route path="/" element={<PriceTable />} />
         <Route path="portfolio" element={<Portfolio />}>
           <Route index element={<Summary />} />
-          <Route path="asset" element={<Asset />} />
+          <Route path="transactions" element={<Transactions />} />
           {/* Define other nested routes for Portfolio here */}
         </Route>
         {/* Define other routes */}
