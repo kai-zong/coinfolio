@@ -9,26 +9,29 @@ import Nav from './components/Nav.jsx';
 import PriceTable from './components/PriceTable.jsx';
 import { UserAndPriceTableProvider } from './UserAndPriceTableContext.jsx';
 import {Auth0Provider} from '@auth0/auth0-react';
+import config from './config.js';
+import VerifyUser from './components/VerifyUser.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const requestedScopes = ["profile", "email"];
 
 root.render(
   <React.StrictMode>
-    {/* <Auth0Provider
-  domain="dev-jr28gap4dny46g4d.us.auth0.com"
-  clientId="zRagRcFiopafWPWOQIfEnPxs59i4JTUn"
+    <Auth0Provider
+  domain={config.REACT_APP_AUTH0_DOMAIN}
+  clientId={config.REACT_APP_AUTH0_CLIENT_ID}
   authorizationParams={{
     redirect_uri: `${window.location.origin}/verify-user`,
-    audience: "https://api.coinfolio",
+    audience: config.REACT_APP_AUTH0_AUDIENCE,
     scope: requestedScopes.join(" "),
   }}
-  > */}
+  >
     <UserAndPriceTableProvider>
     <BrowserRouter>
       <Nav />
       <Routes>
         <Route path="/" element={<PriceTable />} />
+        <Route path="verify-user" element={<VerifyUser/>} />
         <Route path="portfolio" element={<Portfolio />}>
           <Route index element={<Summary />} />
           <Route path="transactions" element={<Transactions />} />
@@ -39,6 +42,6 @@ root.render(
       </Routes>
     </BrowserRouter>
     </UserAndPriceTableProvider>
-    {/* </Auth0Provider> */}
+    </Auth0Provider>
   </React.StrictMode>,
 );

@@ -11,11 +11,11 @@ import { auth } from "express-oauth2-jwt-bearer";
 const PORT = process.env.PORT || 3001;
 
 // this is a middleware that will validate the access token sent by the client
-// const requireAuth = auth({
-//   audience: process.env.AUTH0_AUDIENCE,
-//   issuerBaseURL: process.env.AUTH0_ISSUER,
-//   tokenSigningAlg: "RS256",
-// });
+const requireAuth = auth({
+  audience: process.env.AUTH0_AUDIENCE,
+  issuerBaseURL: process.env.AUTH0_ISSUER,
+  tokenSigningAlg: "RS256",
+});
 
 const app = express();
 
@@ -51,37 +51,37 @@ app.get("/:id", async (req, res) => {
     res.json(user);
 });
 
-// app.post("/verify-user", requireAuth, async (req, res) => {
-//     const auth0Id = req.auth.payload.sub;
-//     const email = req.auth.payload[`${process.env.AUTH0_AUDIENCE}/email`];
-//     const name = req.auth.payload[`${process.env.AUTH0_AUDIENCE}/name`];
+app.post("/verify-user", requireAuth, async (req, res) => {
+    const auth0Id = req.auth.payload.sub;
+    const email = req.auth.payload[`${process.env.AUTH0_AUDIENCE}/email`];
+    const name = req.auth.payload[`${process.env.AUTH0_AUDIENCE}/name`];
   
-//     const user = await prisma.user.findUnique({
-//       where: {
-//         auth0Id,
-//       },
-//     });
+    const user = await prisma.user.findUnique({
+      where: {
+        auth0Id,
+      },
+    });
   
-//     if (user) {
-//       res.json(user);
-//     } else {
-//       const newUser = await prisma.user.create({
-//         data: {
-//           email,
-//           auth0Id,
-//           name,
-//         },
-//       });
+    if (user) {
+      res.json(user);
+    } else {
+      const newUser = await prisma.user.create({
+        data: {
+          email,
+          auth0Id,
+          name,
+        },
+      });
   
-//       res.json(newUser);
-//     }
-//   });
+      res.json(newUser);
+    }
+  });
 
   // API endpoints
 
 
   // get transaction detials of a user
-  app.get('/transactions/:userId', async (req, res) => {
+  app.get('/transactions', async (req, res) => {
     const { userId } = req.params;
   
     try {

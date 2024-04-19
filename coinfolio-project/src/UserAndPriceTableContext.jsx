@@ -3,6 +3,7 @@ import fakeUserData from './fakeUserData';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useEffect } from 'react';
 import axios from 'axios';
+import config from './config';
 
 const UserAndPriceTableContext = React.createContext();
 const requestedScopes = ["profile", "email"];
@@ -21,7 +22,7 @@ function UserAndPriceTableProvider({ children }) {
         // get access token silently from Auth0, which will be stored in the context
         const token = await getAccessTokenSilently({
           authorizationParams: {
-            audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+            audience: config.REACT_APP_AUTH0_AUDIENCE,
             scope: requestedScopes.join(" "),
           },
         });

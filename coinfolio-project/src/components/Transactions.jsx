@@ -6,7 +6,7 @@ function Transactions() {
     const userId = 1; // Replace with the actual user ID
 
     useEffect(() => {
-        fetch(`http://localhost:3001/transactions/${userId}`)
+        fetch(`http://localhost:3001/transactions`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
