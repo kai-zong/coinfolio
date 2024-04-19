@@ -18,15 +18,27 @@ async function main() {
     });
   const coins = response.data.data;
 
-  for (const coin of coins) {
-    await prisma.coin.create({
-      data: {
-        symbol: coin.symbol,
-        name: coin.name,
-        cmcId: coin.id,
-      },
+    // use the coin ids to get more details
+    const coinIds = coins.map(coin => coin.id).join(',');
+    const detailsResponse = await axios.get(`https://pro-api.coinmarketcap.com/v2/cryptocurrency/info?id=${coinIds}`, {
+        headers: {
+            'X-CMC_PRO_API_KEY': process.env.CMC_API_KEY
+        }
     });
-  }
+    const coinDetails = detailsResponse.data.data;
+
+    // 更新数据库
+    for (const coin of coins) {
+        const details = coinDetails[coin.id];
+        await prisma.coin.create({
+            data: {
+                id: coin.id,
+                symbol: coin.symbol,
+                name: coin.name,
+                image: details?.logo // 使用可选链确保当details没有值时不会出错
+            },
+        });
+    }
 }
 
 main()
