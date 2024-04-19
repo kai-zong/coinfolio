@@ -14,24 +14,26 @@ function Summary() {
                 <div className="detail-1 p-4 mb-4 border rounded-lg">
                     <h2>Detail 1</h2>
                     <p>This is the first detailed part of your summary.</p>
-                    <Doughnut 
-                        data={{
-                            labels: [
-                            'Red',
-                            'Blue',
-                            'Yellow'
-                            ],
-                            datasets: [{
-                                label: 'My First Dataset',
-                                data: [300, 50, 100],
-                                backgroundColor: [
-                                    'rgb(255, 99, 132)',
-                                    'rgb(54, 162, 235)',
-                                    'rgb(255, 205, 86)'
+                    <div class="chart-container">
+                        <Doughnut
+                            data={{
+                                labels: [
+                                    'Red',
+                                    'Blue',
+                                    'Yellow'
                                 ],
-                                hoverOffset: 4
-                            }]
-                    }}/>
+                                datasets: [{
+                                    label: 'My First Dataset',
+                                    data: [300, 50, 100],
+                                    backgroundColor: [
+                                        'rgb(255, 99, 132)',
+                                        'rgb(54, 162, 235)',
+                                        'rgb(255, 205, 86)'
+                                    ],
+                                    hoverOffset: 4
+                                }]
+                            }} />
+                    </div>
                 </div>
                 {/* Content of the second div with border and spacing */}
                 <div className="detail-2 p-4 border rounded-lg">
