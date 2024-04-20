@@ -6,7 +6,7 @@ function Transactions() {
     const userId = 1; // Replace with the actual user ID
 
     useEffect(() => {
-        fetch(`http://localhost:3001/transactions`)
+        fetch(`http://localhost:3001/transactions/${userId}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -14,22 +14,38 @@ function Transactions() {
                 return response.json();
             })
             .then(data => {
-                // 由于后端返回的是用户对象，包括用户的交易列表，我们将交易列表设置到状态中
                 setTransactions(data.transactions);
             })
             .catch(error => {
                 console.error('Failed to fetch transactions:', error);
             });
-    }, [userId]); // 当userId改变时重新运行effect
+    }, [userId]); // run effect only once when the component mounts
 
     console.log('Transactions:', transactions);
 
     return (
-        <ul className='flex-column justify-evenly m-5 border-2 p-5'>
-            {transactions.map((transaction, index) => (
-                <TransDetails transaction={transaction} />
-            ))}
-        </ul>
+        <div className='w-full px-5 m-3'>
+            <table className="table-auto w-full text-left">
+            <thead>
+                <tr>
+                    <th className="px-4 py-2">Transaction ID</th>
+                    <th className="px-4 py-2">Logo</th>
+                    <th className="px-4 py-2">Symbol</th>
+                    <th className="px-4 py-2">Coin</th>
+                    <th className="px-4 py-2">Type</th>
+                    <th className="px-4 py-2">Date</th>
+                    <th className="px-4 py-2">Amount</th>
+                    <th className="px-4 py-2">AmountInUSD</th>
+                </tr>
+            </thead>
+            <tbody>
+                {transactions.map((transaction, index) => (
+                    <TransDetails key={index} transaction={transaction} />
+                ))}
+            </tbody>
+        </table>
+        </div>
+        
     );
 }
 
