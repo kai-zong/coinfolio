@@ -32,10 +32,10 @@ function PortfolioTable() {
               <th className="px-4 py-2">Name</th>
               <th className="px-4 py-2">Symbol</th>
               <th className="px-4 py-2">Price</th>
-              <th className="px-4 py-2">1h %</th>
-              <th className="px-4 py-2">1d %</th>
-              <th className="px-4 py-2">7d %</th>
-              <th className="px-4 py-2">Dominance %</th>
+              <th className="px-4 py-2">Amount</th>
+              <th className="px-4 py-2">Cost</th>
+              <th className="px-4 py-2">MarketPrice</th>
+              <th className="px-4 py-2">Profit %</th>
             </tr>
           </thead>
           <tbody>
