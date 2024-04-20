@@ -36,4 +36,5 @@ model Transaction {
   amount         Float
   amountInUSD    Float
   user      User @relation(fields: [userId], references: [id])
+  createdAt      DateTime  @default(now())
 }
