@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
-import { Doughnut } from 'react-chartjs-2';
+import { Doughnut, Bar } from 'react-chartjs-2';
 import PortfolioTable from './PortfolioTable';
 
 function Summary() {
@@ -42,8 +42,8 @@ function Summary() {
     ];
     const grayColor = 'rgb(201, 203, 207)'; // light gray for additional coins
 
-    const chartData = {
-        labels: portfolio.map(item => item.coinDetails.name),
+    const donutChartData = {
+        labels: portfolio.map(item => item.coinDetails.symbol),
         datasets: [{
             label: 'Portfolio Distribution',
             data: portfolio.map(item => item.amount * item.coinDetails.marketPrice),
@@ -53,6 +53,42 @@ function Summary() {
             hoverOffset: 4
         }]
     };
+
+    const donutChartOptions = {
+        plugins: {
+            legend: {
+                position: 'right', // Position the legend on the right
+            }
+        }
+    };
+
+    // Setup for the bar chart
+    const barChartData = {
+        labels: portfolio.map(item => item.coinDetails.symbol),
+        datasets: [{
+            label: 'Current Value',
+            data: portfolio.map(item => item.amount * item.coinDetails.marketPrice),
+            backgroundColor: portfolio.map((_, index) =>
+                index < colors.length ? colors[index] : grayColor
+            ),
+        }]
+    };
+
+    const barChartOptions = {
+        maintainAspectRatio: false, // Add this option to control the chart size
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+
+        },
+        plugins: {
+            legend: {
+                display: false // Hide the legend
+            }
+        }
+    };
+
     return (
         <div className="summary-container x-4">
             <p className="font-sans text-lg font-semibold text-gray-400">Sean's Portfolio</p>
@@ -63,9 +99,15 @@ function Summary() {
                 <div className="detail-1 p-4 mb-4 border rounded-lg">
                     <h2>Detail 1</h2>
                     <p>This is the first detailed part of your summary.</p>
-                    <div class="chart-container">
-                        <Doughnut data={chartData} />
+                    <div className="charts-container flex justify-between">
+                        <div className="chart-container w-1/2 h-64"> {/* Adjust the height here */}
+                            <Bar data={barChartData} options={barChartOptions} />
+                        </div>
+                        <div className="chart-container w-1/2">
+                            <Doughnut data={donutChartData} options={donutChartOptions} />
+                        </div>
                     </div>
+
                 </div>
                 {/* Content of the second div with border and spacing */}
                 <div className="detail-2 p-4 border rounded-lg">
