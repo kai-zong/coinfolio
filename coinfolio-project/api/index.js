@@ -97,8 +97,6 @@ app.post("/verify-user", requireAuth, async (req, res) => {
               }
             },
       });
-
-      console.log(userData.transactions)
   
       if (userData) {
         res.status(200).json(userData);
@@ -250,6 +248,49 @@ app.post('/update-coins', async (req, res) => {
         res.status(500).json({ error: 'Failed to retrieve data from CoinMarketCap' });
     }
   });
+
+  // get portfolio details of a user
+  app.get('/portfolio/:userId', async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        const portfolio = await prisma.transaction.groupBy({
+            by: ['coinId'],
+            where: {
+                userId: parseInt(userId),
+            },
+            _sum: {
+                amount: true,
+                amountInUSD: true,
+            },
+            _avg: {
+                coinPriceCost: true,
+            },
+        });
+
+        const detailedPortfolio = await Promise.all(portfolio.map(async (item) => {
+            const coin = await prisma.coin.findUnique({
+                where: {
+                    id: item.coinId,
+                },
+            });
+
+            return {
+                coinId: item.coinId,
+                amount: item._sum.amount,
+                amountInUSD: item._sum.amountInUSD,
+                averageCost: item._avg.coinPriceCost,
+                currentPrice: coin.marketPrice, // Assuming marketPrice is the current price stored in the database
+                coinDetails: coin,
+            };
+        }));
+
+        res.json(detailedPortfolio);
+    } catch (error) {
+        console.error('Failed to get portfolio:', error);
+        res.status(500).send(`An error occurred: ${error.message}`);
+    }
+});
 
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

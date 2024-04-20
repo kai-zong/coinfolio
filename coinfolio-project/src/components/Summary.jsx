@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import Chart from 'chart.js/auto';
 import { Doughnut } from 'react-chartjs-2';
+import PortfolioTable from './PortfolioTable';
 
 function Summary() {
     return (
@@ -38,7 +39,7 @@ function Summary() {
                 {/* Content of the second div with border and spacing */}
                 <div className="detail-2 p-4 border rounded-lg">
                     <h2>Detail 2</h2>
-                    <p>This is the second detailed part of your summary.</p>
+                    <PortfolioTable />
                 </div>
             </div>
         </div>
