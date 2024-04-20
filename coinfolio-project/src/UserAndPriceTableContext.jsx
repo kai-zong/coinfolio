@@ -41,14 +41,10 @@ function UserAndPriceTableProvider({ children }) {
     // Fetch user data here if needed or use the accessToken
     const fetchCoins = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/cryptos/50');
-        setCoins(response.data.data);
-        setDisplayedCoins(response.data.data); // Or apply some filter logic here
-
-        // Convert the timestamp to a Date object
-        const timestamp = response.data.status.timestamp;
-        const date = new Date(timestamp);
-        setUpdateTime(date); // Save the Date object
+        const response = await axios.get('http://localhost:3001/coins');
+        console.log('Coins fetched:', response.data);
+        setCoins(response.data);
+        setDisplayedCoins(response.data); // Or apply some filter logic here
 
         // console.log('Timestamp:', timestamp);
         // console.log('Date object:', date);
@@ -66,7 +62,6 @@ function UserAndPriceTableProvider({ children }) {
       userData, setUserData,
       coins, setCoins,
       displayedCoins, setDisplayedCoins,
-      updateTime, setUpdateTime,
       accessToken
     }}>
       {children}
