@@ -2,7 +2,7 @@
 function TransDetails({ transaction, index }) {
 
     const formattedDate = new Date(transaction.createdAt).toLocaleDateString();
-    const formattedTime = new Date(transaction.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); 
+    const formattedTime = new Date(transaction.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'}); 
 
     console.log('formattedDate:', formattedDate);
     console.log('original date:', transaction.createdAt);
@@ -18,7 +18,7 @@ function TransDetails({ transaction, index }) {
                 {transaction.transferIn ? 'TransferIn' : 'TransferOut'}
             </td>
             <td className="border-t border-b border-gray-700 px-4 py-2">
-                {formattedDate}  - {formattedTime}
+                {formattedDate} {formattedTime}
             </td>
             <td className="border-t border-b border-gray-700 px-4 py-2">{transaction.amount}</td>
             <td className="border-t border-b border-gray-700 px-4 py-2">${transaction.amountInUSD.toFixed(2)}</td>

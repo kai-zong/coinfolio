@@ -39,8 +39,10 @@ function Transactions() {
                 </tr>
             </thead>
             <tbody>
-                {transactions.map((transaction, index) => (
-                    <TransDetails key={index} transaction={transaction} />
+                {transactions
+                    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                    .map((transaction, index) => (
+                        <TransDetails key={index} transaction={transaction} />
                 ))}
             </tbody>
         </table>
