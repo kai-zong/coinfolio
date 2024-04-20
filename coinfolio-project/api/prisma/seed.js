@@ -17,6 +17,9 @@ async function main() {
         }
     });
   const coins = response.data.data;
+  // Convert the timestamp to a Date object
+  const timestamp = response.data.status.timestamp;
+  const date = new Date(timestamp);
 
     // use the coin ids to get more details
     const coinIds = coins.map(coin => coin.id).join(',');
@@ -35,7 +38,9 @@ async function main() {
                 id: coin.id,
                 symbol: coin.symbol,
                 name: coin.name,
-                image: details?.logo // 使用可选链确保当details没有值时不会出错
+                image: details?.logo, // 使用可选链确保当details没有值时不会出错
+                marketPrice: coin.quote.USD.price,
+                marketPriceAt: date
             },
         });
     }

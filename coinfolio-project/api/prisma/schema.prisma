@@ -22,6 +22,8 @@ model Coin {
   name           String 
   image          String?
   transactions   Transaction[] // This assumes a transaction is associated with a specific coin
+  marketPrice    Float       @default(0)
+  marketPriceAt  DateTime    @default(now())
 }
 
 model Transaction {
