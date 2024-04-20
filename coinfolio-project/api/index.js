@@ -51,6 +51,11 @@ const prisma = new PrismaClient();
 //     res.json(user);
 // });
 
+app.get("/ping", (req, res) => {
+    res.send("pong");
+  }
+);
+
 app.post("/verify-user", requireAuth, async (req, res) => {
     const auth0Id = req.auth.payload.sub;
     const email = req.auth.payload[`${process.env.AUTH0_AUDIENCE}/email`];

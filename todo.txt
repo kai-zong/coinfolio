@@ -8,8 +8,6 @@ The details page allows users to view a detailed view for each item.
 
 Must be mapped to /details/{unique identifier} or /details?identifier={unique identifier} where unique identifier uniquely identifies the item being displayed (this can be transactions)
 
-Must have /ping endpoint
-
 Web application must be usable on a desktop, tablet, or phone
 
 Web pages must be responsive at any width of the browser
