@@ -38,18 +38,18 @@ const prisma = new PrismaClient();
 
 // });
 
-app.get("/:id", async (req, res) => {
-    // const auto0Id = req.auth.payload.sub;
-    const id = req.params.id;
+// app.get("/:id", async (req, res) => {
+//     // const auto0Id = req.auth.payload.sub;
+//     const id = req.params.id;
 
-    const user = await prisma.user.findUnique({
-        where: {
-            id: parseInt(id),
-        },
-    });
+//     const user = await prisma.user.findUnique({
+//         where: {
+//             id: parseInt(id),
+//         },
+//     });
 
-    res.json(user);
-});
+//     res.json(user);
+// });
 
 app.post("/verify-user", requireAuth, async (req, res) => {
     const auth0Id = req.auth.payload.sub;
@@ -81,7 +81,7 @@ app.post("/verify-user", requireAuth, async (req, res) => {
 
 
   // get transaction detials of a user
-  app.get('/transactions', async (req, res) => {
+  app.get('/transactions/:userId', async (req, res) => {
     const { userId } = req.params;
   
     try {
@@ -97,6 +97,8 @@ app.post("/verify-user", requireAuth, async (req, res) => {
               }
             },
       });
+
+      console.log(userData.transactions)
   
       if (userData) {
         res.status(200).json(userData);
@@ -162,6 +164,69 @@ app.post("/verify-user", requireAuth, async (req, res) => {
 
     res.json(transaction);
   });
+
+  // get all coins in the database
+  app.get("/coins", async (req, res) => {
+    const coins = await prisma.coin.findMany();
+    
+    res.json(coins);
+  });
+
+// 更新币种数据的函数
+async function updateCoinData() {
+  try {
+      const response = await axios.get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest', {
+          params: {
+              start: 1,
+              limit: 50,
+              convert: 'USD'
+          },
+          headers: {
+              'X-CMC_PRO_API_KEY': process.env.CMC_API_KEY
+          }
+      });
+
+      const coins = response.data.data;
+      const currentTimestamp = new Date(response.data.status.timestamp);
+
+      await Promise.all(coins.map(async (coin) => {
+          const { id, symbol, name, quote } = coin;
+          const { price } = quote.USD;
+
+          await prisma.coin.upsert({
+              where: { id },
+              update: {
+                  symbol,
+                  name,
+                  marketPrice: price,
+                  marketPriceAt: currentTimestamp
+              },
+              create: {
+                  id,
+                  symbol,
+                  name,
+                  marketPrice: price,
+                  marketPriceAt: currentTimestamp
+              }
+          });
+      }));
+
+      return "Coin data updated successfully.";
+  } catch (error) {
+      console.error("Failed to update coin data:", error);
+      throw error;
+  }
+}
+
+// Endpoint to trigger the update
+app.post('/update-coins', async (req, res) => {
+  try {
+      const result = await updateCoinData();
+      res.send(result);
+  } catch (error) {
+      res.status(500).send(`Error updating coin data: ${error.message}`);
+  }
+});
 
   // 3rd-party API (coinmarketcap) to get the latest price of the top n cryptocurrencies
   app.get("/cryptos/:limit", async (req, res) => {
