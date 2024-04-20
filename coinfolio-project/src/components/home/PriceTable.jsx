@@ -1,7 +1,7 @@
 import React from 'react';
 import Ticker from './Ticker';
 import { useState } from 'react';
-import { useUserAndPriceTable } from '../UserAndPriceTableContext';
+import { useUserAndPriceTable } from '../../UserAndPriceTableContext';
 
 
 function PriceTable() {

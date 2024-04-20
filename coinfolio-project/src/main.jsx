@@ -2,11 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { BrowserRouter, Routes, Route, redirect } from 'react-router-dom';
-import Portfolio from './components/portfolio.jsx';
-import Transactions from './components/Transactions.jsx';
-import Summary from './components/Summary.jsx';
+import Portfolio from './components/portfolio/portfolio.jsx';
+import Transactions from './components/portfolio/transaction/Transactions.jsx';
+import Summary from './components/portfolio/Summary.jsx';
 import Nav from './components/Nav.jsx';
-import PriceTable from './components/PriceTable.jsx';
+import PriceTable from './components/home/PriceTable.jsx';
 import { UserAndPriceTableProvider } from './UserAndPriceTableContext.jsx';
 import {Auth0Provider} from '@auth0/auth0-react';
 import config from './config.js';
