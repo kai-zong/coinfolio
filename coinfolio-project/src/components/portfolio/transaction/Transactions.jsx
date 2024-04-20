@@ -6,6 +6,10 @@ function Transactions() {
     const userId = 1; // Replace with the actual user ID
 
     useEffect(() => {
+        fetchTransactions();
+    }, [userId]); // run effect only once when the component mounts
+
+    const fetchTransactions = async () => {
         fetch(`http://localhost:3001/transactions/${userId}`)
             .then(response => {
                 if (!response.ok) {
@@ -19,9 +23,11 @@ function Transactions() {
             .catch(error => {
                 console.error('Failed to fetch transactions:', error);
             });
-    }, [userId]); // run effect only once when the component mounts
+    };
 
-    console.log('Transactions:', transactions);
+    const handleDeleteTransaction = () => {
+        fetchTransactions();
+    };
 
     return (
         <div className='w-full px-5 m-3'>
@@ -42,7 +48,7 @@ function Transactions() {
                 {transactions
                     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                     .map((transaction, index) => (
-                        <TransDetails key={index} transaction={transaction} />
+                        <TransDetails key={index} transaction={transaction} onTransactionDelete={handleDeleteTransaction} />
                 ))}
             </tbody>
         </table>
