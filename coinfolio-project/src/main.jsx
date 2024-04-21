@@ -11,6 +11,7 @@ import { UserAndPriceTableProvider } from './UserAndPriceTableContext.jsx';
 import {Auth0Provider} from '@auth0/auth0-react';
 import config from './config.js';
 import VerifyUser from './components/VerifyUser.jsx';
+import Profile from './components/portfolio/Profile.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const requestedScopes = ["profile", "email"];
@@ -35,6 +36,7 @@ root.render(
         <Route path="portfolio" element={<Portfolio />}>
           <Route index element={<Summary />} />
           <Route path="transactions" element={<Transactions />} />
+          <Route path="profile" element={<Profile />} />
           {/* Define other nested routes for Portfolio here */}
         </Route>
         {/* Define other routes */}

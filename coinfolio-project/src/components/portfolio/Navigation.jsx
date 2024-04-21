@@ -11,6 +11,9 @@ function Navigation({ toggleMenu }) {
                 <li className="px-2 py-1 hover:bg-gray-100">
                     <Link to="transactions">Transactions</Link>
                 </li>
+                <li className="px-2 py-1 hover:bg-gray-100">
+                    <Link to="profile">Profile</Link>
+                </li>
                 <li className="px-2 py-1">
                     <button onClick={toggleMenu} className="hover:bg-gray-100 w-full text-center py-2 rounded bg-blue-500 hover:bg-blue-600 text-white transition-colors">
                         Add Transaction

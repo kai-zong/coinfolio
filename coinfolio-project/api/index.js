@@ -56,6 +56,7 @@ app.get("/ping", (req, res) => {
   }
 );
 
+
 app.post("/verify-user", requireAuth, async (req, res) => {
     const auth0Id = req.auth.payload.sub;
     const email = req.auth.payload[`${process.env.AUTH0_AUDIENCE}/email`];
@@ -295,6 +296,44 @@ app.post('/update-coins', async (req, res) => {
         console.error('Failed to get portfolio:', error);
         res.status(500).send(`An error occurred: ${error.message}`);
     }
+});
+app.get('/profile/:userId', async (req, res) => {
+  const userId = parseInt(req.params.userId);
+  console.log(`Fetching profile for user ID: ${req.params.userId}`);
+  try {
+      const user = await prisma.user.findUnique({
+          where: {
+              id: userId
+          }
+      });
+      if (user) {
+          res.json(user);
+      } else {
+          res.status(404).json({ message: 'User not found' });
+      }
+  } catch (error) {
+      res.status(500).json({ message: 'Error fetching user data', error });
+  }
+});
+
+// PUT endpoint to update user name
+app.put('/profile/:userId', async (req, res) => {
+  const userId = parseInt(req.params.userId);
+  const { name } = req.body;
+
+  try {
+      const updatedUser = await prisma.user.update({
+          where: {
+              id: userId
+          },
+          data: {
+              name: name
+          }
+      });
+      res.json({ message: 'User updated successfully', user: updatedUser });
+  } catch (error) {
+      res.status(500).json({ message: 'Error updating user', error });
+  }
 });
 
   app.listen(PORT, () => {
