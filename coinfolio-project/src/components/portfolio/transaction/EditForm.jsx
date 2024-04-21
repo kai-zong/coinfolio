@@ -59,55 +59,57 @@ export default function EditForm({ transaction, onCancel, onEdit }) {
     
 
     return (
-        <div className="modal rounded-2xl bg-gray-700 p-3">
+        <div className="modal-backdrop">
+            <div className="modal-content">
             <form onSubmit={handleSubmit}>
 
-                <div className="flex justify-center">
-                    <h2 className="text-2xl font-bold">Edit Transaction</h2>
-                </div>
+<div className="flex justify-center">
+    <h2 className="text-2xl font-bold">Edit Transaction</h2>
+</div>
 
-                <div className="justify-center">
-                    <div className="flex flex-col">
-                        <label>Coin:</label>
-                        <div className="flex items-center px-1">
-                            <img src={transaction.coin.image} alt={transaction.coin.name} className="h-5 w-5" />
-                            <p className="px-1">{transaction.coin.name} ({transaction.coin.symbol})</p>
-                        </div>
-                    </div>
-                    <div className="flex flex-col">
-                        <label>Transfer</label>
-                        <select name="transfer" id="transfer" value={transferValue ? "In" : "Out"}
-                            onChange={(e) => setTransferValue(e.target.value === "In")}>
-                            <option value="In">Transfer In</option>
-                            <option value="Out">Transfer Out</option>
-                        </select>
-                    </div>
-                    <div className="flex flex-col">
-                        <label>Amount:</label>
-                        <input type="number" id="amount" name="amount" value={amount} onChange={(e) => setAmount(e.target.value)}/>
-                    </div>
-                    <div>
-                        <label className="flex flex-col">Cost:</label>
-                        <input type="number" id="atPrice" name="atPrice" value={coinPriceCost} onChange={(e) => setCoinPriceCost(e.target.value)}/>
-                    </div>
+<div className="justify-center">
+    <div className="flex flex-col">
+        <label>Coin:</label>
+        <div className="flex items-center px-1">
+            <img src={transaction.coin.image} alt={transaction.coin.name} className="h-5 w-5" />
+            <p className="px-1">{transaction.coin.name} ({transaction.coin.symbol})</p>
+        </div>
+    </div>
+    <div className="flex flex-col">
+        <label>Transfer</label>
+        <select name="transfer" id="transfer" value={transferValue ? "In" : "Out"}
+            onChange={(e) => setTransferValue(e.target.value === "In")}>
+            <option value="In">Transfer In</option>
+            <option value="Out">Transfer Out</option>
+        </select>
+    </div>
+    <div className="flex flex-col">
+        <label>Amount:</label>
+        <input type="number" id="amount" name="amount" value={amount} onChange={(e) => setAmount(e.target.value)}/>
+    </div>
+    <div>
+        <label className="flex flex-col">Cost:</label>
+        <input type="number" id="atPrice" name="atPrice" value={coinPriceCost} onChange={(e) => setCoinPriceCost(e.target.value)}/>
+    </div>
 
-                    <div>
-                        <p>Amount in USD($): {amount * coinPriceCost}</p>
-                    </div>
-                    <div>
-                        <p>Date: {formattedDate} {formattedTime}</p>
-                    </div>
-                    <div className="flex flex-row justify-evenly p-5">
-                        <button type="button" onClick={onCancel}>
-                            Cancel
-                        </button>
-                        <button type="submit">
-                            Edit
-                        </button>
-                    </div>
-                </div>
+    <div>
+        <p>Amount in USD($): {amount * coinPriceCost}</p>
+    </div>
+    <div>
+        <p>Date: {formattedDate} {formattedTime}</p>
+    </div>
+    <div className="flex flex-row justify-evenly p-5">
+        <button type="button" onClick={onCancel}>
+            Cancel
+        </button>
+        <button type="submit">
+            Edit
+        </button>
+    </div>
+</div>
 
-            </form>
+</form>
+            </div>
         </div>
     );
 }
