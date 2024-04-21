@@ -3,17 +3,14 @@ import { Outlet } from 'react-router-dom';
 import Navigation from './Navigation';
 import CoinMenu from './transaction/CoinMenu';
 import TransactionForm from './transaction/TransactionForm';
+import { useUserAndPriceTable } from '../../UserAndPriceTableContext';
 
 function Portfolio() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [selectedCoin, setSelectedCoin] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-    const [coins, setCoins] = useState([
-        { id: 1, name: 'Coin 1' },
-        { id: 2, name: 'Coin 2' },
-        { id: 3, name: 'Coin 3' }
-    ]);
+    const {coins} = useUserAndPriceTable();
 
     const filteredCoins = coins.filter(coin =>
         coin.name.toLowerCase().includes(searchQuery.toLowerCase())

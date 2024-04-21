@@ -1,6 +1,9 @@
 import React from 'react';
+import { useState } from 'react';
+import { useUserAndPriceTable } from '../../../UserAndPriceTableContext';
 
 function CoinMenu({ searchQuery, setSearchQuery, filteredCoins, handleCoinClick, closeMenu }) {
+
     return (
         <div className="w-32 p-2">
             <input
