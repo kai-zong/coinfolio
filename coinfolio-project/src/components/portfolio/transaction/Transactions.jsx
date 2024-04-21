@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import TransDetails from './TransDetails';
+import EditForm from './EditForm';
 
 function Transactions() {
     const [transactions, setTransactions] = useState([]);
+    const [formVisible, setFormVisible] = useState(false); // hide the form by default
+    const [selectedTransaction, setSelectedTransaction] = useState(null);
+
     const userId = 1; // Replace with the actual user ID
 
     useEffect(() => {
@@ -29,8 +33,22 @@ function Transactions() {
         fetchTransactions();
     };
 
+    const handleEditTransaction = (transaction) => {
+        setSelectedTransaction(transaction);
+        setFormVisible(true);
+    }
+
+    const handleCancelEdit = () => {    
+        setFormVisible(false);
+        setSelectedTransaction(null);
+    }
+
+
     return (
         <div className='w-full px-5 m-3'>
+            <div className='w-full px-5 flex justify-center'>
+                {formVisible && <EditForm transaction={selectedTransaction} onCancel={handleCancelEdit} />}
+            </div>
             <table className="table-auto w-full text-left">
                 <thead>
                     <tr>
@@ -48,7 +66,7 @@ function Transactions() {
                     {transactions
                         .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                         .map((transaction, index) => (
-                            <TransDetails key={index} transaction={transaction} onTransactionDelete={handleDeleteTransaction} />
+                            <TransDetails key={index} transaction={transaction} onTransactionDelete={handleDeleteTransaction} onTransactionEdit={handleEditTransaction} />
                         ))}
                 </tbody>
             </table>
