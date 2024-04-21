@@ -6,6 +6,7 @@ function Transactions() {
     const [transactions, setTransactions] = useState([]);
     const [formVisible, setFormVisible] = useState(false); // hide the form by default
     const [selectedTransaction, setSelectedTransaction] = useState(null);
+    
 
     const userId = 1; // Replace with the actual user ID
 
@@ -47,7 +48,7 @@ function Transactions() {
     return (
         <div className='w-full px-5 m-3'>
             <div className='w-full px-5 flex justify-center'>
-                {formVisible && <EditForm transaction={selectedTransaction} onCancel={handleCancelEdit} />}
+                {formVisible && <EditForm transaction={selectedTransaction} onCancel={handleCancelEdit} onEdit={fetchTransactions}/>}
             </div>
             <table className="table-auto w-full text-left">
                 <thead>

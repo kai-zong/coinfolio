@@ -27,7 +27,7 @@ function TransDetails({ transaction, index, onTransactionDelete, onTransactionEd
     };
 
     const handleEdit = () => {
-        onTransactionEdit(transaction.id);
+        onTransactionEdit(transaction);
     }
 
     return (
