@@ -8,7 +8,7 @@ function CoinMenu({ searchQuery, setSearchQuery, filteredCoins, handleCoinClick,
                 placeholder="Search coins..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full mb-2"
+                className="w-full p-2 mb-4 text-gray-700 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500"
             />
             <div className="flex-grow overflow-y-auto">
                 <ul className="space-y-1">

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from './Modal';
+import axios from 'axios';
 
 function TransactionForm({ isOpen, onClose, selectedCoin }) {
   const [transactionData, setTransactionData] = useState({
@@ -31,10 +32,23 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({...transactionData, totalValue}); // Now also logs the total value
-    onClose();
-  };
+    const postData = {
+      ...transactionData,
+      totalValue, // Adding total value to the data sent to the server
+      coinId: transactionData.coinId // Ensure the coinId is correctly set from selectedCoin if needed
+    };
 
+    try {
+      const response = await axios.post('http://localhost:3001/addTransaction', postData);
+      console.log('Response:', response.data);
+      alert('Transaction added successfully!');
+      onClose(); // Close the modal only if the request is successful
+    } catch (err) {
+      console.error('Failed to submit transaction:', err);
+      alert('Failed to add transaction'); // Provide feedback in case of an error
+    }
+  };
+ 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <form onSubmit={handleSubmit} className="space-y-4">
