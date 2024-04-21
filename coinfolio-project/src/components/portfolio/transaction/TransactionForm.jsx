@@ -9,7 +9,6 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
     transferIn: true,  // Default to true, can be toggled
   });
 
-  // Effect to update form when coin is selected or modal is opened
   useEffect(() => {
     if (selectedCoin) {
       setTransactionData(prev => ({
@@ -20,16 +19,20 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
   }, [selectedCoin]);
 
   const handleInputChange = (e) => {
-    setTransactionData({
-      ...transactionData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value } = e.target;
+    setTransactionData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
+
+  // Calculate total value whenever amount or coin price cost changes
+  const totalValue = parseFloat(transactionData.amount || 0) * parseFloat(transactionData.coinPriceCost || 0);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(transactionData);
-    onClose();  // Use passed onClose to close modal
+    console.log({...transactionData, totalValue}); // Now also logs the total value
+    onClose();
   };
 
   return (
@@ -37,14 +40,7 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="coinId">Coin</label>
-          <input
-            type="text"
-            id="coinId"
-            name="coinId"
-            value={transactionData.coinId}
-            onChange={handleInputChange}
-            required
-          />
+          <span id="coinId" className="p-2 bg-gray-100 rounded block">{transactionData.coinId}</span>
         </div>
         <div>
           <label htmlFor="coinPriceCost">Coin Price Cost</label>
@@ -69,15 +65,19 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
           />
         </div>
         <div>
+          <label htmlFor="totalValue">Total in USD</label>
+          <span id="totalValue" className="p-2 bg-gray-100 rounded block">{totalValue.toFixed(2)}</span>
+        </div>
+        <div>
           <label>
             <input
               type="checkbox"
               name="transferIn"
               checked={transactionData.transferIn}
-              onChange={() => setTransactionData({
-                ...transactionData,
-                transferIn: !transactionData.transferIn
-              })}
+              onChange={() => setTransactionData(prev => ({
+                ...prev,
+                transferIn: !prev.transferIn
+              }))}
             />
             Transfer In
           </label>

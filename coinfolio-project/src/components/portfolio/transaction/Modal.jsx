@@ -6,7 +6,10 @@ function Modal({ isOpen, onClose, children }) {
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center">
       <div className="bg-white p-4 rounded-lg shadow-lg max-w-sm w-full">
-        <button onClick={onClose} className="float-right font-bold">x</button>
+        <div className="flex justify-between items-center">
+          <h2>Transaction Form</h2>
+          <button onClick={onClose} className="text-xl cursor-pointer">×</button>
+        </div>
         {children}
       </div>
     </div>

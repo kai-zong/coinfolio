@@ -5,7 +5,17 @@ import TransactionForm from './transaction/TransactionForm';  // Import your tra
 function Portfolio() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isFormOpen, setIsFormOpen] = useState(false);
-    const [selectedCoin, setSelectedCoin] = useState(null);  // To hold the selected coin data
+    const [selectedCoin, setSelectedCoin] = useState(null);  
+    const [searchQuery, setSearchQuery] = useState('');
+    const [coins, setCoins] = useState([
+        { id: 1, name: 'Coin 1' },
+        { id: 2, name: 'Coin 2' },
+        { id: 3, name: 'Coin 3' }
+    ]);
+
+    const filteredCoins = coins.filter(coin =>
+        coin.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -16,9 +26,9 @@ function Portfolio() {
     };
 
     const handleCoinClick = (coin) => {
-        setSelectedCoin(coin);  // Set the selected coin
-        setIsFormOpen(true);    // Open the transaction form
-        setIsMenuOpen(false);   // Optionally close the menu
+        setSelectedCoin(coin);  
+        setIsFormOpen(true);    
+        setIsMenuOpen(false);   
     };
 
     const closeForm = () => {
@@ -48,10 +58,19 @@ function Portfolio() {
 
             <div className={menuClasses}>
                 <div className="w-32 p-2">
+                    <input
+                        type="text"
+                        placeholder="Search coins..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full p-2 mb-4 text-black"
+                    />
                     <ul className="space-y-1">
-                        <li className="px-2 py-1 hover:bg-gray-700 cursor-pointer" onClick={() => handleCoinClick('Coin 1')}>Coin 1</li>
-                        <li className="px-2 py-1 hover:bg-gray-700 cursor-pointer" onClick={() => handleCoinClick('Coin 2')}>Coin 2</li>
-                        {/* More coins can be added similarly */}
+                        {filteredCoins.map(coin => (
+                            <li key={coin.id} className="px-2 py-1 hover:bg-gray-700 cursor-pointer" onClick={() => handleCoinClick(coin.name)}>
+                                {coin.name}
+                            </li>
+                        ))}
                     </ul>
                     <button onClick={closeMenu} className="mt-4 px-4 py-2 bg-gray-700 rounded hover:bg-gray-600">
                         Cancel
@@ -62,7 +81,6 @@ function Portfolio() {
                 <Outlet />
             </main>
 
-            {/* Transaction Form Modal */}
             <TransactionForm isOpen={isFormOpen} onClose={closeForm} selectedCoin={selectedCoin} />
         </div>
     );
