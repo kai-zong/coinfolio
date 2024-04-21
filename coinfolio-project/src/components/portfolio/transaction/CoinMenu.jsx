@@ -1,26 +1,25 @@
 import React from 'react';
-import { useState } from 'react';
-import { useUserAndPriceTable } from '../../../UserAndPriceTableContext';
 
 function CoinMenu({ searchQuery, setSearchQuery, filteredCoins, handleCoinClick, closeMenu }) {
-
     return (
-        <div className="w-32 p-2">
+        <div className="w-32 p-2 h-full flex flex-col">
             <input
                 type="text"
                 placeholder="Search coins..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full p-2 mb-4 text-black"
+                className="w-full mb-2"
             />
-            <ul className="space-y-1">
-                {filteredCoins.map(coin => (
-                    <li key={coin.id} className="px-2 py-1 hover:bg-gray-700 cursor-pointer" onClick={() => handleCoinClick(coin.name)}>
-                        {coin.name}
-                    </li>
-                ))}
-            </ul>
-            <button onClick={closeMenu} className="mt-4 px-4 py-2 bg-gray-700 rounded hover:bg-gray-600">
+            <div className="flex-grow overflow-y-auto">
+                <ul className="space-y-1">
+                    {filteredCoins.map(coin => (
+                        <li key={coin.id} className="px-2 py-1 hover:bg-gray-700 cursor-pointer" onClick={() => handleCoinClick(coin.name)}>
+                            {coin.name}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            <button onClick={closeMenu} className="w-full mt-2 px-4 py-2 bg-gray-700 rounded hover:bg-gray-600 text-white text-center">
                 Cancel
             </button>
         </div>
