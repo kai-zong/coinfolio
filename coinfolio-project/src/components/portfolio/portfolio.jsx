@@ -10,9 +10,9 @@ function Portfolio() {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [selectedCoin, setSelectedCoin] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-    const {coins} = useUserAndPriceTable();
+    const { displayedCoins } = useUserAndPriceTable();
 
-    const filteredCoins = coins.filter(coin =>
+    const filteredCoins = displayedCoins.filter(coin =>
         coin.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
