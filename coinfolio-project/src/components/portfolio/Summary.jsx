@@ -3,12 +3,20 @@ import { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';
 import { Doughnut, Bar } from 'react-chartjs-2';
 import PortfolioTable from './PortfolioTable';
+import { useUserAndPriceTable } from '../../UserAndPriceTableContext';
 
 function Summary() {
 
     // request API to get the transaction details of a user
     const [portfolio, setPortfolio] = useState([]);
     const userId = 1; // Replace with the actual user ID
+
+    const { displayedCoins, updateCoins, updateTime } = useUserAndPriceTable();
+
+    const formattedDate = new Date(updateTime).toLocaleDateString();
+    const formattedTime = new Date(updateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    console.log('displayCoins:', displayedCoins);
 
     useEffect(() => {
         fetch(`http://localhost:3001/portfolio/${userId}`)
@@ -91,9 +99,19 @@ function Summary() {
 
     return (
         <div className="summary-container x-4">
-            <p className="font-sans text-lg font-semibold text-gray-400">Sean's Portfolio</p>
-            <p className="font-sans text-3xl">$140,230.80</p>
-            <p>+ $3268.33 &uarr; 2.68% (24h)</p>
+            <div className="flex justify-between items-center">
+                <div>
+                    <p className="font-sans text-lg font-semibold text-gray-400">Sean's Portfolio</p>
+                    <p className="font-sans text-3xl">$140,230.80</p>
+                    <p>+ $3268.33 &uarr; 2.68% (24h)</p>
+                </div>
+                <div>
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={updateCoins} >
+                        Refresh Data
+                    </button>
+                    <p>Last Update: {formattedDate} {formattedTime}</p>
+                </div>
+            </div>
             <div className="summary-detail mt-4">
                 {/* Content of the first div with border and spacing */}
                 <div className="detail-1 p-4 mb-4 border rounded-lg">
