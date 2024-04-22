@@ -68,6 +68,8 @@ function UserAndPriceTableProvider({ children }) {
     // updateCoins();
   }, []);
 
+  console.log('accessToken:', accessToken)
+
   return (
     <UserAndPriceTableContext.Provider value={{
       userData, setUserData,

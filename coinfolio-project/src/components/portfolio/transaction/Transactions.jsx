@@ -9,12 +9,17 @@ function Transactions() {
     const [formVisible, setFormVisible] = useState(false); // hide the form by default
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     
-    const { displayedCoins } = useUserAndPriceTable();
-
-    const userId = 1; // Replace with the actual user ID
+    const { accessToken } = useUserAndPriceTable();
+    console.log('accessToken at trans:', accessToken)
 
     const fetchTransactions = async () => {
-        fetch(`http://localhost:3001/transactions/${userId}`)
+
+        fetch(`http://localhost:3001/transactions`, {
+            headers: {
+                "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -31,7 +36,7 @@ function Transactions() {
 
     useEffect(() => {
         fetchTransactions();
-    }, [userId]); // run when user changes
+    }, [accessToken]); // run when user changes
 
     const handleDeleteTransaction = () => {
         fetchTransactions();

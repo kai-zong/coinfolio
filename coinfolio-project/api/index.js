@@ -90,13 +90,13 @@ app.post("/verify-user", requireAuth, async (req, res) => {
 
 
   // get transaction detials of a user
-  app.get('/transactions/:userId', async (req, res) => {
-    const { userId } = req.params;
+  app.get('/transactions', requireAuth, async (req, res) => {
+    const auth0Id = req.auth.payload.sub;
   
     try {
       const userData = await prisma.user.findUnique({
         where: {
-          id: parseInt(userId), // id is a string, so we need to convert it to a number
+          auth0Id: auth0Id, // id is a string, so we need to convert it to a number
         },
             include: {
               transactions: {

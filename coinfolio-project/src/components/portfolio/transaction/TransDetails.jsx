@@ -1,8 +1,8 @@
-
-
 import React from 'react';
+import { useUserAndPriceTable } from '../../../UserAndPriceTableContext';
 
 function TransDetails({ transaction, index, onTransactionDelete, onTransactionEdit }) {
+    const { accessToken } = useUserAndPriceTable();
 
     const formattedDate = new Date(transaction.createdAt).toLocaleDateString();
     const formattedTime = new Date(transaction.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
