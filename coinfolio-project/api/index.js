@@ -115,23 +115,54 @@ app.post("/verify-user", requireAuth, async (req, res) => {
     });
 
   // create a new transaction for a user
-  app.post("/transaction", async (req, res) => {
-    const { userId, coinId, coinPriceCost, transferIn, amount } = req.body;
+  
+  app.post("/transaction", requireAuth, async (req, res) => {
+    try {
+      const auth0Id = req.auth.payload.sub;
+      const { coinId, coinPriceCost, transferIn, amount } = req.body;
+  
+      // Explicitly parse integers and floats to ensure correct types
+      const parsedCoinId = parseInt(coinId, 10);
+      const parsedCoinPriceCost = parseFloat(coinPriceCost);
+      const parsedAmount = parseFloat(amount);
 
-    const transaction = await prisma.transaction.create({
-      data: {
-        userId,
-        coinId,
-        coinPriceCost,
-        transferIn,
-        amount: transferIn ? amount : -amount,
-        amountInUSD: transferIn ? amount * coinPriceCost : -amount * coinPriceCost,
-      },
-    });
-
-    res.json(transaction);
-  });
-
+      // Check for missing fields and NaN values from incorrect parsing
+      if (isNaN(parsedCoinId) || isNaN(parsedCoinPriceCost) || transferIn === undefined || isNaN(parsedAmount)) {
+        return res.status(400).json({ error: "Missing required fields or invalid data types", details: {
+          isCoinIdInvalid: isNaN(parsedCoinId),
+          isCoinPriceCostInvalid: isNaN(parsedCoinPriceCost),
+          isAmountInvalid: isNaN(parsedAmount),
+          isTransferInUndefined: transferIn === undefined
+        }});
+      }
+  
+      // Retrieve the user based on auth0Id
+      const user = await prisma.user.findUnique({
+        where: { auth0Id }
+      });
+  
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+  
+      // Create the transaction
+      const transaction = await prisma.transaction.create({
+        data: {
+          userId: user.id,
+          coinId: parsedCoinId,
+          coinPriceCost: parsedCoinPriceCost,
+          transferIn,
+          amount: transferIn ? parsedAmount : -parsedAmount,
+          amountInUSD: transferIn ? parsedAmount * parsedCoinPriceCost : -parsedAmount * parsedCoinPriceCost,
+        },
+      });
+  
+      res.status(201).json(transaction);
+    } catch (error) {
+      console.error("Failed to create transaction:", error);
+      res.status(500).json({ error: "Internal server error", details: error.message });
+    }
+});
 
   // delete a transaction
   app.delete("/transaction/:transId", async (req, res) => {

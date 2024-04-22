@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import Modal from './Modal';
 import axios from 'axios';
+import {useUserAndPriceTable} from "../../../UserAndPriceTableContext.jsx"
 
 function TransactionForm({ isOpen, onClose, selectedCoin }) {
   const [transactionData, setTransactionData] = useState({
     coinId: '',
     coinPriceCost: '',
+    transferIn: true,
     amount: '',
-    transferIn: true,  // Default to true, can be toggled
+      // Default to true, can be toggled
   });
 
+  const { accessToken } = useUserAndPriceTable();
+
   useEffect(() => {
-    if (selectedCoin) {
+    if (selectedCoin.id) {
       setTransactionData(prev => ({
         ...prev,
-        coinId: selectedCoin
+        coinId: selectedCoin.id
       }));
     }
   }, [selectedCoin]);
@@ -34,12 +38,16 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
     e.preventDefault();
     const postData = {
       ...transactionData,
-      totalValue, // Adding total value to the data sent to the server
-      coinId: transactionData.coinId // Ensure the coinId is correctly set from selectedCoin if needed
+      userId: 1, // Hardcoded for now, will be dynamic in the future
     };
 
     try {
-      const response = await axios.post('http://localhost:3001/transaction', postData);
+      const response = await axios.post('http://localhost:3001/transaction', postData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        }
+      });
       console.log('Response:', response.data);
       alert('Transaction added successfully!');
       onClose(); // Close the modal only if the request is successful
@@ -51,13 +59,13 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
  
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="coinId">Coin</label>
-          <span id="coinId" className="p-2 bg-gray-100 rounded block">{transactionData.coinId}</span>
+      <form onSubmit={handleSubmit} className="space-y-4 bg-gray-800 p-4 rounded-lg text-white">
+        <div className="mb-2">
+          <label htmlFor="coinId" className="block text-sm font-medium text-gray-300">Coin</label>
+          <span id="coinId" className="p-2 bg-gray-100 text-gray-900 rounded block">{selectedCoin.name}</span>
         </div>
-        <div>
-          <label htmlFor="coinPriceCost">Coin Price Cost</label>
+        <div className="mb-2">
+          <label htmlFor="coinPriceCost" className="block text-sm font-medium text-gray-300">Coin Price Cost</label>
           <input
             type="number"
             id="coinPriceCost"
@@ -65,10 +73,11 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
             value={transactionData.coinPriceCost}
             onChange={handleInputChange}
             required
+            className="mt-1 block w-full p-2 bg-gray-100 border-gray-300 rounded-md shadow-sm text-gray-900"
           />
         </div>
-        <div>
-          <label htmlFor="amount">Amount</label>
+        <div className="mb-2">
+          <label htmlFor="amount" className="block text-sm font-medium text-gray-300">Amount</label>
           <input
             type="number"
             id="amount"
@@ -76,14 +85,15 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
             value={transactionData.amount}
             onChange={handleInputChange}
             required
+            className="mt-1 block w-full p-2 bg-gray-100 border-gray-300 rounded-md shadow-sm text-gray-900"
           />
         </div>
-        <div>
-          <label htmlFor="totalValue">Total in USD</label>
-          <span id="totalValue" className="p-2 bg-gray-100 rounded block">{totalValue.toFixed(2)}</span>
+        <div className="mb-2">
+          <label htmlFor="totalValue" className="block text-sm font-medium text-gray-300">Total in USD</label>
+          <span id="totalValue" className="p-2 bg-gray-100 text-gray-900 rounded block">{totalValue.toFixed(2)}</span>
         </div>
-        <div>
-          <label>
+        <div className="mb-4">
+          <label className="inline-flex items-center">
             <input
               type="checkbox"
               name="transferIn"
@@ -92,11 +102,12 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
                 ...prev,
                 transferIn: !prev.transferIn
               }))}
+              className="form-checkbox h-5 w-5 text-indigo-600"
             />
-            Transfer In
+            <span className="ml-2 text-sm text-gray-300">Transfer In</span>
           </label>
         </div>
-        <button type="submit" className="btn-primary">
+        <button type="submit" className="btn-primary w-full">
           Submit Transaction
         </button>
       </form>
