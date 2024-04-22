@@ -31,7 +31,7 @@ function Portfolio() {
     const menuClasses = `fixed inset-y-0 left-0 transform bg-gray-800 text-white transition duration-300 ease-in-out z-20 ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`;
 
     return (
-        <div className="flex">
+        <div className="">
             <Navigation toggleMenu={toggleMenu} />
             <div className={menuClasses}>
                 <CoinMenu

@@ -1,27 +1,48 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 function Navigation({ toggleMenu }) {
+
     return (
-        <nav className="w-32 border-r-2 border-gray-200">
-            <ul className="space-y-1">
-                <li className="px-2 py-1 hover:bg-gray-100">
-                    <Link to="">Portfolio</Link>
-                </li>
-                <li className="px-2 py-1 hover:bg-gray-100">
-                    <Link to="transactions">Transactions</Link>
-                </li>
-                <li className="px-2 py-1 hover:bg-gray-100">
-                    <Link to="profile">Profile</Link>
-                </li>
-                <li className="px-2 py-1">
-                    <button onClick={toggleMenu} className="hover:bg-gray-100 w-full text-center py-2 rounded bg-blue-500 hover:bg-blue-600 text-white transition-colors">
-                        Add Transaction
-                    </button>
-                </li>
-            </ul>
+        <nav className="flex justify-between items-center border-b border-gray-700 ">
+            <div className="flex flex-row text-lg text-gray-400 font-semibold px-3">
+                <NavLink
+                    to=""
+                    className={({ isActive }) =>
+                        `px-2 hover:text-white ${isActive ? 'text-white' : ''}`
+                    }
+                    end
+                >
+                    Portfolio
+                </NavLink>
+                <NavLink
+                    to="transactions"
+                    className={({ isActive }) =>
+                        `px-2 hover:text-white ${isActive ? 'text-white' : ''}`
+                    }
+                >
+                    Transactions
+                </NavLink>
+                <NavLink
+                    to="profile"
+                    className={({ isActive }) =>
+                        `px-2 hover:text-white ${isActive ? 'text-white' : ''}`
+                    }
+                >
+                    Profile
+                </NavLink>
+            </div>
+            <div className='m-2' >
+                <button
+                    onClick={toggleMenu}
+                    className="px-2 text-center rounded bg-blue-700 text-white transition-colors"
+                >
+                    Add Transaction
+                </button>
+            </div>
         </nav>
     );
+
 }
 
 export default Navigation;

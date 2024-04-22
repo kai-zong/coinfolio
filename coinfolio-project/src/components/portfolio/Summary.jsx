@@ -119,7 +119,7 @@ function Summary() {
 
     return (
         <div className="summary-container x-4 p-4">
-            <div className="flex justify-between items-center px-2">
+            <div className="flex justify-between items-center px-1">
                 <div>
                     <p className="font-sans text-lg font-semibold text-gray-400">Sean's Portfolio</p>
                     <p className="font-sans text-3xl">${summaryMarket.toFixed(2)}</p>
