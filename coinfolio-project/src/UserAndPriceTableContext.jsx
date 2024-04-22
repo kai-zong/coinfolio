@@ -16,6 +16,7 @@ function UserAndPriceTableProvider({ children }) {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [accessToken, setAccessToken] = useState();
 
+  console.log('displayedCoins (Context):', displayedCoins);
   useEffect(() => {
     const getAccessToken = async () => {
       try {
@@ -46,7 +47,7 @@ function UserAndPriceTableProvider({ children }) {
     try {
       const response = await axios.get('http://localhost:3001/coins');
       // console.log('Coins fetched:', response.data);
-      // setCoins(response.data);
+      setCoins(response.data);
       setDisplayedCoins(response.data);
     } catch (error) {
       console.error('Error fetching coins:', error);
@@ -64,6 +65,7 @@ function UserAndPriceTableProvider({ children }) {
 
   useEffect(() => {
     fetchCoins();
+    // updateCoins();
   }, []);
 
   return (
