@@ -11,7 +11,7 @@ function Items( {portfolioByCoin, index}) {
         </td>
         <td className="border-t border-b border-gray-700 px-4 py-2">{portfolioByCoin.coinDetails.symbol}</td>
         <td className="border-t border-b border-gray-700 px-4 py-2">{portfolioByCoin.coinDetails.name}</td>
-        <td className="border-t border-b border-gray-700 px-4 py-2">{portfolioByCoin.amount}</td>
+        <td className="border-t border-b border-gray-700 px-4 py-2">{portfolioByCoin.amount.toFixed(2)}</td>
         <td className="border-t border-b border-gray-700 px-4 py-2">${portfolioByCoin.amountInUSD.toFixed(2)}</td>
         <td className="border-t border-b border-gray-700 px-4 py-2">${marketPriceAmount.toFixed(2)} </td>
         <td className="border-t border-b border-gray-700 px-4 py-2"> {profitPercentage.toFixed(2)}%</td>
