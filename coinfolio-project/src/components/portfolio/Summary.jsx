@@ -15,8 +15,8 @@ function Summary() {
 
     const { displayedCoins, updateCoins, updateTime } = useUserAndPriceTable();
 
-    const formattedDate = new Date(updateTime).toLocaleDateString();
-    const formattedTime = new Date(updateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const formattedDate = updateTime ? new Date(updateTime).toLocaleDateString() : '';
+    const formattedTime = updateTime ? new Date(updateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
 
     const fetchPortfolio = () => {
         fetch(`http://localhost:3001/portfolio/${userId}`)
@@ -32,7 +32,7 @@ function Summary() {
                 const costTotal = data.reduce((acc, item) => acc + item.amountInUSD, 0);
                 setSummaryMarket(fairValueTotal);
                 setSummaryCost(costTotal);
-                
+
                 console.log('Portfolio data:', data); // Log the retrieved data
             })
             .catch(error => {
@@ -110,33 +110,36 @@ function Summary() {
         const diff = summaryMarket - summaryCost;
         const diffPercentage = (diff / summaryCost) * 100;
         const isPositive = diff > 0;
-        
+
         const sign = isPositive ? '+' : '-';
         const arrow = isPositive ? '↑' : '↓';
-        
+
         return `${sign} $${Math.abs(diff).toFixed(2)} ${arrow} ${Math.abs(diffPercentage).toFixed(2)}%`;
     }
 
     return (
-        <div className="summary-container x-4">
-            <div className="flex justify-between items-center">
+        <div className="summary-container x-4 p-4">
+            <div className="flex justify-between items-center px-2">
                 <div>
                     <p className="font-sans text-lg font-semibold text-gray-400">Sean's Portfolio</p>
                     <p className="font-sans text-3xl">${summaryMarket.toFixed(2)}</p>
                     <p>{calculatePerformance(summaryMarket, summaryCost)}</p>
                 </div>
-                <div>
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={updateCoins} >
-                    <svg class="h-6 w-6"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -5v5h5" />  <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 5v-5h-5" /></svg>
-                    </button>
-                    <p>Last Update: {formattedDate} {formattedTime}</p>
+                <div className="flex-col">
+                    <div className='flex justify-end items-start px-2 pb-2'>
+                        <svg className="h-8 w-8 cursor-pointer" onClick={updateCoins} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -5v5h5" />
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 5v-5h-5" />
+                        </svg>
+                    </div>
+                    <div className='px-2'>
+                        {formattedDate && formattedTime && <p className='text-sm italic text-gray-400'>UpdateAt: {formattedDate} {formattedTime}</p>}
+                    </div>
                 </div>
             </div>
             <div className="summary-detail mt-4">
                 {/* Content of the first div with border and spacing */}
                 <div className="detail-1 p-4 mb-4 border rounded-lg">
-                    <h2>Detail 1</h2>
-                    <p>This is the first detailed part of your summary.</p>
                     <div className="charts-container flex justify-between">
                         <div className="chart-container w-1/2 h-64"> {/* Adjust the height here */}
                             <Bar data={barChartData} options={barChartOptions} />
@@ -149,7 +152,6 @@ function Summary() {
                 </div>
                 {/* Content of the second div with border and spacing */}
                 <div className="detail-2 p-4 border rounded-lg">
-                    <h2>Detail 2</h2>
                     <PortfolioTable portfolio={portfolio} />
                 </div>
             </div>

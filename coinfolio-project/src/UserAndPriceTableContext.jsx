@@ -12,7 +12,7 @@ function UserAndPriceTableProvider({ children }) {
   const [userData, setUserData] = useState(fakeUserData);
   const [coins, setCoins] = useState([]);
   const [displayedCoins, setDisplayedCoins] = useState([]);
-  const [updateTime, setUpdateTime] = useState([]);
+  const [updateTime, setUpdateTime] = useState(Date.now());
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [accessToken, setAccessToken] = useState();
 
