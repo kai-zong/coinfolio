@@ -1,7 +1,5 @@
 Must force login only when identity is required (Use requireAuth for this)
 
-Must have an Auth Debugger page that shows the authentication token (check out the class material)
-
 Must allow users to change their personal information
 
 The details page allows users to view a detailed view for each item.
