@@ -2,10 +2,12 @@ import React from 'react';
 import Ticker from './Ticker';
 import { useState } from 'react';
 import { useUserAndPriceTable } from '../../UserAndPriceTableContext';
+import {useAuth0} from '@auth0/auth0-react';
 
 
 function PriceTable() {
     const { displayedCoins, } = useUserAndPriceTable();
+    const { isAuthenticated } = useAuth0();
 
     console.log('displayedCoins:', displayedCoins);
 
@@ -16,9 +18,11 @@ function PriceTable() {
                 <h1 className="text-4xl font-bold text-center mb-8 pt-3">
                     Welcome to Coinfolio!
                 </h1>
-                <p className="text-lg text-center mb-4 pb-3">
+                {isAuthenticated ? <p className="text-lg text-center mb-4 pb-3">
+                    Start tracking your portfolio of Top 50 Crypto Assets
+                </p> : <p className="text-lg text-center mb-4 pb-3">
                     Login to start tracking your portfolio of Top 50 Crypto Assets
-                </p>
+                </p>}
 
             </div>
 
