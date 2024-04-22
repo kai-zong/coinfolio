@@ -45,7 +45,9 @@ function Portfolio() {
             <main className="flex-grow">
                 <Outlet />
             </main>
+            {selectedCoin && (
             <TransactionForm isOpen={isFormOpen} onClose={closeForm} selectedCoin={selectedCoin} />
+)}
         </div>
     );
 }
