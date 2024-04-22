@@ -38,20 +38,20 @@ function Profile() {
     if (error) return <div>Error: {error}</div>;
 
     return (
-        <div className="container mx-auto mt-10 p-5 border rounded shadow-lg max-w-md">
-            <h1 className="text-center text-2xl font-bold mb-6">Edit Profile</h1>
-            {error && <p className="text-center text-red-500">{error}</p>}
+        <div className="p-5 flex-row">
+            <h1 className="text-2xl font-bold mb-6">Edit Profile</h1>
+            {error && <p className="text-red-500">{error}</p>}
             <div className="mb-4">
-                <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">Name:</label>
+                <label htmlFor="name" className="block text-sm font-bold mb-2">Name:</label>
                 <input
                     type="text"
                     id="name"
                     value={name}
                     onChange={handleNameChange}
-                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    className="shadow appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                 />
             </div>
-            <div className="text-center">
+            <div className="">
                 <button onClick={saveName} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     Save
                 </button>
