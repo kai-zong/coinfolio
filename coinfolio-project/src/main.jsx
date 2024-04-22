@@ -20,6 +20,11 @@ const requestedScopes = ["profile", "email"];
 function RequireAuth({ children }) {
   const { isAuthenticated, isLoading } = useAuth0();
 
+  // If the loading state is still loading, display a loading message
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   // If the user is not authenticated, redirect to the home page
   if (!isLoading && !isAuthenticated) {
     return <Navigate to="/" replace />;
