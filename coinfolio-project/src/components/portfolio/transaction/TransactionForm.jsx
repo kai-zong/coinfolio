@@ -39,7 +39,7 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
     };
 
     try {
-      const response = await axios.post('http://localhost:3001/addTransaction', postData);
+      const response = await axios.post('http://localhost:3001/transaction', postData);
       console.log('Response:', response.data);
       alert('Transaction added successfully!');
       onClose(); // Close the modal only if the request is successful

@@ -132,27 +132,6 @@ app.post("/verify-user", requireAuth, async (req, res) => {
     res.json(transaction);
   });
 
-  app.post('/addTransaction', async (req, res) => {
-    const { coinId, coinPriceCost, amount, transferIn } = req.body;
-
-    try {
-        res.send("Successfully added transaction!");
-        // const newTransaction = await prisma.transaction.create({
-        //     data: {
-        //         // Assuming you have a `Transaction` model with these fields
-        //         coinId: parseInt(coinId),
-        //         coinPriceCost: parseFloat(coinPriceCost),
-        //         amount: parseFloat(amount),
-        //         transferIn
-        //         // Add other fields as necessary
-        //     }
-        // });
-
-        // res.status(201).json(newTransaction);
-    } catch (error) {
-        res.status(500).json({ message: 'Error adding transaction', error });
-    }
-});
 
   // delete a transaction
   app.delete("/transaction/:transId", async (req, res) => {
