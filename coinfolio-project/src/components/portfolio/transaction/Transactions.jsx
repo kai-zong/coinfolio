@@ -3,6 +3,7 @@ import TransDetails from './TransDetails';
 import EditForm from './EditForm';
 import { useUserAndPriceTable } from '../../../UserAndPriceTableContext';
 
+const GET_ALL_TRANSACTIONS = 'http://localhost:3001/transactions';
 
 function Transactions() {
     const [transactions, setTransactions] = useState([]);
@@ -10,11 +11,10 @@ function Transactions() {
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     
     const { accessToken } = useUserAndPriceTable();
-    console.log('accessToken at trans:', accessToken)
 
     const fetchTransactions = async () => {
 
-        fetch(`http://localhost:3001/transactions`, {
+        fetch(`${GET_ALL_TRANSACTIONS}`, {
             headers: {
                 "Content-Type": "application/json",
               Authorization: `Bearer ${accessToken}`,

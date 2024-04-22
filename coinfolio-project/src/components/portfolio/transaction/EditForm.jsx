@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useUserAndPriceTable } from '../../../UserAndPriceTableContext';
 
 
 const EditAPIUrl = "http://localhost:3001/transaction/";
 
 export default function EditForm({ transaction, onCancel, onEdit }) {
+    const { accessToken } = useUserAndPriceTable();
+
+
     // useState to manage the selected value based on the initial prop
     const [transferValue, setTransferValue] = useState(true);
     const [amount, setAmount] = useState(transaction.amount);
@@ -36,6 +40,7 @@ export default function EditForm({ transaction, onCancel, onEdit }) {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${accessToken}`,
             },
             body: JSON.stringify(updatedTransaction),
         })

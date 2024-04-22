@@ -183,13 +183,29 @@ app.post("/verify-user", requireAuth, async (req, res) => {
   });
 
   // modify a transaction
-  app.put("/transaction/:transId", async (req, res) => {
+  app.put("/transaction/:transId", requireAuth, async (req, res) => {
+    const auth0Id = req.auth.payload.sub;
     const { transId } = req.params;
-    const { userId, coinPriceCost, transferIn, amount } = req.body;
+    const { coinPriceCost, transferIn, amount } = req.body;
 
-    // we should verify the user has the right to modify this transaction
+    // Retrieve the user based on auth0Id
+    const user = await prisma.user.findUnique({
+      where: { auth0Id }
+    });
 
-    const transaction = await prisma.transaction.update({
+    // Verify if the transaction belongs to the user
+    const transaction = await prisma.transaction.findUnique({
+      where: {
+        id: parseInt(transId),
+      },
+    });
+
+    if (transaction.userId !== user.id) {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    // Update the transaction
+    const updatedTransaction = await prisma.transaction.update({
       where: {
         id: parseInt(transId),
       },
@@ -201,7 +217,7 @@ app.post("/verify-user", requireAuth, async (req, res) => {
       },
     });
 
-    res.json(transaction);
+    res.json(updatedTransaction);
   });
 
   // get all coins in the database
