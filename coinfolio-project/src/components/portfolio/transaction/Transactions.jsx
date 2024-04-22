@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import TransDetails from './TransDetails';
 import EditForm from './EditForm';
+import { useUserAndPriceTable } from '../../../UserAndPriceTableContext';
+
 
 function Transactions() {
     const [transactions, setTransactions] = useState([]);
     const [formVisible, setFormVisible] = useState(false); // hide the form by default
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     
+    const { displayedCoins } = useUserAndPriceTable();
 
     const userId = 1; // Replace with the actual user ID
-
-    useEffect(() => {
-        fetchTransactions();
-    }, [userId]); // run effect only once when the component mounts
 
     const fetchTransactions = async () => {
         fetch(`http://localhost:3001/transactions/${userId}`)
@@ -29,6 +28,10 @@ function Transactions() {
                 console.error('Failed to fetch transactions:', error);
             });
     };
+
+    useEffect(() => {
+        fetchTransactions();
+    }, [userId]); // run when user changes
 
     const handleDeleteTransaction = () => {
         fetchTransactions();

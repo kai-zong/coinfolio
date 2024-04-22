@@ -9,6 +9,8 @@ function Summary() {
 
     // request API to get the transaction details of a user
     const [portfolio, setPortfolio] = useState([]);
+    const [summaryMarket, setSummaryMarket] = useState(0);
+    const [summaryCost, setSummaryCost] = useState(0);
     const userId = 1; // Replace with the actual user ID
 
     const { displayedCoins, updateCoins, updateTime } = useUserAndPriceTable();
@@ -16,9 +18,7 @@ function Summary() {
     const formattedDate = new Date(updateTime).toLocaleDateString();
     const formattedTime = new Date(updateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-    console.log('displayCoins:', displayedCoins);
-
-    useEffect(() => {
+    const fetchPortfolio = () => {
         fetch(`http://localhost:3001/portfolio/${userId}`)
             .then(response => {
                 if (!response.ok) {
@@ -28,12 +28,21 @@ function Summary() {
             })
             .then(data => {
                 setPortfolio(data);
+                const fairValueTotal = data.reduce((acc, item) => acc + item.amount * item.coinDetails.marketPrice, 0);
+                const costTotal = data.reduce((acc, item) => acc + item.amountInUSD, 0);
+                setSummaryMarket(fairValueTotal);
+                setSummaryCost(costTotal);
+                
                 console.log('Portfolio data:', data); // Log the retrieved data
             })
             .catch(error => {
                 console.error('Failed to fetch transactions:', error);
             });
-    }, [userId]); // Add an empty array as the second argument to the useEffect hook
+    };
+
+    useEffect(() => {
+        fetchPortfolio();
+    }, [userId, displayedCoins]); // Add an empty array as the second argument to the useEffect hook
 
     // Define a fixed array of colors
     const colors = [
@@ -97,17 +106,28 @@ function Summary() {
         }
     };
 
+    function calculatePerformance(summaryMarket, summaryCost) {
+        const diff = summaryMarket - summaryCost;
+        const diffPercentage = (diff / summaryCost) * 100;
+        const isPositive = diff > 0;
+        
+        const sign = isPositive ? '+' : '-';
+        const arrow = isPositive ? '↑' : '↓';
+        
+        return `${sign} $${Math.abs(diff).toFixed(2)} ${arrow} ${Math.abs(diffPercentage).toFixed(2)}%`;
+    }
+
     return (
         <div className="summary-container x-4">
             <div className="flex justify-between items-center">
                 <div>
                     <p className="font-sans text-lg font-semibold text-gray-400">Sean's Portfolio</p>
-                    <p className="font-sans text-3xl">$140,230.80</p>
-                    <p>+ $3268.33 &uarr; 2.68% (24h)</p>
+                    <p className="font-sans text-3xl">${summaryMarket.toFixed(2)}</p>
+                    <p>{calculatePerformance(summaryMarket, summaryCost)}</p>
                 </div>
                 <div>
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={updateCoins} >
-                        Refresh Data
+                    <svg class="h-6 w-6"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -5v5h5" />  <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 5v-5h-5" /></svg>
                     </button>
                     <p>Last Update: {formattedDate} {formattedTime}</p>
                 </div>

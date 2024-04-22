@@ -39,28 +39,28 @@ function UserAndPriceTableProvider({ children }) {
 
   useEffect(() => {
     setUpdateTime(displayedCoins[0]?.marketPriceAt);
-  } , [displayedCoins]); // when displayedCoins changes, update the time
+  }, [displayedCoins]); // when displayedCoins changes, update the time
 
-    // 将 fetchCoins 定义为一个可重用的函数
-    const fetchCoins = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/coins');
-        // console.log('Coins fetched:', response.data);
-        // setCoins(response.data);
-        setDisplayedCoins(response.data);
-      } catch (error) {
-        console.error('Error fetching coins:', error);
-      }
-    };
+  // 将 fetchCoins 定义为一个可重用的函数
+  const fetchCoins = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/coins');
+      // console.log('Coins fetched:', response.data);
+      // setCoins(response.data);
+      setDisplayedCoins(response.data);
+    } catch (error) {
+      console.error('Error fetching coins:', error);
+    }
+  };
 
-    const updateCoins = async () => {
-      try {
-        await axios.post('http://localhost:3001/update-coins');
-        fetchCoins(); // 成功更新后重新获取数据
-      } catch (error) {
-        console.error('Error updating coins:', error);
-      }
-    };
+  const updateCoins = async () => {
+    try {
+      await axios.post('http://localhost:3001/update-coins');
+      fetchCoins(); // 成功更新后重新获取数据
+    } catch (error) {
+      console.error('Error updating coins:', error);
+    }
+  };
 
   useEffect(() => {
     fetchCoins();
@@ -72,7 +72,7 @@ function UserAndPriceTableProvider({ children }) {
       coins, setCoins,
       displayedCoins, setDisplayedCoins,
       updateTime, setUpdateTime,
-      updateCoins, 
+      updateCoins,
       fetchCoins,
       accessToken
     }}>
