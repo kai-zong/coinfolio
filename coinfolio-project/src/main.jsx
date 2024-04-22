@@ -12,6 +12,7 @@ import {Auth0Provider} from '@auth0/auth0-react';
 import config from './config.js';
 import VerifyUser from './components/VerifyUser.jsx';
 import Profile from './components/portfolio/Profile.jsx';
+import AuthDebugger from './components/AuthDebugger.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const requestedScopes = ["profile", "email"];
@@ -40,6 +41,7 @@ root.render(
           {/* Define other nested routes for Portfolio here */}
         </Route>
         {/* Define other routes */}
+        <Route path="debugger" element={<AuthDebugger />} />
         <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
     </BrowserRouter>
