@@ -33,7 +33,7 @@ function UserAndPriceTableProvider({ children }) {
       }
     };
 
-    if (isAuthenticated) {
+    if (isAuthenticated) {   // only get access token if user is authenticated
       getAccessToken();
     }
   }, [getAccessTokenSilently, isAuthenticated]);

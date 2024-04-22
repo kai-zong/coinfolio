@@ -13,6 +13,7 @@ model User {
   email          String      @unique
   auth0Id        String      @unique @default("")
   name           String?
+  nickName       String?
   transactions   Transaction[]
 }
 

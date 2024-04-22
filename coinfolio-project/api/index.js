@@ -51,17 +51,19 @@ const prisma = new PrismaClient();
 //     res.json(user);
 // });
 
+
+// public endpoint, no authentication required
 app.get("/ping", (req, res) => {
     res.send("pong");
   }
 );
 
-
+// verify user endpoint
 app.post("/verify-user", requireAuth, async (req, res) => {
     const auth0Id = req.auth.payload.sub;
     const email = req.auth.payload[`${process.env.AUTH0_AUDIENCE}/email`];
     const name = req.auth.payload[`${process.env.AUTH0_AUDIENCE}/name`];
-  
+    console.log('payload:', req.auth.payload);
     const user = await prisma.user.findUnique({
       where: {
         auth0Id,
@@ -76,6 +78,7 @@ app.post("/verify-user", requireAuth, async (req, res) => {
           email,
           auth0Id,
           name,
+          nickName: name,
         },
       });
   
