@@ -1,6 +1,8 @@
 import React from 'react';
 import { useUserAndPriceTable } from '../../../UserAndPriceTableContext';
 
+const DELETE_TRANSACTION_URL = 'http://localhost:3001/transaction';
+
 function TransDetails({ transaction, index, onTransactionDelete, onTransactionEdit }) {
     const { accessToken } = useUserAndPriceTable();
 
@@ -9,8 +11,12 @@ function TransDetails({ transaction, index, onTransactionDelete, onTransactionEd
 
     const handleDelete = () => {
         if (window.confirm("Are you sure you want to delete this transaction?")) {
-            fetch(`http://localhost:3001/transaction/${transaction.id}`, {
-                method: 'DELETE'
+            fetch(`${DELETE_TRANSACTION_URL}/${transaction.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                }
             })
                 .then(response => {
                     // Handle successful deletion

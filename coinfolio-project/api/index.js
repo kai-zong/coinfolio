@@ -168,18 +168,34 @@ app.post("/verify-user", requireAuth, async (req, res) => {
 });
 
   // delete a transaction
-  app.delete("/transaction/:transId", async (req, res) => {
+  app.delete("/transaction/:transId", requireAuth, async (req, res) => {
     const { transId } = req.params;
 
-    // we should verify the user has the right to delete this transaction
+    const auth0Id = req.auth.payload.sub;
 
-    const transaction = await prisma.transaction.delete({
+    // Retrieve the user based on auth0Id
+    const user = await prisma.user.findUnique({
+      where: { auth0Id }
+    });
+
+    // Verify if the transaction belongs to the user
+    const transaction = await prisma.transaction.findUnique({
       where: {
         id: parseInt(transId),
       },
     });
 
-    res.json(transaction);
+    if (transaction.userId !== user.id) {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    const transactionDelete = await prisma.transaction.delete({
+      where: {
+        id: parseInt(transId),
+      },
+    });
+
+    res.json(transactionDelete);
   });
 
   // modify a transaction
