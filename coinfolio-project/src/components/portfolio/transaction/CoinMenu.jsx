@@ -13,7 +13,7 @@ function CoinMenu({ searchQuery, setSearchQuery, filteredCoins, handleCoinClick,
             <div className="flex-grow overflow-y-auto">
                 <ul className="space-y-1">
                     {filteredCoins.map(coin => (
-                        <li key={coin.id} className="px-2 py-1 hover:bg-gray-700 cursor-pointer" onClick={() => handleCoinClick(coin.name)}>
+                        <li key={coin.id} className="px-2 py-1 hover:bg-gray-700 cursor-pointer" onClick={() => handleCoinClick(coin)}>
                             {coin.name}
                         </li>
                     ))}
