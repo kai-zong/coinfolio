@@ -52,6 +52,14 @@ function Transactions() {
         setSelectedTransaction(null);
     }
 
+    // if transactions is empty, return a message
+    if (transactions.length === 0) {
+        return (
+            <div className="summary-container p-4">
+                    <h2 className="text-lg text-center font-semibold text-white">Start Adding your first transaction!</h2>
+                </div>
+        );
+    }
 
     return (
         <div className='w-full px-5 m-3'>

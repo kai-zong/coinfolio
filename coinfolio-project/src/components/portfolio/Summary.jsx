@@ -130,6 +130,15 @@ function Summary() {
         return `${sign} $${Math.abs(diff).toFixed(2)} ${arrow} ${Math.abs(diffPercentage).toFixed(2)}%`;
     }
 
+    // if user has no portfolio, display a message
+    if (portfolio.length === 0) {
+        return (
+            <div className="summary-container p-4">
+                <h2 className="text-lg text-center font-semibold text-white">Start Adding your first transaction!</h2>
+            </div>
+        );
+    }
+
     return (
         <div className="summary-container x-4 p-4">
             <div className="flex justify-between items-center px-1">
