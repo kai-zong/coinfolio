@@ -12,7 +12,7 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
       // Default to true, can be toggled
   });
 
-  const { accessToken } = useUserAndPriceTable();
+  const { accessToken, triggerPortfolioRefresh } = useUserAndPriceTable();
 
   useEffect(() => {
     if (selectedCoin.id) {
@@ -37,9 +37,19 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const postData = {
-      ...transactionData,
-      userId: 1, // Hardcoded for now, will be dynamic in the future
-    };
+      ...transactionData  };
+
+      // Validate the amount to ensure it's greater than zero
+    if (postData.amount <= 0) {
+      alert('Amount must be greater than zero.');
+      return; // Stop the submission if validation fails
+    }
+
+    // Validate the coin price cost to ensure it's greater than zero
+    if (postData.coinPriceCost <= 0) {
+      alert('Coin price cost must be greater than zero.');
+      return; // Stop the submission if validation fails
+    }
 
     try {
       const response = await axios.post('http://localhost:3001/transaction', postData, {
@@ -50,6 +60,7 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
       });
       console.log('Response:', response.data);
       alert('Transaction added successfully!');
+      triggerPortfolioRefresh(); // Trigger a portfolio refresh after adding a transaction
       onClose(); // Close the modal only if the request is successful
     } catch (err) {
       console.error('Failed to submit transaction:', err);
@@ -73,7 +84,6 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
             value={transactionData.coinPriceCost}
             onChange={handleInputChange}
             required
-            min="0.01"
             className="mt-1 block w-full p-2 bg-gray-100 border-gray-300 rounded-md shadow-sm text-gray-900"
           />
         </div>
@@ -86,7 +96,6 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
             value={transactionData.amount}
             onChange={handleInputChange}
             required
-            min="0.01"
             className="mt-1 block w-full p-2 bg-gray-100 border-gray-300 rounded-md shadow-sm text-gray-900"
           />
         </div>
