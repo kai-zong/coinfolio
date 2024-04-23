@@ -12,7 +12,7 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
       // Default to true, can be toggled
   });
 
-  const { accessToken, triggerPortfolioRefresh } = useUserAndPriceTable();
+  const { accessToken, updateCoins } = useUserAndPriceTable();
 
   useEffect(() => {
     if (selectedCoin.id) {
@@ -60,7 +60,7 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
       });
       console.log('Response:', response.data);
       alert('Transaction added successfully!');
-      triggerPortfolioRefresh(); // Trigger a portfolio refresh after adding a transaction
+      updateCoins(); // Update the coins after adding a transaction (to reflect the new balance
       onClose(); // Close the modal only if the request is successful
     } catch (err) {
       console.error('Failed to submit transaction:', err);
