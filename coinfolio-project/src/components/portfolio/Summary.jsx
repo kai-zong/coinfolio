@@ -1,9 +1,11 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import Chart from 'chart.js/auto';
+import Chart from 'chart.js/auto';  // don't delete this line
 import { Doughnut, Bar } from 'react-chartjs-2';
 import PortfolioTable from './PortfolioTable';
 import { useUserAndPriceTable } from '../../UserAndPriceTableContext';
+
+const GET_PORTFOLIO_URL = 'http://localhost:3001/portfolio';
 
 function Summary() {
 
@@ -11,15 +13,20 @@ function Summary() {
     const [portfolio, setPortfolio] = useState([]);
     const [summaryMarket, setSummaryMarket] = useState(0);
     const [summaryCost, setSummaryCost] = useState(0);
-    const userId = 1; // Replace with the actual user ID
 
-    const { displayedCoins, updateCoins, updateTime } = useUserAndPriceTable();
+    const { displayedCoins, updateCoins, updateTime, accessToken } = useUserAndPriceTable();
 
     const formattedDate = updateTime ? new Date(updateTime).toLocaleDateString() : '';
     const formattedTime = updateTime ? new Date(updateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
 
     const fetchPortfolio = () => {
-        fetch(`http://localhost:3001/portfolio/${userId}`)
+        fetch(`${GET_PORTFOLIO_URL}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${accessToken}`,
+            }
+        }
+        )
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -42,7 +49,7 @@ function Summary() {
 
     useEffect(() => {
         fetchPortfolio();
-    }, [userId, displayedCoins]); // Add an empty array as the second argument to the useEffect hook
+    }, [accessToken, displayedCoins]); // Add an empty array as the second argument to the useEffect hook
 
     // Define a fixed array of colors
     const colors = [
