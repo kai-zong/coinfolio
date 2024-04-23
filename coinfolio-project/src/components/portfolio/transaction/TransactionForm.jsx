@@ -73,6 +73,7 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
             value={transactionData.coinPriceCost}
             onChange={handleInputChange}
             required
+            min="0.01"
             className="mt-1 block w-full p-2 bg-gray-100 border-gray-300 rounded-md shadow-sm text-gray-900"
           />
         </div>
@@ -85,6 +86,7 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
             value={transactionData.amount}
             onChange={handleInputChange}
             required
+            min="0.01"
             className="mt-1 block w-full p-2 bg-gray-100 border-gray-300 rounded-md shadow-sm text-gray-900"
           />
         </div>

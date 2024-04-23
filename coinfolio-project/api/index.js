@@ -228,6 +228,11 @@ app.post("/transaction", requireAuth, async (req, res) => {
       });
     }
 
+    // amount must be positive
+    if (parsedAmount <= 0) {
+      return res.status(400).json({ error: "Amount must be positive" });
+    }
+
     // Retrieve the user based on auth0Id
     const user = await prisma.user.findUnique({
       where: { auth0Id }
