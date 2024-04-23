@@ -122,28 +122,28 @@ app.post('/update-coins', async (req, res) => {
   }
 });
 
-// 3rd-party API (coinmarketcap) to get the latest price of the top n cryptocurrencies
-app.get("/cryptos/:limit", async (req, res) => {
-  const limit = req.params.limit;
-  console.log("Using API Key:", process.env.CMC_API_KEY);
+// // 3rd-party API (coinmarketcap) to get the latest price of the top n cryptocurrencies
+// app.get("/cryptos/:limit", async (req, res) => {
+//   const limit = req.params.limit;
+//   console.log("Using API Key:", process.env.CMC_API_KEY);
 
-  try {
-    const response = await axios.get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest', {
-      params: {
-        start: 1,
-        limit: 5,
-        convert: 'USD'
-      },
-      headers: {
-        'X-CMC_PRO_API_KEY': process.env.CMC_API_KEY
-      }
-    });
-    res.json(response.data);
-  } catch (error) {
-    console.error('API call error:', error.message);
-    res.status(500).json({ error: 'Failed to retrieve data from CoinMarketCap' });
-  }
-});
+//   try {
+//     const response = await axios.get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest', {
+//       params: {
+//         start: 1,
+//         limit: 5,
+//         convert: 'USD'
+//       },
+//       headers: {
+//         'X-CMC_PRO_API_KEY': process.env.CMC_API_KEY
+//       }
+//     });
+//     res.json(response.data);
+//   } catch (error) {
+//     console.error('API call error:', error.message);
+//     res.status(500).json({ error: 'Failed to retrieve data from CoinMarketCap' });
+//   }
+// });
 
 
 // PROTECTED ENDPOINTS
