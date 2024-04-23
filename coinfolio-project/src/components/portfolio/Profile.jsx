@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useUserAndPriceTable } from '../../UserAndPriceTableContext';
 
 const GET_USER_PROFILE_URL = 'http://localhost:3001/profile';
+const PUT_USER_PROFILE_URL = 'http://localhost:3001/profile';
 
 function Profile() {
-    const [name, setName] = useState('');
+    const [nickName, setNickName] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
@@ -20,7 +21,8 @@ function Profile() {
             });
             if (response.ok) {
                 const data = await response.json();
-                setName(data.nickName);
+                console.log('User data:', data)
+                setNickName(data.nickName);
                 setLoading(false);
             } else {
                 throw new Error('Failed to fetch data');
@@ -42,25 +44,25 @@ function Profile() {
     }, [accessToken]);
 
     const handleNameChange = (event) => {
-        setName(event.target.value);
+        setNickName(event.target.value);
     };
 
-    const saveName = async () => {
+    const saveNickName = async () => {
         try {
-            const response = await fetch("http://localhost:3001/profile/1", {
+            const response = await fetch(`${PUT_USER_PROFILE_URL}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${accessToken}`,
                 },
-                body: JSON.stringify({ name }),
+                body: JSON.stringify({ nickName }),
             });
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            alert('Name updated successfully!');
+            alert('nickName updated successfully!');
         } catch (err) {
             setError(`Failed to update name: ${err.message}`);
         }
@@ -71,19 +73,23 @@ function Profile() {
 
     return (
         <div className="p-5 flex-row">
-            <h1 className="text-2xl font-bold mb-6">Edit Profile</h1>
+            {/* <h1 className="text-2xl font-bold mb-6">Profile</h1> */}
             {error && <p className="text-red-500">{error}</p>}
             <div className="mb-4">
-                <label htmlFor="name" className="block text-sm font-bold mb-2">Name:</label>
+                <label htmlFor="name" className="block font-bold mb-2 text-lg">Name:</label>
+                <p ></p>
+            </div>
+            <div className="mb-4">
+                <label htmlFor="name" className="block font-bold mb-2 text-lg">Nick Name:</label>
                 <input
                     type="text"
                     id="name"
-                    value={name}
+                    value={nickName}
                     onChange={handleNameChange}
                     className="shadow appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                 />
             </div>
-            <button onClick={saveName} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            <button onClick={saveNickName} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                 Save
             </button>
         </div>

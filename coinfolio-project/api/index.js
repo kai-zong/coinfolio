@@ -378,7 +378,7 @@ app.get('/portfolio', requireAuth, async (req, res) => {
 app.get('/profile', requireAuth, async (req, res) => {
   const auth0Id = req.auth.payload.sub;
   try {
-    
+
     const user = await prisma.user.findUnique({
       where: {
         auth0Id,
@@ -396,17 +396,24 @@ app.get('/profile', requireAuth, async (req, res) => {
 });
 
 // PUT endpoint to update user name
-app.put('/profile/:userId', async (req, res) => {
-  const userId = parseInt(req.params.userId);
-  const { name } = req.body;
+app.put('/profile', requireAuth, async (req, res) => {
+  const auth0Id = req.auth.payload.sub;
+
+  const { nickName } = req.body;
 
   try {
+    const user = await prisma.user.findUnique({
+      where: {
+        auth0Id,
+      },
+    });
+
     const updatedUser = await prisma.user.update({
       where: {
-        id: userId
+        id: user.id
       },
       data: {
-        name: name
+        nickName: nickName
       }
     });
     res.json({ message: 'User updated successfully', user: updatedUser });
