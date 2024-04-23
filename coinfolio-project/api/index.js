@@ -298,6 +298,9 @@ app.put("/transaction/:transId", requireAuth, async (req, res) => {
   const { transId } = req.params;
   const { coinPriceCost, transferIn, amount } = req.body;
 
+  const parsedAmount = parseFloat(amount);
+  const parsedCoinPriceCost = parseFloat(coinPriceCost);
+
   // Retrieve the user based on auth0Id
   const user = await prisma.user.findUnique({
     where: { auth0Id }
@@ -314,16 +317,28 @@ app.put("/transaction/:transId", requireAuth, async (req, res) => {
     return res.status(403).json({ error: "Unauthorized" });
   }
 
+  // check for missing fields
+  if (!coinPriceCost || transferIn === undefined || !parsedAmount) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  // amount must be positive
+  if (parsedAmount <= 0) {
+    return res.status(400).json({ error: "Amount must be positive" });
+  }
+
+  
+
   // Update the transaction
   const updatedTransaction = await prisma.transaction.update({
     where: {
       id: parseInt(transId),
     },
     data: {
-      coinPriceCost,
+      coinPriceCost: parsedCoinPriceCost,
       transferIn,
-      amount,
-      amountInUSD: amount * coinPriceCost,
+      amount: transferIn ? parsedAmount : -parsedAmount,
+      amountInUSD: transferIn ? parsedAmount * parsedCoinPriceCost : -parsedAmount * parsedCoinPriceCost,
     },
   });
 
