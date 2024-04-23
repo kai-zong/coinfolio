@@ -35,7 +35,7 @@ function RequireAuth({ children }) {
 }
 
 root.render(
-  <React.StrictMode>
+  <>
     <Auth0Provider
   domain={config.REACT_APP_AUTH0_DOMAIN}
   clientId={config.REACT_APP_AUTH0_CLIENT_ID}
@@ -68,5 +68,5 @@ root.render(
     </BrowserRouter>
     </UserAndPriceTableProvider>
     </Auth0Provider>
-  </React.StrictMode>,
+  </>,
 );

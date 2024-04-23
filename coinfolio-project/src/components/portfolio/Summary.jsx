@@ -49,7 +49,7 @@ function Summary() {
 
     useEffect(() => {
         fetchPortfolio();
-    }, [accessToken, displayedCoins]); // Add an empty array as the second argument to the useEffect hook
+    }, [accessToken, displayedCoins]);
 
     // Define a fixed array of colors
     const colors = [

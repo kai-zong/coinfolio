@@ -20,7 +20,7 @@ function PortfolioTable( { portfolio }) {
           </thead>
           <tbody>
             {portfolio.map((portfolioByCoin, index) => (
-              <Items index={index+1} portfolioByCoin={portfolioByCoin} /> 
+              <Items key={portfolioByCoin.coinId} index={index+1} portfolioByCoin={portfolioByCoin} /> 
             ))}
           </tbody>
         </table>

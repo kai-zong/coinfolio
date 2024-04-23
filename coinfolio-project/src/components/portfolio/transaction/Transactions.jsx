@@ -13,7 +13,6 @@ function Transactions() {
     const { accessToken } = useUserAndPriceTable();
 
     const fetchTransactions = async () => {
-
         fetch(`${GET_ALL_TRANSACTIONS}`, {
             headers: {
                 "Content-Type": "application/json",

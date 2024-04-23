@@ -16,7 +16,6 @@ function UserAndPriceTableProvider({ children }) {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [accessToken, setAccessToken] = useState();
 
-  console.log('displayedCoins (Context):', displayedCoins);
   useEffect(() => {
     const getAccessToken = async () => {
       try {
