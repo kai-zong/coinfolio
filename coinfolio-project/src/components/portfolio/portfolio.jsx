@@ -1,35 +1,55 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import Navigation from './Navigation';
+import CoinMenu from './transaction/CoinMenu';
+import TransactionForm from './transaction/TransactionForm';
 import { useUserAndPriceTable } from '../../UserAndPriceTableContext';
 
-function Profile() {
-    const { nickName, setNickName, updateNickName } = useUserAndPriceTable();
-    const [editNickName, setEditNickName] = useState(nickName);
+function Portfolio() {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isFormOpen, setIsFormOpen] = useState(false);
+    const [selectedCoin, setSelectedCoin] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+    const { displayedCoins } = useUserAndPriceTable();
 
-    const handleNameChange = (event) => {
-        setEditNickName(event.target.value);
+    const filteredCoins = displayedCoins.filter(coin =>
+        coin.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+    const closeMenu = () => setIsMenuOpen(false);
+    const handleCoinClick = (coin) => {
+        setSelectedCoin(coin);
+        setIsFormOpen(true);
+        setIsMenuOpen(false);
+    };
+    const closeForm = () => {
+        setIsFormOpen(false);
+        setSelectedCoin(null);
     };
 
-    const saveNickName = () => {
-        updateNickName(editNickName);
-    };
+    const menuClasses = `fixed inset-y-0 left-0 transform bg-gray-800 text-white transition duration-300 ease-in-out z-20 ${isMenuOpen ? "translate-x-0" : "-translate-x-full"}`;
 
     return (
-        <div className="p-5 flex-row">
-            <div className="mb-4">
-                <label htmlFor="name" className="block font-bold mb-2 text-lg">Nick Name:</label>
-                <input
-                    type="text"
-                    id="name"
-                    value={editNickName}
-                    onChange={handleNameChange}
-                    className="shadow appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+        <div className="">
+            <Navigation toggleMenu={toggleMenu} />
+            <div className={menuClasses}>
+                <CoinMenu
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    filteredCoins={filteredCoins}
+                    handleCoinClick={handleCoinClick}
+                    closeMenu={closeMenu}
                 />
             </div>
-            <button onClick={saveNickName} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                Save
-            </button>
+            <main className="flex-grow">
+                <Outlet />
+            </main>
+            {selectedCoin && (
+            <TransactionForm isOpen={isFormOpen} onClose={closeForm} selectedCoin={selectedCoin} />
+)}
         </div>
     );
 }
 
-export default Profile;
+export default Portfolio;
