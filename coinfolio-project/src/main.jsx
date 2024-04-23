@@ -12,6 +12,7 @@ import {Auth0Provider, useAuth0} from '@auth0/auth0-react';
 import config from './config.js';
 import VerifyUser from './components/VerifyUser.jsx';
 import Profile from './components/portfolio/Profile.jsx';
+import NotFound from './components/NotFound.jsx';
 import AuthDebugger from './components/AuthDebugger.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -63,7 +64,7 @@ root.render(
         </Route>
         {/* Define other routes */}
         <Route path="debugger" element={<AuthDebugger />} />
-        <Route path="*" element={<h1>Not Found</h1>} />
+        <Route path="*" element={<NotFound/ >} />
       </Routes>
     </BrowserRouter>
     </UserAndPriceTableProvider>
