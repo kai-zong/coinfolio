@@ -6,72 +6,31 @@ const GET_USER_PROFILE_URL = 'http://localhost:3001/profile';
 const PUT_USER_PROFILE_URL = 'http://localhost:3001/profile';
 
 function Profile() {
-    const [nickName, setNickName] = useState('');
-    const [loading, setLoading] = useState(true);
+    const [localNickName, setLocalNickName] = useState('');  // Local editing state
     const [error, setError] = useState('');
     const { isAuthenticated, user } = useAuth0();
 
-    const { accessToken } = useUserAndPriceTable();
-
-    const fetchUserData = async () => {
-        try {
-            const response = await fetch(`${GET_USER_PROFILE_URL}`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-            if (response.ok) {
-                const data = await response.json();
-                console.log('User data:', data)
-                setNickName(data.nickName);
-                setLoading(false);
-            } else {
-                throw new Error('Failed to fetch data');
-            }
-        } catch (err) {
-            setError(`Failed to fetch data: ${err.message}`);
-            setLoading(false);
-        }
-    };
+    const { accessToken, userData, updateNickName } = useUserAndPriceTable();
 
     useEffect(() => {
-        if (!accessToken) return; // Don't fetch if no access token
-        fetchUserData();
-    }, []);
-
-    useEffect(() => {
-        if (!accessToken) return; // Don't fetch if no access token
-        fetchUserData();
-    }, [accessToken]);
+        setLocalNickName(userData.nickName || '');  // Initialize with context data
+    }, [userData.nickName]);  // Dependency on userData.nickName to update local state when context changes
 
     const handleNameChange = (event) => {
-        setNickName(event.target.value);
+        setLocalNickName(event.target.value);
     };
 
     const saveNickName = async () => {
         try {
-            const response = await fetch(`${PUT_USER_PROFILE_URL}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${accessToken}`,
-                },
-                body: JSON.stringify({ nickName }),
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            alert('nickName updated successfully!');
-        } catch (err) {
-            setError(`Failed to update name: ${err.message}`);
+            await updateNickName(localNickName);
+            alert('Nickname updated successfully!');
+        } catch (error) {
+            alert(`Failed to update nickname: ${error.message}`);
         }
     };
 
-    if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
+    if (!isAuthenticated) return <div>Please log in to view this page.</div>;
 
     return (
         <div className="p-5 flex-row">
@@ -90,7 +49,7 @@ function Profile() {
                 <input
                     type="text"
                     id="name"
-                    value={nickName}
+                    value={localNickName}
                     onChange={handleNameChange}
                     className="shadow appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                 />

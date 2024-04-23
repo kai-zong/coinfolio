@@ -1,34 +1,37 @@
-import React, { useContext, useState } from 'react';
-import fakeUserData from './fakeUserData';
+import React, { useContext, useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { useEffect } from 'react';
 import axios from 'axios';
 import config from './config';
 
 const UserAndPriceTableContext = React.createContext();
 const requestedScopes = ["profile", "email"];
 
+const GET_USER_PROFILE_URL = 'http://localhost:3001/profile';
+
 function UserAndPriceTableProvider({ children }) {
-  const [userData, setUserData] = useState(fakeUserData);
+  const [userData, setUserData] = useState({});
   const [coins, setCoins] = useState([]);
   const [displayedCoins, setDisplayedCoins] = useState([]);
   const [updateTime, setUpdateTime] = useState(Date.now());
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
   const [accessToken, setAccessToken] = useState();
 
+  // get access token silently when user is authenticated
   useEffect(() => {
     const getAccessToken = async () => {
-      try {
-        // get access token silently from Auth0, which will be stored in the context
-        const token = await getAccessTokenSilently({
-          authorizationParams: {
-            audience: config.REACT_APP_AUTH0_AUDIENCE,
-            scope: requestedScopes.join(" "),
-          },
-        });
-        setAccessToken(token);
-      } catch (err) {
-        console.log(err);
+      if (isAuthenticated) {
+        try {
+          // get access token silently from Auth0, which will be stored in the context
+          const token = await getAccessTokenSilently({
+            authorizationParams: {
+              audience: config.REACT_APP_AUTH0_AUDIENCE,
+              scope: requestedScopes.join(" "),
+            },
+          });
+          setAccessToken(token);
+        } catch (err) {
+          console.log('Error getting access token:', err);
+        }
       }
     };
 
@@ -36,6 +39,49 @@ function UserAndPriceTableProvider({ children }) {
       getAccessToken();
     }
   }, [getAccessTokenSilently, isAuthenticated]);
+
+
+  // fetch user data when access token changes
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (accessToken) {
+        try {
+          const response = await fetch(`${GET_USER_PROFILE_URL}`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+          if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+          const data = await response.json();
+          setUserData(data);
+          console.log("User data fetched:", data);
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [accessToken]);
+
+  const updateNickName = async (nickName) => {
+    try {
+      const response = await fetch(`${GET_USER_PROFILE_URL}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`
+        },
+        body: JSON.stringify({ nickName })
+      });
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      const updatedData = await response.json();
+      setUserData(prev => ({ ...prev, ...updatedData }));
+    } catch (error) {
+      console.error('Error updating user data:', error);
+    }
+  };
 
   useEffect(() => {
     setUpdateTime(displayedCoins[0]?.marketPriceAt);
@@ -75,6 +121,7 @@ function UserAndPriceTableProvider({ children }) {
       coins, setCoins,
       displayedCoins, setDisplayedCoins,
       updateTime, setUpdateTime,
+      updateNickName,
       updateCoins,
       fetchCoins,
       accessToken
