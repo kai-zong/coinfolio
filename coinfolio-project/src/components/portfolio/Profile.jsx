@@ -10,25 +10,36 @@ function Profile() {
 
     const { accessToken } = useUserAndPriceTable();
 
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await fetch(`${GET_USER_PROFILE_URL}`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${accessToken}`,
-                    },
-                });
-                setName(response.data.nickName); // Make sure your API responds with the user data in this format
+    const fetchUserData = async () => {
+        try {
+            const response = await fetch(`${GET_USER_PROFILE_URL}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setName(data.nickName);
                 setLoading(false);
-            } catch (err) {
-                setError('Failed to fetch data');
-                setLoading(false);
+            } else {
+                throw new Error('Failed to fetch data');
             }
-        };
-        
+        } catch (err) {
+            setError(`Failed to fetch data: ${err.message}`);
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (!accessToken) return; // Don't fetch if no access token
         fetchUserData();
-    }, []); // Added empty dependency array to prevent running on every render
+    }, []);
+
+    useEffect(() => {
+        if (!accessToken) return; // Don't fetch if no access token
+        fetchUserData();
+    }, [accessToken]);
 
     const handleNameChange = (event) => {
         setName(event.target.value);
@@ -36,10 +47,22 @@ function Profile() {
 
     const saveName = async () => {
         try {
-            await axios.put("http://localhost:3001/profile/1", { name }); // Corrected URL to match your API endpoint
+            const response = await fetch("http://localhost:3001/profile/1", {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify({ name }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
             alert('Name updated successfully!');
         } catch (err) {
-            setError('Failed to update name');
+            setError(`Failed to update name: ${err.message}`);
         }
     };
 
@@ -60,11 +83,9 @@ function Profile() {
                     className="shadow appearance-none border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
                 />
             </div>
-            <div className="">
-                <button onClick={saveName} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                    Save
-                </button>
-            </div>
+            <button onClick={saveName} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                Save
+            </button>
         </div>
     );
 }

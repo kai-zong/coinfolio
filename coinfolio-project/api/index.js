@@ -375,15 +375,16 @@ app.get('/portfolio', requireAuth, async (req, res) => {
 });
 
 // get user profile
-app.get('/profile/:userId', async (req, res) => {
-  const userId = parseInt(req.params.userId);
-  console.log(`Fetching profile for user ID: ${req.params.userId}`);
+app.get('/profile', requireAuth, async (req, res) => {
+  const auth0Id = req.auth.payload.sub;
   try {
+    
     const user = await prisma.user.findUnique({
       where: {
-        id: userId
-      }
+        auth0Id,
+      },
     });
+
     if (user) {
       res.json(user);
     } else {
