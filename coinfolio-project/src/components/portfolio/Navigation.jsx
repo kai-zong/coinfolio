@@ -1,7 +1,13 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { useMediaQuery } from 'react-responsive';
+
 
 function Navigation({ toggleMenu }) {
+
+        // responsive design
+        const isMobile = useMediaQuery({ query: '(max-width: 700px)' });
+        const addButtonText = isMobile ? 'Add' : 'Add Transaction';
 
     return (
         <nav className="flex justify-between items-center border-b border-gray-700 ">
@@ -45,7 +51,7 @@ function Navigation({ toggleMenu }) {
                     onClick={toggleMenu}
                     className="px-2 text-center rounded bg-blue-700 text-white transition-colors"
                 >
-                    Add Transaction
+                    {addButtonText}
                 </button>
             </div>
         </nav>
