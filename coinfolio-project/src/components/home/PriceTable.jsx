@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Ticker from './Ticker';
 import { useState } from 'react';
 import { useUserAndPriceTable } from '../../UserAndPriceTableContext';
@@ -6,17 +6,22 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 
 function PriceTable() {
-    const { displayedCoins, } = useUserAndPriceTable();
+    const { displayedCoins, userData } = useUserAndPriceTable();
     const { isAuthenticated, user } = useAuth0();
+    const [localNickName, setLocalNickName] = useState('');  // Local editing state
 
-    console.log('user:', user);
+    useEffect(() => {
+        if (!isAuthenticated) return;  // Don't fetch if no access token
+        setLocalNickName(userData.nickName);  // Initialize with context data
+    }, [userData.nickName]);  // Dependency on userData.nickName to update local state when context changes
+
 
     return (
         <div className='w-full px-5 m-3 '>
 
             {isAuthenticated ? <div className='bg-gray-800 rounded-2xl'>
                 <h1 className="text-4xl font-bold text-center mb-8 pt-3">
-                    Welcome, {user.name}!
+                    Welcome, {userData.nickName}!
                 </h1>
                 <p className="text-lg text-center mb-4 pb-3">
                     Start tracking your portfolio of Top 50 Crypto Assets

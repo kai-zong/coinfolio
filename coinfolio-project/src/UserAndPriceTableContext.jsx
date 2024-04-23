@@ -65,7 +65,7 @@ function UserAndPriceTableProvider({ children }) {
     fetchUserData();
   }, [accessToken]);
 
-  const updateNickName = async (nickName) => {
+  const updateNickName = async (newNickName) => {
     try {
       const response = await fetch(`${GET_USER_PROFILE_URL}`, {
         method: 'PUT',
@@ -73,11 +73,14 @@ function UserAndPriceTableProvider({ children }) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`
         },
-        body: JSON.stringify({ nickName })
+        body: JSON.stringify({ nickName: newNickName })
       });
-      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-      const updatedData = await response.json();
-      setUserData(prev => ({ ...prev, ...updatedData }));
+      if (response.ok) {
+        const updatedData = await response.json();
+        setUserData(prevUserData => ({ ...prevUserData, nickName: newNickName }));
+      } else {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
     } catch (error) {
       console.error('Error updating user data:', error);
     }

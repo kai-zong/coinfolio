@@ -8,13 +8,17 @@ import { useUserAndPriceTable } from '../../UserAndPriceTableContext';
 const GET_PORTFOLIO_URL = 'http://localhost:3001/portfolio';
 
 function Summary() {
+    const { displayedCoins, updateCoins, updateTime, accessToken, userData } = useUserAndPriceTable();
+    const [localNickName, setLocalNickName] = useState('');  // Local editing state
+
+    useEffect(() => {
+        setLocalNickName(userData.nickName || '');  // Initialize with context data
+    }, [userData.nickName]);  // Dependency on userData.nickName to update local state when context changes
 
     // request API to get the transaction details of a user
     const [portfolio, setPortfolio] = useState([]);
     const [summaryMarket, setSummaryMarket] = useState(0);
     const [summaryCost, setSummaryCost] = useState(0);
-
-    const { displayedCoins, updateCoins, updateTime, accessToken } = useUserAndPriceTable();
 
     const formattedDate = updateTime ? new Date(updateTime).toLocaleDateString() : '';
     const formattedTime = updateTime ? new Date(updateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
@@ -51,7 +55,7 @@ function Summary() {
 
     useEffect(() => {
         fetchPortfolio();
-    }, [accessToken, displayedCoins]);
+    }, [accessToken, displayedCoins, userData.nickName]);
 
     // Define a fixed array of colors
     const colors = [
@@ -130,7 +134,7 @@ function Summary() {
         <div className="summary-container x-4 p-4">
             <div className="flex justify-between items-center px-1">
                 <div>
-                    <p className="font-sans text-lg font-semibold text-gray-400">Sean's Portfolio</p>
+                    <p className="font-sans text-lg font-semibold text-gray-400">{localNickName}'s Portfolio</p>
                     <p className="font-sans text-3xl">${summaryMarket.toFixed(2)}</p>
                     <p>{calculatePerformance(summaryMarket, summaryCost)}</p>
                 </div>
