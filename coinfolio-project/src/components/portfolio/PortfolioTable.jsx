@@ -1,7 +1,7 @@
 import Items from './Items';
 import React, { useEffect, useState } from 'react';
 
-function PortfolioTable({ portfolio }) {
+function PortfolioTable({ portfolio, isMobile }) {
 
 	// Sort the portfolio by marketPriceAmount descending
 	const sortedPortfolio = portfolio.sort((a, b) => {
@@ -16,18 +16,18 @@ function PortfolioTable({ portfolio }) {
 				<thead>
 					<tr>
 						<th className="px-4 py-2">#</th>
-						<th className="px-4 py-2">Name</th>
+						<th className="px-4 py-2">Icon</th>
 						<th className="px-4 py-2">Symbol</th>
-						<th className="px-4 py-2">Price</th>
 						<th className="px-4 py-2">Amount</th>
 						<th className="px-4 py-2">Cost</th>
-						<th className="px-4 py-2">MarketPrice</th>
-						<th className="px-4 py-2">Profit %</th>
+						<th className="px-4 py-2">Market</th>
+						{!isMobile && <th className="px-4 py-2">MarketTotal</th>}
+						{!isMobile && <th className="px-4 py-2">Profit</th>}
 					</tr>
 				</thead>
 				<tbody>
 					{sortedPortfolio.map((portfolioByCoin, index) => (
-						<Items key={portfolioByCoin.coinId} index={index + 1} portfolioByCoin={portfolioByCoin} />
+						<Items key={portfolioByCoin.coinId} index={index + 1} portfolioByCoin={portfolioByCoin} isMobile={isMobile} />
 					))}
 				</tbody>
 			</table>

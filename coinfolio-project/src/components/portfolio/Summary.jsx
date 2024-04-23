@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import Chart from 'chart.js/auto';  // don't delete this line
+import { useMediaQuery } from 'react-responsive';
 import { Doughnut, Bar } from 'react-chartjs-2';
 import PortfolioTable from './PortfolioTable';
 import { useUserAndPriceTable } from '../../UserAndPriceTableContext';
@@ -8,6 +9,9 @@ import { useUserAndPriceTable } from '../../UserAndPriceTableContext';
 const GET_PORTFOLIO_URL = 'http://localhost:3001/portfolio';
 
 function Summary() {
+    // responsive design
+    const isMobile = useMediaQuery({ query: '(max-width: 1024px)' });
+
     const { displayedCoins, updateCoins, updateTime, accessToken, userData } = useUserAndPriceTable();
     const [localNickName, setLocalNickName] = useState('');  // Local editing state
 
@@ -22,6 +26,7 @@ function Summary() {
 
     const formattedDate = updateTime ? new Date(updateTime).toLocaleDateString() : '';
     const formattedTime = updateTime ? new Date(updateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
+
 
     const fetchPortfolio = () => {
         if (!accessToken) return;  // Don't fetch if no access token
@@ -163,9 +168,10 @@ function Summary() {
                 {/* Content of the first div with border and spacing */}
                 <div className="detail-1 p-4 mb-4 border rounded-lg">
                     <div className="charts-container flex justify-between">
-                        <div className="chart-container w-1/2 h-64"> {/* Adjust the height here */}
-                            <Bar data={barChartData} options={barChartOptions} />
-                        </div>
+                        {!isMobile &&
+                            <div className="chart-container w-1/2 h-64"> {/* Adjust the height here */}
+                                <Bar data={barChartData} options={barChartOptions} />
+                            </div>}
                         <div className="chart-container w-1/2">
                             <Doughnut data={donutChartData} options={donutChartOptions} />
                         </div>
@@ -174,7 +180,7 @@ function Summary() {
                 </div>
                 {/* Content of the second div with border and spacing */}
                 <div className="detail-2 p-4 border rounded-lg">
-                    <PortfolioTable portfolio={portfolio} />
+                    <PortfolioTable portfolio={portfolio} isMobile={isMobile} />
                 </div>
             </div>
         </div>
