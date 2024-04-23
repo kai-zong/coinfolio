@@ -35,6 +35,16 @@ export default function EditForm({ transaction, onCancel, onEdit }) {
             amount: parseFloat(amount),  // Convert string to float
         };
 
+        if (updatedTransaction.amount <= 0) {
+            alert('Amount must be greater than zero.');
+            return;
+        }
+
+        if (updatedTransaction.coinPriceCost <= 0) {
+            alert('Coin price cost must be greater than zero.');
+            return;
+        }
+
         // Send the PUT request with the updated data
         fetch(EditAPIUrl + transaction.id, {
             method: 'PUT',
@@ -90,15 +100,15 @@ export default function EditForm({ transaction, onCancel, onEdit }) {
     </div>
     <div className="flex flex-col">
         <label>Amount:</label>
-        <input type="number" id="amount" name="amount" value={amount} onChange={(e) => setAmount(e.target.value)}/>
+        <input type="number" id="amount" name="amount" value={amount} required onChange={(e) => setAmount(e.target.value)}/>
     </div>
     <div>
         <label className="flex flex-col">Cost:</label>
-        <input type="number" id="atPrice" name="atPrice" value={coinPriceCost} onChange={(e) => setCoinPriceCost(e.target.value)}/>
+        <input type="number" id="atPrice" name="atPrice" value={coinPriceCost} required onChange={(e) => setCoinPriceCost(e.target.value)}/>
     </div>
 
     <div>
-        <p>Amount in USD($): {amount * coinPriceCost}</p>
+        <p>Amount in USD($): {transferValue? amount * coinPriceCost : -amount * coinPriceCost }</p>
     </div>
     <div>
         <p>Date: {formattedDate} {formattedTime}</p>
