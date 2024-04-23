@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import fakeUserData from './fakeUserData';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useEffect } from 'react';
 import axios from 'axios';
@@ -9,7 +8,8 @@ const UserAndPriceTableContext = React.createContext();
 const requestedScopes = ["profile", "email"];
 
 function UserAndPriceTableProvider({ children }) {
-  const [userData, setUserData] = useState(fakeUserData);
+  const [userData, setUserData] = useState();
+  const [nickName, setNickName] = useState(''); // 新增：用户名
   const [coins, setCoins] = useState([]);
   const [displayedCoins, setDisplayedCoins] = useState([]);
   const [updateTime, setUpdateTime] = useState(Date.now());
@@ -36,6 +36,38 @@ function UserAndPriceTableProvider({ children }) {
       getAccessToken();
     }
   }, [getAccessTokenSilently, isAuthenticated]);
+
+  useEffect(() => {
+    if (!accessToken) return;
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`${config.API_URL}/profile`, {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        });
+        if (response.status === 200) {
+          setUserData(response.data);
+          setNickName(response.data.nickName);
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, [accessToken]);
+
+  const updateNickName = async (newNickName) => {
+    try {
+      const response = await axios.put(`${config.API_URL}/profile`, { nickName: newNickName }, {
+        headers: { Authorization: `Bearer ${accessToken}` }
+      });
+      if (response.status === 200) {
+        setNickName(newNickName);  // 更新本地状态
+      }
+    } catch (error) {
+      console.error('Error updating nickname:', error);
+    }
+  };
 
   useEffect(() => {
     setUpdateTime(displayedCoins[0]?.marketPriceAt);
@@ -72,6 +104,8 @@ function UserAndPriceTableProvider({ children }) {
   return (
     <UserAndPriceTableContext.Provider value={{
       userData, setUserData,
+      nickName, setNickName,
+      updateNickName,
       coins, setCoins,
       displayedCoins, setDisplayedCoins,
       updateTime, setUpdateTime,
