@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useUserAndPriceTable } from '../../UserAndPriceTableContext';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const GET_USER_PROFILE_URL = 'http://localhost:3001/profile';
 const PUT_USER_PROFILE_URL = 'http://localhost:3001/profile';
@@ -8,6 +9,7 @@ function Profile() {
     const [nickName, setNickName] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const { isAuthenticated, user } = useAuth0();
 
     const { accessToken } = useUserAndPriceTable();
 
@@ -77,7 +79,11 @@ function Profile() {
             {error && <p className="text-red-500">{error}</p>}
             <div className="mb-4">
                 <label htmlFor="name" className="block font-bold mb-2 text-lg">Name:</label>
-                <p ></p>
+                <p>{user.name}</p>
+            </div>
+            <div className="mb-4">
+                <label htmlFor="email" className="block font-bold mb-2 text-lg">Email:</label>
+                <p>{user.email}</p>
             </div>
             <div className="mb-4">
                 <label htmlFor="name" className="block font-bold mb-2 text-lg">Nick Name:</label>
