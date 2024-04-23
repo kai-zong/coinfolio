@@ -6,10 +6,7 @@ import {useAuth0} from '@auth0/auth0-react';
 
 function Nav() {
   const isSmallIcon = useMediaQuery({ query: "(max-width: 700px)" });
-  const isSmallSearch = useMediaQuery({ query: "(max-width: 600px)" });
   const [signingButtonText, setSigningButtonText] = useState("Sign In");
-  const {coins, setDisplayedCoins} = useUserAndPriceTable();
-  const [inputValue, setInputValue] = useState("");
   const {isAuthenticated, loginWithRedirect, logout} = useAuth0();
   let location = useLocation();
   let navigate = useNavigate();
@@ -21,10 +18,6 @@ function Nav() {
       setSigningButtonText("Log In");
     }
   }, [isAuthenticated]);
-
-  useEffect(() => {
-    setInputValue(""), setDisplayedCoins(coins); 
-  }, [location]);
 
   
   function navigateBasedOnLogging(isAuthenticated) {
@@ -61,23 +54,6 @@ function Nav() {
       </div>
 
       <div className="flex items-center gap-2">
-        {!isSmallSearch && (
-          <div className="search-bar">
-            <input
-              className="px-3 py-2 border border-gray-300 rounded-md"
-              type="text"
-              placeholder="Search"
-              value={inputValue}
-              onChange = {(e)=>{
-                setInputValue(e.target.value);
-                let filteredCoins = coins.filter((coin)=>{
-                  return coin.name.toLowerCase().includes(inputValue.toLowerCase());
-                });
-                setDisplayedCoins(filteredCoins);
-              }}
-            />
-          </div>
-        )}
         <div className="buttons pr-1">
           <button
             className="px-3 py-2 m-1 bg-blue-700 text-white rounded-md"
