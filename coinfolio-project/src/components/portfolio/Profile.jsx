@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useUserAndPriceTable } from '../../UserAndPriceTableContext';
+
+const GET_USER_PROFILE_URL = 'http://localhost:3001/profile';
 
 function Profile() {
     const [name, setName] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
+    const { accessToken } = useUserAndPriceTable();
+
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await axios.get("http://localhost:3001/profile/1");
-                setName(response.data.name); // Make sure your API responds with the user data in this format
+                const response = await fetch(`${GET_USER_PROFILE_URL}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+                setName(response.data.nickName); // Make sure your API responds with the user data in this format
                 setLoading(false);
             } catch (err) {
                 setError('Failed to fetch data');

@@ -13,6 +13,7 @@ function Transactions() {
     const { accessToken } = useUserAndPriceTable();
 
     const fetchTransactions = async () => {
+        if (!accessToken) return;  // Don't fetch if no access token
         fetch(`${GET_ALL_TRANSACTIONS}`, {
             headers: {
                 "Content-Type": "application/json",

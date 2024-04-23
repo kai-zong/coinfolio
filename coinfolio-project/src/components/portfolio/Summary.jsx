@@ -20,6 +20,8 @@ function Summary() {
     const formattedTime = updateTime ? new Date(updateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
 
     const fetchPortfolio = () => {
+        if (!accessToken) return;  // Don't fetch if no access token
+
         fetch(`${GET_PORTFOLIO_URL}`, {
             headers: {
                 'Content-Type': 'application/json',
