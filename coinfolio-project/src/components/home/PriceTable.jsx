@@ -45,7 +45,7 @@ function PriceTable() {
                 </thead>
                 <tbody>
                     {displayedCoins.map((coin, index) => (
-                        <Ticker index={index + 1} coin={coin} />
+                        <Ticker key={index} index={index + 1} coin={coin} />
                     ))}
                 </tbody>
             </table>
