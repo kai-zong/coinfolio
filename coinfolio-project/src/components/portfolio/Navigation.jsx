@@ -31,6 +31,14 @@ function Navigation({ toggleMenu }) {
                 >
                     Profile
                 </NavLink>
+                <NavLink
+                    to="authDebugger"
+                    className={({ isActive }) =>
+                        `px-2 hover:text-white ${isActive ? 'text-white' : ''}`
+                    }
+                >
+                    AuthDebugger
+                </NavLink>
             </div>
             <div className='m-2' >
                 <button

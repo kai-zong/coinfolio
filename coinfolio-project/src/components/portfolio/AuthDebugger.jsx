@@ -1,5 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useUserAndPriceTable } from "../UserAndPriceTableContext";
+import { useUserAndPriceTable } from "../../UserAndPriceTableContext";
 
 export default function AuthDebugger() {
   const { user } = useAuth0();

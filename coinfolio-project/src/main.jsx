@@ -13,7 +13,7 @@ import config from './config.js';
 import VerifyUser from './components/VerifyUser.jsx';
 import Profile from './components/portfolio/Profile.jsx';
 import NotFound from './components/NotFound.jsx';
-import AuthDebugger from './components/AuthDebugger.jsx';
+import AuthDebugger from './components/portfolio/AuthDebugger.jsx';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const requestedScopes = ["profile", "email"];
@@ -60,10 +60,10 @@ root.render(
           <Route index element={<Summary />} />
           <Route path="transactions" element={<Transactions />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="authDebugger" element={<AuthDebugger />} />
           {/* Define other nested routes for Portfolio here */}
         </Route>
         {/* Define other routes */}
-        <Route path="debugger" element={<AuthDebugger />} />
         <Route path="*" element={<NotFound/ >} />
       </Routes>
     </BrowserRouter>
