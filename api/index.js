@@ -4,7 +4,6 @@ import express from "express";
 import { PrismaClient } from '@prisma/client'
 import morgan from "morgan";
 import cors from "cors";
-import axios from "axios";
 import { auth } from "express-oauth2-jwt-bearer";
 
 // port
@@ -69,19 +68,27 @@ app.get("/coins", async (req, res) => {
 // helper function to update the market price of the coins
 async function updateCoinData() {
   try {
-    const response = await axios.get('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest', {
-      params: {
+    const response = await fetch('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest', {
+      method: 'GET',
+      headers: {
+        'X-CMC_PRO_API_KEY': process.env.CMC_API_KEY,
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      params: JSON.stringify({
         start: 1,
         limit: 50,
         convert: 'USD'
-      },
-      headers: {
-        'X-CMC_PRO_API_KEY': process.env.CMC_API_KEY
-      }
+      })
     });
 
-    const coins = response.data.data;
-    const currentTimestamp = new Date(response.data.status.timestamp);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const jsonResponse = await response.json();
+    const coins = jsonResponse.data;
+    const currentTimestamp = new Date(jsonResponse.status.timestamp);
 
     await Promise.all(coins.map(async (coin) => {
       const { id, symbol, name, quote } = coin;

@@ -5,10 +5,12 @@ import { useMediaQuery } from 'react-responsive';
 import { Doughnut, Bar } from 'react-chartjs-2';
 import PortfolioTable from './PortfolioTable';
 import { useUserAndPriceTable } from '../../UserAndPriceTableContext';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const GET_PORTFOLIO_URL = 'http://localhost:3001/portfolio';
 
 function Summary() {
+    const { isAuthenticated, user } = useAuth0();
     // responsive design
     const isMobile = useMediaQuery({ query: '(max-width: 1024px)' });
 
@@ -16,7 +18,7 @@ function Summary() {
     const [localNickName, setLocalNickName] = useState('');  // Local editing state
 
     useEffect(() => {
-        setLocalNickName(userData.nickName || '');  // Initialize with context data
+        setLocalNickName(userData.nickName || user.name);  // Initialize with context data
     }, [userData.nickName]);  // Dependency on userData.nickName to update local state when context changes
 
     // request API to get the transaction details of a user

@@ -13,7 +13,7 @@ function Profile() {
     const { accessToken, userData, updateNickName } = useUserAndPriceTable();
 
     useEffect(() => {
-        setLocalNickName(userData.nickName || '');  // Initialize with context data
+        setLocalNickName(userData.nickName || user.name);  // Initialize with context data
     }, [userData.nickName]);  // Dependency on userData.nickName to update local state when context changes
 
     const handleNameChange = (event) => {

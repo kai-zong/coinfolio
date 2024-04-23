@@ -21,7 +21,7 @@ function PriceTable() {
 
             {isAuthenticated ? <div className='bg-gray-800 rounded-2xl'>
                 <h1 className="text-4xl font-bold text-center mb-8 pt-3">
-                    Welcome, {userData.nickName}!
+                    Welcome, {userData.nickName || user.name}!
                 </h1>
                 <p className="text-lg text-center mb-4 pb-3">
                     Start tracking your portfolio of Top 50 Crypto Assets
