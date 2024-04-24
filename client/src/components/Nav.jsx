@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useUserAndPriceTable } from "../UserAndPriceTableContext";
 import {useAuth0} from '@auth0/auth0-react';
 
 function Nav() {
