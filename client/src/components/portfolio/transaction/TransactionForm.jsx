@@ -71,7 +71,7 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <form onSubmit={handleSubmit} className="space-y-4 bg-gray-800 p-4 rounded-lg text-white">
-        <div className="mb-2">
+        <div className="mb-2 ">
           <label htmlFor="coinId" className="block text-sm font-medium text-gray-300">Coin</label>
           <span id="coinId" className="p-2 bg-gray-100 text-gray-900 rounded block">{selectedCoin.name}</span>
         </div>
