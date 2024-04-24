@@ -9,7 +9,6 @@ import Nav from './components/Nav.jsx';
 import PriceTable from './components/home/PriceTable.jsx';
 import { UserAndPriceTableProvider } from './UserAndPriceTableContext.jsx';
 import {Auth0Provider, useAuth0} from '@auth0/auth0-react';
-import config from './config.js';
 import VerifyUser from './components/VerifyUser.jsx';
 import Profile from './components/portfolio/Profile.jsx';
 import NotFound from './components/NotFound.jsx';
@@ -38,11 +37,11 @@ function RequireAuth({ children }) {
 root.render(
   <>
     <Auth0Provider
-  domain={config.REACT_APP_AUTH0_DOMAIN}
-  clientId={config.REACT_APP_AUTH0_CLIENT_ID}
+  domain={import.meta.env.VITE_REACT_APP_AUTH0_DOMAIN}
+  clientId={import.meta.env.VITE_REACT_APP_AUTH0_CLIENT_ID}
   authorizationParams={{
     redirect_uri: `${window.location.origin}/verify-user`,
-    audience: config.REACT_APP_AUTH0_AUDIENCE,
+    audience: import.meta.env.VITE_REACT_APP_AUTH0_AUDIENCE,
     scope: requestedScopes.join(" "),
   }}
   >

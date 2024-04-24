@@ -1,12 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import config from './config';
 
 const UserAndPriceTableContext = React.createContext();
 const requestedScopes = ["profile", "email"];
 
-const GET_USER_PROFILE_URL = 'http://localhost:3001/profile';
-const GET_COINS_URL = 'http://localhost:3001/coins';
+const GET_USER_PROFILE_URL = `${import.meta.env.VITE_Backend_API_URL}/profile`;
+const GET_COINS_URL = `${import.meta.env.VITE_Backend_API_URL}/coins`;
 const UPDATE_COINS_URL = `${import.meta.env.VITE_Backend_API_URL}/update-coins`;
 
 function UserAndPriceTableProvider({ children }) {
@@ -25,7 +24,7 @@ function UserAndPriceTableProvider({ children }) {
           // get access token silently from Auth0, which will be stored in the context
           const token = await getAccessTokenSilently({
             authorizationParams: {
-              audience: config.REACT_APP_AUTH0_AUDIENCE,
+              audience: import.meta.env.VITE_REACT_APP_AUTH0_AUDIENCE,
               scope: requestedScopes.join(" "),
             },
           });
