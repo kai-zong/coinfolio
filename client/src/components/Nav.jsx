@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useLocation } from "react-router-dom";
 import {useAuth0} from '@auth0/auth0-react';
+import smallLogo from '../assets/logo/png/Small-logo-color.png';
 
 function Nav() {
   const isSmallIcon = useMediaQuery({ query: "(max-width: 700px)" });
@@ -34,7 +35,7 @@ function Nav() {
       <div className="flex items-center justify-start pl-3">
         <img
           className="h-10 w-auto"
-          src="/src/assets/logo/png/Small-logo-color.png"
+          src={smallLogo}
           alt="Small Logo"
         />
         {!isSmallIcon && (
