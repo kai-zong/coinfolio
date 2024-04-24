@@ -7,7 +7,7 @@ import PortfolioTable from './PortfolioTable';
 import { useUserAndPriceTable } from '../../UserAndPriceTableContext';
 import { useAuth0 } from '@auth0/auth0-react';
 
-const GET_PORTFOLIO_URL = 'http://localhost:3001/portfolio';
+const GET_PORTFOLIO_URL = `${import.meta.env.VITE_Backend_API_URL}/portfolio`;
 
 function Summary() {
     const { isAuthenticated, user } = useAuth0();

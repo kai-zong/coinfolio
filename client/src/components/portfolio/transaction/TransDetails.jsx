@@ -1,7 +1,7 @@
 import React from 'react';
 import { useUserAndPriceTable } from '../../../UserAndPriceTableContext';
 
-const DELETE_TRANSACTION_URL = 'http://localhost:3001/transaction';
+const DELETE_TRANSACTION_URL = `${import.meta.env.VITE_Backend_API_URL}/transaction`;
 
 function TransDetails({ transaction, index, onTransactionDelete, onTransactionEdit }) {
     const { accessToken } = useUserAndPriceTable();

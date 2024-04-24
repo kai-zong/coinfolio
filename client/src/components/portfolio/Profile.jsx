@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useUserAndPriceTable } from '../../UserAndPriceTableContext';
 import { useAuth0 } from '@auth0/auth0-react';
 
-const GET_USER_PROFILE_URL = 'http://localhost:3001/profile';
-const PUT_USER_PROFILE_URL = 'http://localhost:3001/profile';
+const GET_USER_PROFILE_URL = `${import.meta.env.VITE_Backend_API_URL}/profile`;
+const PUT_USER_PROFILE_URL = `${import.meta.env.VITE_Backend_API_URL}/profile`;
 
 function Profile() {
     const [localNickName, setLocalNickName] = useState('');  // Local editing state
