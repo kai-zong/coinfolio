@@ -46,7 +46,7 @@ function Portfolio() {
                 <Outlet />
             </main>
             {selectedCoin && (
-            <TransactionForm isOpen={isFormOpen} onClose={closeForm} selectedCoin={selectedCoin} />
+                <TransactionForm isOpen={isFormOpen} onClose={closeForm} selectedCoin={selectedCoin} />
 )}
         </div>
     );

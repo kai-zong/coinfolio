@@ -17,7 +17,7 @@ function PriceTable() {
 
 
     return (
-        <div className='w-full px-5 m-3 '>
+        <div className='w-full '>
 
             {isAuthenticated ? <div className='bg-gray-800 rounded-2xl'>
                 <h1 className="text-4xl font-bold text-center mb-8 pt-3">

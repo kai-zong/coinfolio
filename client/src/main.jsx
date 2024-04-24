@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Portfolio from './components/portfolio/portfolio.jsx';
+import Portfolio from './components/portfolio/Portfolio.jsx';
 import Transactions from './components/portfolio/transaction/Transactions.jsx';
 import Summary from './components/portfolio/Summary.jsx';
 import Nav from './components/Nav.jsx';

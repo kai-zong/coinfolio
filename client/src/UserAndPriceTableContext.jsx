@@ -1,12 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import axios from 'axios';
 import config from './config';
 
 const UserAndPriceTableContext = React.createContext();
 const requestedScopes = ["profile", "email"];
 
 const GET_USER_PROFILE_URL = 'http://localhost:3001/profile';
+const GET_COINS_URL = 'http://localhost:3001/coins';
+const UPDATE_COINS_URL = 'http://localhost:3001/update-coins';
 
 function UserAndPriceTableProvider({ children }) {
   const [userData, setUserData] = useState({});
@@ -90,13 +91,15 @@ function UserAndPriceTableProvider({ children }) {
     setUpdateTime(displayedCoins[0]?.marketPriceAt);
   }, [displayedCoins]); // when displayedCoins changes, update the time
 
-  // 将 fetchCoins 定义为一个可重用的函数
+  // fetch coins data
   const fetchCoins = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/coins');
-      // console.log('Coins fetched:', response.data);
-      setCoins(response.data);
-      setDisplayedCoins(response.data);
+      const response = await fetch(GET_COINS_URL);
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      const data = await response.json();
+      setCoins(data);
+      setDisplayedCoins(data);
+      console.log('Coins fetched:', data);
     } catch (error) {
       console.error('Error fetching coins:', error);
     }
@@ -104,8 +107,9 @@ function UserAndPriceTableProvider({ children }) {
 
   const updateCoins = async () => {
     try {
-      await axios.post('http://localhost:3001/update-coins');
-      fetchCoins(); // 成功更新后重新获取数据
+      const response = await fetch(UPDATE_COINS_URL, { method: 'POST' });
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      fetchCoins(); // Re-fetch coins after a successful update
     } catch (error) {
       console.error('Error updating coins:', error);
     }
