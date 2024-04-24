@@ -99,6 +99,7 @@ function UserAndPriceTableProvider({ children }) {
       const data = await response.json();
       setCoins(data);
       setDisplayedCoins(data);
+      console.log('Coins fetched:', data);
     } catch (error) {
       console.error('Error fetching coins:', error);
     }

@@ -3,6 +3,8 @@ import Modal from './Modal';
 import axios from 'axios';
 import {useUserAndPriceTable} from "../../../UserAndPriceTableContext.jsx"
 
+const POST_TRANSACTION_URL = 'http://localhost:3001/transaction';
+
 function TransactionForm({ isOpen, onClose, selectedCoin }) {
   const [transactionData, setTransactionData] = useState({
     coinId: '',
@@ -52,7 +54,7 @@ function TransactionForm({ isOpen, onClose, selectedCoin }) {
     }
 
     try {
-      const response = await axios.post('http://localhost:3001/transaction', postData, {
+      const response = await axios.post(`${POST_TRANSACTION_URL}`, postData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,

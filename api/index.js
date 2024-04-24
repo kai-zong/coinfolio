@@ -68,18 +68,18 @@ app.get("/coins", async (req, res) => {
 // helper function to update the market price of the coins
 async function updateCoinData() {
   try {
-    const response = await fetch('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest', {
+    const url = new URL('https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest');
+    url.searchParams.append('start', '1');
+    url.searchParams.append('limit', '50');
+    url.searchParams.append('convert', 'USD');
+
+    const response = await fetch(url.toString(), {
       method: 'GET',
       headers: {
         'X-CMC_PRO_API_KEY': process.env.CMC_API_KEY,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
-      },
-      params: JSON.stringify({
-        start: 1,
-        limit: 50,
-        convert: 'USD'
-      })
+      }
     });
 
     if (!response.ok) {
@@ -334,7 +334,7 @@ app.put("/transaction/:transId", requireAuth, async (req, res) => {
     return res.status(400).json({ error: "Amount must be positive" });
   }
 
-  
+
 
   // Update the transaction
   const updatedTransaction = await prisma.transaction.update({
