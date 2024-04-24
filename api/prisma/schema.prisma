@@ -37,7 +37,4 @@ model Transaction {
   createdAt     DateTime @default(now())
   coin          Coin     @relation(fields: [coinId], references: [id])
   user          User     @relation(fields: [userId], references: [id])
-
-  @@index([coinId], map: "Transaction_coinId_fkey")
-  @@index([userId], map: "Transaction_userId_fkey")
 }
