@@ -3,7 +3,7 @@ import TransDetails from './TransDetails';
 import EditForm from './EditForm';
 import { useUserAndPriceTable } from '../../../UserAndPriceTableContext';
 
-const GET_ALL_TRANSACTIONS = 'http://localhost:3001/transactions';
+const GET_ALL_TRANSACTIONS = `${import.meta.env.VITE_Backend_API_URL}/transactions`;
 
 function Transactions() {
     const [transactions, setTransactions] = useState([]);

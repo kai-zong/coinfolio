@@ -3,7 +3,7 @@ import Modal from './Modal';
 import axios from 'axios';
 import {useUserAndPriceTable} from "../../../UserAndPriceTableContext.jsx"
 
-const POST_TRANSACTION_URL = 'http://localhost:3001/transaction';
+const POST_TRANSACTION_URL = `${import.meta.env.VITE_Backend_API_URL}/transaction`;
 
 function TransactionForm({ isOpen, onClose, selectedCoin }) {
   const [transactionData, setTransactionData] = useState({

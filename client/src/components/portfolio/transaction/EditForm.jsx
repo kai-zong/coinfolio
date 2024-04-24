@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useUserAndPriceTable } from '../../../UserAndPriceTableContext';
 
 
-const EditAPIUrl = "http://localhost:3001/transaction/";
+const EditAPIUrl = `${import.meta.env.VITE_Backend_API_URL}/transaction/`;
 
 export default function EditForm({ transaction, onCancel, onEdit }) {
     const { accessToken } = useUserAndPriceTable();

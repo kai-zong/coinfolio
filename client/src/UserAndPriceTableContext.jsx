@@ -7,7 +7,7 @@ const requestedScopes = ["profile", "email"];
 
 const GET_USER_PROFILE_URL = 'http://localhost:3001/profile';
 const GET_COINS_URL = 'http://localhost:3001/coins';
-const UPDATE_COINS_URL = 'http://localhost:3001/update-coins';
+const UPDATE_COINS_URL = `${import.meta.env.VITE_Backend_API_URL}/update-coins`;
 
 function UserAndPriceTableProvider({ children }) {
   const [userData, setUserData] = useState({});
