@@ -44,7 +44,10 @@ function UserAndPriceTableProvider({ children }) {
   // fetch user data when access token changes
   useEffect(() => {
     const fetchUserData = async () => {
-      if (accessToken) {
+      if (!accessToken || !isAuthenticated) { // Check if access token is available before trying to fetch
+        console.error('Cannot fetch user data without access token');
+        return;
+      }
         try {
           const response = await fetch(`${GET_USER_PROFILE_URL}`, {
             headers: {
@@ -57,15 +60,19 @@ function UserAndPriceTableProvider({ children }) {
           setUserData(data);
           console.log("User data fetched:", data);
         } catch (error) {
-          console.error('Error fetching user data:', error);
+          console.error('Error fetching user data:', error.message);
         }
-      }
     };
 
     fetchUserData();
-  }, [accessToken]);
+  }, [accessToken, isAuthenticated]);
 
   const updateNickName = async (newNickName) => {
+    if (!accessToken) { // Check if access token is available before trying to update
+      console.error('Cannot update nickname without access token');
+      return;
+    }
+
     try {
       const response = await fetch(`${GET_USER_PROFILE_URL}`, {
         method: 'PUT',
