@@ -10,7 +10,7 @@ function Transactions() {
     const [formVisible, setFormVisible] = useState(false); // hide the form by default
     const [selectedTransaction, setSelectedTransaction] = useState(null);
     
-    const { accessToken } = useUserAndPriceTable();
+    const { accessToken, displayedCoins } = useUserAndPriceTable();
 
     const fetchTransactions = async () => {
         if (!accessToken) return;  // Don't fetch if no access token
@@ -36,7 +36,7 @@ function Transactions() {
 
     useEffect(() => {
         fetchTransactions();
-    }, [accessToken]); // run when user changes
+    }, [accessToken, displayedCoins]); // run when user changes
 
     const handleDeleteTransaction = () => {
         fetchTransactions();
