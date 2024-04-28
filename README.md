@@ -3,12 +3,13 @@
 Welcome to Coinfolio, your ultimate web application for managing and tracking your cryptocurrency investments. Developed with passion by [@SeanXLChen
 ](https://github.com/SeanXLChen) and [@Kai-Zong](https://github.com/kai-zong), Coinfolio leverages the latest web technologies to bring you real-time insights into your crypto portfolio's performance.
 
-## Features
+## Live Deployment
 
-- **Real-Time Data:** Utilizing the CoinMarketCap API, Coinfolio provides up-to-the-minute information on your crypto assets.
-- **Sleek Interface:** A modern and intuitive interface built with Tailwind CSS, ensuring a seamless user experience across all devices.
-- **Comprehensive Analytics:** Get detailed insights into your portfolio's performance, including gains, losses, and investment trends.
-- **Portfolio Customization:** Tailor your portfolio by adding or removing assets, setting alerts, and tracking your investment goals.
+
+## Features
+- **Transaction Tracking:** Create your transaction and track the cost of your purchase, with ability to modify your transaction later if error.
+- **Portfolio Analysis:** Have summary analysis of all your transactions with the ability to see your average purchase cost, up-to-date market value, and the profit you made.
+- **Real-Time Data:** Utilizing the CoinMarketCap API, Coinfolio provides up-to-the-second price update on your crypto assets.
 
 ## Technologies
 
@@ -20,7 +21,7 @@ Coinfolio is built using a robust stack of modern web technologies:
 
 ## Getting Started
 
-To get a local copy up and running, follow these simple steps:
+To get a local copy up and running, follow these steps:
 
 ### Prerequisites
 
@@ -29,12 +30,18 @@ To get a local copy up and running, follow these simple steps:
   npm install npm@latest -g
   ```
 
-### Installation
+- Auth0 account (we use it to manage user login)
 
-1. Navigate to the project directory
+### Set up API (Back-end)
+
+### Set up Database (Back-end)
+
+### Set up Client (Front-end)
+
+1. Navigate to the client directory
 
     ```sh
-    cd coinfolio/coinfolio-project
+    cd client
     ```
 
 2. Install NPM packages
@@ -44,7 +51,10 @@ To get a local copy up and running, follow these simple steps:
 
 3. Create a .env file and add your CoinMarketCap API key
     ```sh
-    REACT_APP_COINMARKETCAP_API_KEY=your_api_key_here
+    VITE_REACT_APP_AUTH0_DOMAIN=
+    VITE_REACT_APP_AUTH0_CLIENT_ID=
+    VITE_REACT_APP_AUTH0_AUDIENCE=
+    VITE_Backend_API_URL=http://localhost:3001
     ```
 
 4. Start the development server
