@@ -7,7 +7,7 @@ import cors from "cors";
 import { auth } from "express-oauth2-jwt-bearer";
 
 // port
-const PORT = process.env.PORT || 3001;
+const PORT = parseInt(process.env.PORT) || 3001;
 
 // this is a middleware that will validate the access token sent by the client
 const requireAuth = auth({
