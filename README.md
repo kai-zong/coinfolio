@@ -26,11 +26,27 @@ Details of how to deploy it can be found in [here](./Deployment-FullStack.docx)
 
 ## Technologies
 
-Coinfolio is built using a robust stack of modern web technologies:
+Coinfolio leverages a cutting-edge stack of modern web technologies to deliver an intuitive and responsive user experience. Below are the key technologies deployed:
 
-- **Frontend:** [Tailwind CSS](https://tailwindcss.com/) for styling and [React](https://react.dev/) for dynamic user interface interactions. We use vite framework to build the project and followed [This] (https://tailwindcss.com/docs/guides/vite) instruction to integrate the Tailwind CSS.
-- **Backend:** Although primarily a frontend-focused application, React's versatility allows us to manage application state and network requests efficiently.
-- **API Integration:** CoinMarketCap API for fetching real-time cryptocurrency data. For more information on the API, visit [CoinMarketCap API Documentation](https://coinmarketcap.com/api/documentation/v1/).
+- **Frontend**:
+    - **React**: Powers dynamic user interface interactions.
+    - **Vite**: Serves as the frontend build tool, offering fast refresh and optimized build times.
+    - **Tailwind CSS**: Utilized for custom and responsive styling.
+    - **Chart.js**: Provides rich, interactive charts for data visualization.
+    - **Vitest**: Facilitates testing with a Vite-native test framework.
+- **Backend**:
+    - **Node.js**: Serves as the runtime environment for the backend.
+    - **Prisma**: ORM tool for database management.
+    - **MySQL**: Database used to store and manage application data.
+- **Authentication**:
+    - **Auth0**: Manages authentication and user management securely.
+- **Deployment and Version Control**:
+    - Deployed on **Vercel** and **Render**, optimizing for different aspects of hosting and server management.
+    - **GitHub**: Hosts the source code and handles version control, facilitating continuous integration and deployment workflows.
+- **API Integration**:
+    - **CoinMarketCap API**: Fetches real-time cryptocurrency data to keep the portfolio up-to-date.
+
+This robust combination ensures that Coinfolio is not only fast and reliable but also scalable and secure, making it an excellent tool for tracking cryptocurrency investments.
 
 ## Getting Started
 
