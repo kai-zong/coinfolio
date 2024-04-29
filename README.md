@@ -37,24 +37,57 @@ To get a local copy up and running, follow these steps:
   ```sh
   npm install npm@latest -g
   ```
-
+- prisma 
+- mysql database (follow [this](./MySql-Installation(Mac).pdf))
 - Set up Auth0 account (follow [this](./Auth0-Config.pdf) tutorial)
 
 ### Set up API (Back-end)
-1. Navigate to the api directory
+1. Navigate to the api directory if you havn't already
+    ```sh   
+    cd api
+    ```
 
-2. install NPM packages
+2. Install NPM packages
+    ```sh
+    npm install
+    ```
+
+3. Run index.js
+    ```sh
+    node index.js
+    ```
 
 
 
-### Set up Database (Back-end)
-1. Navigate to the api directory
+### Set up mysql Database (Back-end)
 
-2. 
+1. Navigate to the api directory if you havn't already
+    ```sh   
+    cd api
+    ```
+
+2. create .env file and inside it add auth0 credentials that we set up
+    ```
+    AUTH0_AUDIENCE=XXXXXXXX
+    AUTH0_ISSUER=XXXXXXXX
+    ```
+
+3. inside .env file add the coinmarketcap API key
+    ```
+    CMC_API_KEY=XXXXXXXXX
+    ```
+
+4. inside .env file add the mysql database connection infos: me for example my mysql name is root and my password is 12345678 and my mysql is running at port 3306 and i want to create a database named "coinfoliodb"
+    ```
+    DATABASE_URL="mysql://root:12345678@localhost:3306/coinfoliodb"
+    ```
+
+3. Use ```npx prisma migrate deploy``` to build the database in your local 
+2. Use ```npx prisma db seed``` to initialize coin table
 
 ### Set up Client (Front-end)
 
-1. Navigate to the client directory
+1. Navigate to the client directory if you havn't already
 
     ```sh
     cd client
