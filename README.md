@@ -72,7 +72,7 @@ To get a local copy up and running, follow these steps:
     AUTH0_ISSUER=XXXXXXXX
     ```
 
-3. inside .env file add the coinmarketcap API key
+3. inside .env file add the coinmarketcap API key (Get your API Key [here](https://coinmarketcap.com/api/))
     ```
     CMC_API_KEY=XXXXXXXXX
     ```
@@ -82,8 +82,22 @@ To get a local copy up and running, follow these steps:
     DATABASE_URL="mysql://root:12345678@localhost:3306/coinfoliodb"
     ```
 
-3. Use ```npx prisma migrate deploy``` to build the database in your local 
-2. Use ```npx prisma db seed``` to initialize coin table
+5. deploy the prisma schema to your local database
+    ```sh
+    npx prisma migrate deploy
+    ``` 
+
+6. generate prisma client
+    ```sh
+    npx prisma generate
+    ```
+
+7. initialize the coin table (dataset will query the top 50 crypto assets in terms of market cap from coinmarketcap api and populate the coin table)
+    ```sh
+    npx prisma db seed
+    ``` 
+
+8. now database should be ready, can run ```npx prisma studio``` to manage it via browser 
 
 ### Set up Client (Front-end)
 
@@ -109,11 +123,13 @@ To get a local copy up and running, follow these steps:
     VITE_REACT_APP_AUTH0_AUDIENCE=XXXXXX
     ```
 
-
 4. Start the development server
     ```sh
     npm run dev
     ```
+
+### Tests
+We use [Vitest](https://vitest.dev/) as the testing framework and test suites are inside **./client/src/tests**, simply run in the CLI ```npm run test``` to start using it.
 
 ### Usage
 After setting up the project locally, you can start tracking your crypto portfolio by adding your assets to the dashboard.
