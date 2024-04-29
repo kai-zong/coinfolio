@@ -1,5 +1,10 @@
 # Coinfolio: A Portfolio Manager for Crypto Assets
 
+![Static Badge](https://img.shields.io/badge/JavaScript-gray?logo=JavaScript) ![Static Badge](https://img.shields.io/badge/Node.js-gray?logo=Node.js) ![Static Badge](https://img.shields.io/badge/Auth0-gray?logo=Auth0) ![Static Badge](https://img.shields.io/badge/vercel-gray?logo=vercel) ![Static Badge](https://img.shields.io/badge/render-gray) ![Static Badge](https://img.shields.io/badge/Front--End-React-blue?logo=React) ![Static Badge](https://img.shields.io/badge/Front--End-Chart.js-rgb(179%2C%20105%2C%20146)?logo=Chart.js) ![Static Badge](https://img.shields.io/badge/Front--End-Vite-rgb(102%2C%2086%2C%20230)?logo=Vite) ![Static Badge](https://img.shields.io/badge/Front--End-Vitest-darkgreen?logo=vitest) ![Static Badge](https://img.shields.io/badge/Front--End-Tailwind%20CSS-rgb(3%2C%20166%2C%20218)?logo=Tailwind%20CSS) ![Static Badge](https://img.shields.io/badge/Back--End-Prisma-black?logo=Prisma) ![Static Badge](https://img.shields.io/badge/Back--End-MySQL-rgb(0%2C%20105%2C%20146)?logo=MySQL) 
+
+
+
+
 Welcome to Coinfolio, your ultimate web application for managing and tracking your cryptocurrency investments. Developed with passion by [@SeanXLChen
 ](https://github.com/SeanXLChen) and [@Kai-Zong](https://github.com/kai-zong), Coinfolio leverages the latest web technologies to bring you real-time insights into your crypto portfolio's performance.
 
@@ -132,7 +137,12 @@ To get a local copy up and running, follow these steps:
 We use [Vitest](https://vitest.dev/) as the testing framework and test suites are inside **./client/src/tests**, simply run in the CLI ```npm run test``` to start using it.
 
 ### Usage
-After setting up the project locally, you can start tracking your crypto portfolio by adding your assets to the dashboard.
+- After setting up the project locally, you can start tracking your crypto portfolio by adding a new transaction.
+
+- You can also edit or delete the transactions you created.
+
+- when clicked the refresh button inside the portfolio page, market price will be fetched from coinmarketcap API with the latest update.
+
 
 ### License
 Distributed under the MIT License. See LICENSE for more information.
